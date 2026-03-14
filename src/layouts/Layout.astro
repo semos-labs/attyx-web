@@ -20,7 +20,7 @@ const {
 } = Astro.props;
 
 const siteUrl = "https://attyx.sh";
-const ogImage = image?.startsWith("http") ? image : `${siteUrl}${image || "/images/attyx.webp"}`;
+const ogImage = image?.startsWith("http") ? image : `${siteUrl}${image || "/images/attyx-og.png"}`;
 const pageUrl = canonical || `${siteUrl}${Astro.url.pathname}`;
 ---
 

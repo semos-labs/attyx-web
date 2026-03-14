@@ -6,7 +6,7 @@ sidebar:
   order: 1
 ---
 
-Attyx is a GPU-accelerated, scriptable terminal environment written in **Zig**. Persistent sessions, splits, tabs, popups, GPU rendering, and a full IPC layer with the `attyxc` CLI — so scripts and AI agents can drive your terminal programmatically. Everything in a single binary, under 5 MB.
+Attyx is a GPU-accelerated, scriptable terminal environment written in **Zig**. Persistent sessions, splits, tabs, popups, GPU rendering, and a full IPC layer with the `attyx` CLI — so scripts and AI agents can drive your terminal programmatically. Everything in a single binary, under 5 MB.
 
 ## Install
 
@@ -38,7 +38,7 @@ Attyx is configured via `~/.config/attyx/attyx.toml`. See the [configuration doc
 
 ## Features
 
-- **IPC + `attyxc` CLI** — scriptable control over splits, input, and screen content for agentic workflows
+- **IPC + `attyx` CLI** — scriptable control over splits, input, and screen content for agentic workflows
 - **GPU-accelerated rendering** — Metal on macOS, OpenGL on Linux
 - **Sessions** — tmux-style workspace management with a background daemon
 - **Deterministic VT-compatible engine** — predictable, reproducible terminal behavior

@@ -45,10 +45,7 @@ const jsonLd = {
     <div class="max-w-content mx-auto w-full relative">
       <!-- Version tag -->
       <div class="hero-stagger mb-6 md:mb-8" style="--delay: 0.4s">
-        <div class="inline-flex items-center gap-3">
-          <img src="/logos/Attyx.png" alt="Attyx" class="w-10 h-10 md:w-12 md:h-12 rounded-xl" />
-          <span class="text-[0.65rem] uppercase tracking-[0.3em] text-gray-400 border border-gray-700 rounded-full px-3.5 py-1.5">Alpha</span>
-        </div>
+        <img src="/logos/Attyx.png" alt="Attyx" class="w-10 h-10 md:w-12 md:h-12 rounded-xl" />
       </div>
 
       <!-- Main heading -->
@@ -63,6 +60,30 @@ const jsonLd = {
       <p class="hero-stagger mt-6 md:mt-8 text-body-lg md:text-[1.05rem] text-gray-400 leading-copy max-w-[560px]" style="--delay: 0.6s">
         Sessions, splits, tabs, command palette — plus a scriptable IPC layer and the <code class="text-gray-300">attyxc</code> CLI, so AI agents and scripts can drive your terminal programmatically. GPU-accelerated, written in Zig, under 5&thinsp;MB.
       </p>
+
+      <!-- Badges -->
+      <div class="hero-stagger mt-5 flex items-center gap-3 flex-wrap" style="--delay: 0.65s">
+        <a
+          class="stars-badge hidden data-[loaded]:inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-gray-900 border border-gray-700 rounded-full text-small text-gray-400 hover:border-gray-500 hover:text-white transition-colors"
+          data-repo="semos-labs/attyx"
+          href="https://github.com/semos-labs/attyx"
+          target="_blank"
+          rel="noopener"
+        >
+          <svg class="w-3 h-3 fill-amber-400" viewBox="0 0 16 16"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg>
+          <span class="stars-count font-mono font-medium">—</span>
+        </a>
+        <a
+          class="downloads-badge hidden data-[loaded]:inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-gray-900 border border-gray-700 rounded-full text-small text-gray-400 hover:border-gray-500 hover:text-white transition-colors"
+          data-repo="semos-labs/attyx"
+          href="https://github.com/semos-labs/attyx/releases"
+          target="_blank"
+          rel="noopener"
+        >
+          <svg class="w-3 h-3 fill-gray-400" viewBox="0 0 16 16"><path d="M2.75 14A1.75 1.75 0 0 1 1 12.25v-2.5a.75.75 0 0 1 1.5 0v2.5c0 .138.112.25.25.25h10.5a.25.25 0 0 0 .25-.25v-2.5a.75.75 0 0 1 1.5 0v2.5A1.75 1.75 0 0 1 13.25 14ZM7.25 7.689V2a.75.75 0 0 1 1.5 0v5.689l1.97-1.969a.749.749 0 1 1 1.06 1.06l-3.25 3.25a.749.749 0 0 1-1.06 0L4.22 6.78a.749.749 0 1 1 1.06-1.06l1.97 1.969Z"/></svg>
+          <span class="dl-count font-mono font-medium">—</span>
+        </a>
+      </div>
 
       <!-- Install + CTAs row -->
       <div class="hero-stagger mt-8 md:mt-12 flex flex-col lg:flex-row gap-6 lg:gap-10 lg:items-end" style="--delay: 0.7s">
@@ -168,6 +189,22 @@ const jsonLd = {
         <div class="feature-card bg-black p-7 md:p-8 group">
           <div class="flex items-baseline gap-3 mb-3">
             <span class="text-[0.65rem] text-gray-600 font-mono tabular-nums">01</span>
+            <h3 class="text-[0.95rem] font-bold group-hover:text-white transition-colors">Scriptable IPC</h3>
+          </div>
+          <p class="text-small text-gray-500 leading-relaxed pl-7">Control splits, send input, read output — all over a Unix socket. Build workflows, dashboards, or let AI agents orchestrate your terminal.</p>
+        </div>
+
+        <div class="feature-card bg-black p-7 md:p-8 group">
+          <div class="flex items-baseline gap-3 mb-3">
+            <span class="text-[0.65rem] text-gray-600 font-mono tabular-nums">02</span>
+            <h3 class="text-[0.95rem] font-bold group-hover:text-white transition-colors">attyxc CLI</h3>
+          </div>
+          <p class="text-small text-gray-500 leading-relaxed pl-7">A companion CLI that talks to the running terminal. Create panes, send keystrokes, read screen content — perfect for agentic workflows.</p>
+        </div>
+
+        <div class="feature-card bg-black p-7 md:p-8 group">
+          <div class="flex items-baseline gap-3 mb-3">
+            <span class="text-[0.65rem] text-gray-600 font-mono tabular-nums">03</span>
             <h3 class="text-[0.95rem] font-bold group-hover:text-white transition-colors">GPU Rendering</h3>
           </div>
           <p class="text-small text-gray-500 leading-relaxed pl-7">Metal on macOS, OpenGL on Linux. Smooth scrolling, no tearing — stays fast even when you <code class="text-gray-400">cat</code> a huge file.</p>
@@ -175,7 +212,7 @@ const jsonLd = {
 
         <div class="feature-card bg-black p-7 md:p-8 group">
           <div class="flex items-baseline gap-3 mb-3">
-            <span class="text-[0.65rem] text-gray-600 font-mono tabular-nums">02</span>
+            <span class="text-[0.65rem] text-gray-600 font-mono tabular-nums">04</span>
             <h3 class="text-[0.95rem] font-bold group-hover:text-white transition-colors">Sessions</h3>
           </div>
           <p class="text-small text-gray-500 leading-relaxed pl-7">Persistent workspaces backed by a daemon. Close the window, open it later — everything's still there.</p>
@@ -183,7 +220,7 @@ const jsonLd = {
 
         <div class="feature-card bg-black p-7 md:p-8 group">
           <div class="flex items-baseline gap-3 mb-3">
-            <span class="text-[0.65rem] text-gray-600 font-mono tabular-nums">03</span>
+            <span class="text-[0.65rem] text-gray-600 font-mono tabular-nums">05</span>
             <h3 class="text-[0.95rem] font-bold group-hover:text-white transition-colors">Splits & Tabs</h3>
           </div>
           <p class="text-small text-gray-500 leading-relaxed pl-7">Horizontal and vertical splits, tabs, and floating popups. All built in, no plugin needed.</p>
@@ -191,26 +228,10 @@ const jsonLd = {
 
         <div class="feature-card bg-black p-7 md:p-8 group">
           <div class="flex items-baseline gap-3 mb-3">
-            <span class="text-[0.65rem] text-gray-600 font-mono tabular-nums">04</span>
+            <span class="text-[0.65rem] text-gray-600 font-mono tabular-nums">06</span>
             <h3 class="text-[0.95rem] font-bold group-hover:text-white transition-colors">Themes & Config</h3>
           </div>
           <p class="text-small text-gray-500 leading-relaxed pl-7">22 built-in themes and TOML config with hot reload. Edit, save, done.</p>
-        </div>
-
-        <div class="feature-card bg-black p-7 md:p-8 group">
-          <div class="flex items-baseline gap-3 mb-3">
-            <span class="text-[0.65rem] text-gray-600 font-mono tabular-nums">05</span>
-            <h3 class="text-[0.95rem] font-bold group-hover:text-white transition-colors">Search</h3>
-          </div>
-          <p class="text-small text-gray-500 leading-relaxed pl-7">Search through output and scrollback. Regex, smart-case, incremental — finds stuff as you type.</p>
-        </div>
-
-        <div class="feature-card bg-black p-7 md:p-8 group">
-          <div class="flex items-baseline gap-3 mb-3">
-            <span class="text-[0.65rem] text-gray-600 font-mono tabular-nums">06</span>
-            <h3 class="text-[0.95rem] font-bold group-hover:text-white transition-colors">Visual Mode</h3>
-          </div>
-          <p class="text-small text-gray-500 leading-relaxed pl-7">Select text with the keyboard, vim-style. Character, line, and block modes. Yank to clipboard.</p>
         </div>
 
         <div class="feature-card bg-black p-7 md:p-8 group">
@@ -224,25 +245,25 @@ const jsonLd = {
         <div class="feature-card bg-black p-7 md:p-8 group">
           <div class="flex items-baseline gap-3 mb-3">
             <span class="text-[0.65rem] text-gray-600 font-mono tabular-nums">08</span>
-            <h3 class="text-[0.95rem] font-bold group-hover:text-white transition-colors">Status Bar</h3>
+            <h3 class="text-[0.95rem] font-bold group-hover:text-white transition-colors">Search</h3>
           </div>
-          <p class="text-small text-gray-500 leading-relaxed pl-7">Git branch, working directory, clock, or your own scripts. Shows what you need, stays out of the way.</p>
+          <p class="text-small text-gray-500 leading-relaxed pl-7">Search through output and scrollback. Regex, smart-case, incremental — finds stuff as you type.</p>
         </div>
 
         <div class="feature-card bg-black p-7 md:p-8 group">
           <div class="flex items-baseline gap-3 mb-3">
             <span class="text-[0.65rem] text-gray-600 font-mono tabular-nums">09</span>
-            <h3 class="text-[0.95rem] font-bold group-hover:text-white transition-colors">Scriptable IPC</h3>
+            <h3 class="text-[0.95rem] font-bold group-hover:text-white transition-colors">Visual Mode</h3>
           </div>
-          <p class="text-small text-gray-500 leading-relaxed pl-7">Control splits, send input, read output — all over a Unix socket. Build workflows, dashboards, or let AI agents orchestrate your terminal.</p>
+          <p class="text-small text-gray-500 leading-relaxed pl-7">Select text with the keyboard, vim-style. Character, line, and block modes. Yank to clipboard.</p>
         </div>
 
         <div class="feature-card bg-black p-7 md:p-8 group">
           <div class="flex items-baseline gap-3 mb-3">
             <span class="text-[0.65rem] text-gray-600 font-mono tabular-nums">10</span>
-            <h3 class="text-[0.95rem] font-bold group-hover:text-white transition-colors">attyxc CLI</h3>
+            <h3 class="text-[0.95rem] font-bold group-hover:text-white transition-colors">Status Bar</h3>
           </div>
-          <p class="text-small text-gray-500 leading-relaxed pl-7">A companion CLI that talks to the running terminal. Create panes, send keystrokes, read screen content — perfect for agentic workflows.</p>
+          <p class="text-small text-gray-500 leading-relaxed pl-7">Git branch, working directory, clock, or your own scripts. Shows what you need, stays out of the way.</p>
         </div>
 
         <div class="feature-card bg-black p-7 md:p-8 group">
@@ -269,9 +290,7 @@ const jsonLd = {
     <div class="max-w-content mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
       <div class="flex items-center gap-4">
         <span class="text-[0.65rem] text-gray-600 font-mono tracking-[0.3em] uppercase">Part of</span>
-        <a href="https://semos.sh" target="_blank" rel="noopener" class="inline-flex items-center gap-2.5 text-gray-300 hover:text-white transition-colors">
-          <span class="font-hand text-title">Semos Labs</span>
-        </a>
+        <a href="https://semos.sh" target="_blank" rel="noopener" class="text-[0.75rem] text-gray-300 font-mono tracking-wider uppercase hover:text-white transition-colors">Semos Labs</a>
       </div>
       <p class="text-small text-gray-500 text-center md:text-right max-w-[400px]">
         A constellation of terminal-native tools — Attyx, <a href="https://semos.sh/glyph" target="_blank" rel="noopener" class="text-gray-400 hover:text-white transition-colors">Glyph</a>, <a href="https://semos.sh/aion" target="_blank" rel="noopener" class="text-gray-400 hover:text-white transition-colors">Aion</a>, and <a href="https://semos.sh/epist" target="_blank" rel="noopener" class="text-gray-400 hover:text-white transition-colors">Epist</a>.
@@ -434,6 +453,36 @@ const jsonLd = {
       })
       .catch(() => {});
   }
+
+  // Fetch GitHub stars
+  document.querySelectorAll<HTMLElement>('.stars-badge').forEach(async (badge) => {
+    const repo = badge.getAttribute('data-repo');
+    if (!repo) return;
+    try {
+      const res = await fetch(`https://api.github.com/repos/${repo}`);
+      if (!res.ok) return;
+      const data = await res.json();
+      const count = badge.querySelector('.stars-count');
+      if (count) count.textContent = data.stargazers_count?.toLocaleString() ?? '0';
+      badge.dataset.loaded = '';
+    } catch {}
+  });
+
+  // Fetch GitHub downloads
+  document.querySelectorAll<HTMLElement>('.downloads-badge').forEach(async (badge) => {
+    const repo = badge.getAttribute('data-repo');
+    if (!repo) return;
+    try {
+      const res = await fetch(`https://api.github.com/repos/${repo}/releases?per_page=100`);
+      if (!res.ok) return;
+      const releases = await res.json();
+      const total = releases.reduce((sum: number, r: any) =>
+        sum + r.assets.reduce((a: number, asset: any) => a + (asset.download_count || 0), 0), 0);
+      const count = badge.querySelector('.dl-count');
+      if (count) count.textContent = total.toLocaleString();
+      badge.dataset.loaded = '';
+    } catch {}
+  });
 
   // Skip boot animation if already seen recently
   const bootKey = 'attyx_boot_seen';

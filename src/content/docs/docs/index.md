@@ -1,12 +1,12 @@
 ---
 title: Attyx
-description: A fast, GPU-accelerated terminal environment with built-in sessions, splits, and more.
+description: GPU-accelerated, scriptable terminal environment with built-in sessions, splits, IPC, and a CLI for agentic workflows.
 sidebar:
   label: Overview
   order: 1
 ---
 
-Attyx is a fast, GPU-accelerated terminal environment written in **Zig**. Persistent sessions, splits, tabs, popups, and GPU rendering — everything you need in a single binary.
+Attyx is a GPU-accelerated, scriptable terminal environment written in **Zig**. Persistent sessions, splits, tabs, popups, GPU rendering, and a full IPC layer with the `attyxc` CLI — so scripts and AI agents can drive your terminal programmatically. Everything in a single binary, under 5 MB.
 
 ## Install
 
@@ -38,10 +38,11 @@ Attyx is configured via `~/.config/attyx/attyx.toml`. See the [configuration doc
 
 ## Features
 
-- **Deterministic VT-compatible engine** — predictable, reproducible terminal behavior
+- **IPC + `attyxc` CLI** — scriptable control over splits, input, and screen content for agentic workflows
 - **GPU-accelerated rendering** — Metal on macOS, OpenGL on Linux
-- **Status bar** — configurable widgets for cwd, git branch, time, and custom scripts
 - **Sessions** — tmux-style workspace management with a background daemon
+- **Deterministic VT-compatible engine** — predictable, reproducible terminal behavior
+- **Status bar** — configurable widgets for cwd, git branch, time, and custom scripts
 - **Visual mode** — Vim-inspired keyboard-driven text selection with character, line, and block modes
 - **Command palette** — searchable list of all actions with `Cmd+Shift+P` / `Ctrl+Shift+P`
 - **Native macOS tabs** — system window tabs alongside the built-in overlay tab bar
@@ -107,6 +108,3 @@ Attyx is configured via `~/.config/attyx/attyx.toml`. See the [configuration doc
 
 > [Building from Source](/docs/building/) — build, run, and test
 
-## Alpha
-
-Attyx is currently in alpha. Expect breaking changes as we iterate toward a stable release.

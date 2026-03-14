@@ -1,0 +1,22 @@
+{
+  "name": "attyx-web",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev --port 4322",
+    "build": "astro build",
+    "preview": "astro preview --port 4322"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "^0.37.6",
+    "@tailwindcss/vite": "^4.1.18",
+    "astro": "^5.17.2",
+    "tailwindcss": "^4.1.18"
+  }
+}

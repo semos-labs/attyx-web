@@ -1,0 +1,22 @@
+/* Custom Starlight theme to match Attyx black & white aesthetic */
+:root {
+  --sl-font: "Space Mono", monospace;
+  --sl-font-system-mono: "Space Mono", monospace;
+  --sl-color-accent-low: #1a1a1a;
+  --sl-color-accent: #808080;
+  --sl-color-accent-high: #e0e0e0;
+  --sl-color-white: #f0f0f0;
+  --sl-color-gray-1: #e0e0e0;
+  --sl-color-gray-2: #c0c0c0;
+  --sl-color-gray-3: #808080;
+  --sl-color-gray-4: #404040;
+  --sl-color-gray-5: #2a2a2a;
+  --sl-color-gray-6: #1a1a1a;
+  --sl-color-black: #0a0a0a;
+  --sl-sidebar-width: 22rem;
+}
+
+/* Hide light/dark theme toggle */
+starlight-theme-select {
+  display: none;
+}

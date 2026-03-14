@@ -1,0 +1,111 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  type?: "website" | "article";
+  canonical?: string;
+  jsonLd?: Record<string, any>;
+}
+
+const {
+  title,
+  description = "GPU-accelerated terminal environment. Sessions, splits, tabs, popups, command palette, status bar — all built in. Written in Zig, under 5MB.",
+  image,
+  type = "website",
+  canonical,
+  jsonLd,
+} = Astro.props;
+
+const siteUrl = "https://attyx.sh";
+const ogImage = image?.startsWith("http") ? image : `${siteUrl}${image || "/images/attyx.webp"}`;
+const pageUrl = canonical || `${siteUrl}${Astro.url.pathname}`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={pageUrl} />
+    <link rel="icon" type="image/png" href="/logos/Attyx.png" />
+    <link rel="apple-touch-icon" href="/logos/Attyx.png" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:site_name" content="Attyx" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      />
+    </noscript>
+    <title>{title}</title>
+    {jsonLd && (
+      <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    )}
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <!-- Nav -->
+    <nav class="fixed top-0 inset-x-0 z-[100] px-4 md:px-8 py-3 md:py-4 bg-black/85 backdrop-blur-md border-b border-gray-800">
+      <div class="max-w-content mx-auto flex items-center justify-between">
+        <a href="/" class="flex items-center gap-2.5 min-w-0">
+          <img src="/logos/Attyx.png" alt="Attyx" class="w-7 h-7 md:w-8 md:h-8 rounded-md shrink-0" />
+          <span class="font-hand text-xl md:text-2xl tracking-[0.01em]">Attyx</span>
+        </a>
+        <div class="flex items-center gap-4 md:gap-8 text-label md:text-body-sm text-gray-300 shrink-0">
+          <a href="/docs/" class="hover:text-white transition-colors">Docs</a>
+          <a href="https://github.com/semos-labs/attyx" target="_blank" rel="noopener" class="hover:text-white transition-colors">
+            GitHub
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page content -->
+    <main class="flex-1">
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-12 px-8 border-t border-gray-800">
+      <div class="max-w-content mx-auto flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0 text-center md:text-left">
+        <div class="flex items-center gap-3">
+          <img src="/logos/Attyx.png" alt="Attyx" class="w-6 h-6 rounded" />
+          <span class="font-hand text-title-md">Attyx</span>
+        </div>
+        <p class="text-caption text-gray-400">
+          Written in Zig — fast, safe, and portable.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

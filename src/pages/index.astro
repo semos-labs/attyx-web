@@ -5,7 +5,7 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   name: "Attyx",
-  description: "GPU-accelerated terminal environment. Sessions, splits, tabs, popups, command palette, status bar — all built in. Written in Zig, under 5MB.",
+  description: "GPU-accelerated, scriptable terminal environment. Built-in sessions, splits, IPC, and a CLI for agentic workflows. Written in Zig, under 5MB.",
   url: "https://attyx.sh",
   operatingSystem: ["macOS", "Linux"],
   applicationCategory: "DeveloperApplication",
@@ -23,7 +23,7 @@ const jsonLd = {
 };
 ---
 
-<Layout title="Attyx — GPU-Accelerated Terminal" description="GPU-accelerated terminal environment. Sessions, splits, tabs, popups, command palette, status bar — the stuff you'd usually need tmux for, built in. Written in Zig, under 5MB." jsonLd={jsonLd}>
+<Layout title="Attyx — GPU-Accelerated Terminal" description="GPU-accelerated, scriptable terminal environment. Built-in sessions, splits, IPC, and the attyxc CLI for agentic workflows. Written in Zig, under 5MB." jsonLd={jsonLd}>
 
   <!-- Boot sequence overlay -->
   <div id="boot-overlay" class="fixed inset-0 z-[200] bg-black flex items-center justify-center pointer-events-none">
@@ -61,7 +61,7 @@ const jsonLd = {
 
       <!-- Description -->
       <p class="hero-stagger mt-6 md:mt-8 text-body-lg md:text-[1.05rem] text-gray-400 leading-copy max-w-[560px]" style="--delay: 0.6s">
-        Sessions, splits, tabs, popups, a status bar, command palette — the stuff you'd usually need tmux and a bunch of config for. GPU-accelerated, written in Zig, under 5&thinsp;MB.
+        Sessions, splits, tabs, command palette — plus a scriptable IPC layer and the <code class="text-gray-300">attyxc</code> CLI, so AI agents and scripts can drive your terminal programmatically. GPU-accelerated, written in Zig, under 5&thinsp;MB.
       </p>
 
       <!-- Install + CTAs row -->
@@ -144,6 +144,8 @@ const jsonLd = {
       <span>Metal &middot; OpenGL</span>
       <span class="text-gray-700">/</span>
       <span>&lt; 5 MB</span>
+      <span class="text-gray-700">/</span>
+      <span>IPC + CLI</span>
       <span class="text-gray-700">/</span>
       <span>macOS &middot; Linux</span>
       <span class="text-gray-700">/</span>
@@ -230,25 +232,25 @@ const jsonLd = {
         <div class="feature-card bg-black p-7 md:p-8 group">
           <div class="flex items-baseline gap-3 mb-3">
             <span class="text-[0.65rem] text-gray-600 font-mono tabular-nums">09</span>
-            <h3 class="text-[0.95rem] font-bold group-hover:text-white transition-colors">Inline Images</h3>
+            <h3 class="text-[0.95rem] font-bold group-hover:text-white transition-colors">Scriptable IPC</h3>
           </div>
-          <p class="text-small text-gray-500 leading-relaxed pl-7">Kitty graphics protocol. Show images, plots, whatever — right in the terminal.</p>
+          <p class="text-small text-gray-500 leading-relaxed pl-7">Control splits, send input, read output — all over a Unix socket. Build workflows, dashboards, or let AI agents orchestrate your terminal.</p>
         </div>
 
         <div class="feature-card bg-black p-7 md:p-8 group">
           <div class="flex items-baseline gap-3 mb-3">
             <span class="text-[0.65rem] text-gray-600 font-mono tabular-nums">10</span>
-            <h3 class="text-[0.95rem] font-bold group-hover:text-white transition-colors">Unicode & IME</h3>
+            <h3 class="text-[0.95rem] font-bold group-hover:text-white transition-colors">attyxc CLI</h3>
           </div>
-          <p class="text-small text-gray-500 leading-relaxed pl-7">Wide characters, combining marks, CJK input methods. Handles the weird stuff correctly.</p>
+          <p class="text-small text-gray-500 leading-relaxed pl-7">A companion CLI that talks to the running terminal. Create panes, send keystrokes, read screen content — perfect for agentic workflows.</p>
         </div>
 
         <div class="feature-card bg-black p-7 md:p-8 group">
           <div class="flex items-baseline gap-3 mb-3">
             <span class="text-[0.65rem] text-gray-600 font-mono tabular-nums">11</span>
-            <h3 class="text-[0.95rem] font-bold group-hover:text-white transition-colors">Clickable Links</h3>
+            <h3 class="text-[0.95rem] font-bold group-hover:text-white transition-colors">Inline Images</h3>
           </div>
-          <p class="text-small text-gray-500 leading-relaxed pl-7">URLs in terminal output are clickable. Hover to preview, click or shortcut to open.</p>
+          <p class="text-small text-gray-500 leading-relaxed pl-7">Kitty graphics protocol. Show images, plots, whatever — right in the terminal.</p>
         </div>
 
         <div class="feature-card bg-black p-7 md:p-8 group">
@@ -259,6 +261,21 @@ const jsonLd = {
           <p class="text-small text-gray-500 leading-relaxed pl-7">Native on macOS and Linux. Metal + Core Text or OpenGL + FreeType. Same app, different backends.</p>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- Semos -->
+  <section class="py-16 px-6 md:px-8 border-t border-gray-800/60">
+    <div class="max-w-content mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-4">
+        <span class="text-[0.65rem] text-gray-600 font-mono tracking-[0.3em] uppercase">Part of</span>
+        <a href="https://semos.sh" target="_blank" rel="noopener" class="inline-flex items-center gap-2.5 text-gray-300 hover:text-white transition-colors">
+          <span class="font-hand text-title">Semos Labs</span>
+        </a>
+      </div>
+      <p class="text-small text-gray-500 text-center md:text-right max-w-[400px]">
+        A constellation of terminal-native tools — Attyx, <a href="https://semos.sh/glyph" target="_blank" rel="noopener" class="text-gray-400 hover:text-white transition-colors">Glyph</a>, <a href="https://semos.sh/aion" target="_blank" rel="noopener" class="text-gray-400 hover:text-white transition-colors">Aion</a>, and <a href="https://semos.sh/epist" target="_blank" rel="noopener" class="text-gray-400 hover:text-white transition-colors">Epist</a>.
+      </p>
     </div>
   </section>
 

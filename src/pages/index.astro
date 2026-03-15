@@ -302,6 +302,39 @@ const jsonLd = {
       <p class="text-body-lg text-gray-400 leading-copy mb-10">
         Install via Homebrew and you're up and running in seconds.
       </p>
+      <!-- Install block -->
+      <div class="install-block bg-gray-900/80 border border-gray-700/60 rounded-xl overflow-hidden max-w-[420px] w-full mx-auto backdrop-blur-sm mb-6">
+        <div class="flex items-center px-4 py-2.5 bg-gray-800/60 border-b border-gray-700/40 gap-3">
+          <div class="flex gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-gray-600"></span>
+            <span class="w-2 h-2 rounded-full bg-gray-600"></span>
+            <span class="w-2 h-2 rounded-full bg-gray-600"></span>
+          </div>
+          <span class="text-[0.65rem] text-gray-500 tracking-wider uppercase">Install</span>
+          <button
+            class="copy-btn group ml-auto flex items-center bg-transparent border border-gray-700/60 rounded px-2 py-0.5 cursor-pointer text-gray-500 text-[0.7rem] transition-all hover:text-white hover:border-gray-500"
+            data-ph-cta="footer_copy_install"
+            aria-label="Copy to clipboard"
+          >
+            <span class="group-[.copied]:hidden">copy</span>
+            <span class="hidden group-[.copied]:inline text-gray-200">copied</span>
+          </button>
+        </div>
+        <div class="install-panel px-5 py-4 text-[0.82rem] leading-relaxed text-left" data-copy="brew tap semos-labs/tap&#10;brew install attyx">
+          <p><span class="text-gray-500">$</span> <span class="text-white">brew tap semos-labs/tap</span></p>
+          <p><span class="text-gray-500">$</span> <span class="text-white">brew install attyx</span></p>
+        </div>
+      </div>
+
+      <!-- Download (platform-detected, hidden by default) -->
+      <div id="footer-download-wrap" class="hidden flex justify-center items-center gap-4 flex-wrap mb-8">
+        <a id="footer-download-btn" href="#" class="inline-flex items-center gap-2 py-2.5 px-6 bg-white text-black font-mono text-body-sm font-medium rounded-md hover:bg-gray-200 transition-colors" data-ph-cta="footer_download">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+        <span id="footer-download-caption" class="text-[0.7rem] text-gray-500"></span>
+      </div>
+
       <div class="flex gap-4 justify-center flex-wrap">
         <a href="/docs/" class="btn-primary" data-ph-cta="footer_docs">Read the Docs</a>
         <a href="https://github.com/semos-labs/attyx" target="_blank" rel="noopener" class="btn-secondary" data-ph-cta="footer_github">View Source</a>
@@ -433,18 +466,35 @@ const jsonLd = {
   const btn = document.getElementById('hero-download-btn') as HTMLAnchorElement | null;
   const caption = document.getElementById('hero-download-caption');
 
-  if (detected && wrap && btn && caption) {
+  if (detected) {
     const meta = platforms[detected];
     const baseUrl = 'https://github.com/semos-labs/attyx/releases/latest/download/';
-    btn.href = baseUrl + meta.file;
-    caption.textContent = meta.label;
-    wrap.classList.remove('hidden');
+
+    // Wire up both hero and footer download buttons
+    const downloadSections = [
+      { wrap: 'hero-download-wrap', btn: 'hero-download-btn', caption: 'hero-download-caption' },
+      { wrap: 'footer-download-wrap', btn: 'footer-download-btn', caption: 'footer-download-caption' },
+    ];
+
+    for (const ids of downloadSections) {
+      const w = document.getElementById(ids.wrap);
+      const b = document.getElementById(ids.btn) as HTMLAnchorElement | null;
+      const c = document.getElementById(ids.caption);
+      if (w && b && c) {
+        b.href = baseUrl + meta.file;
+        c.textContent = meta.label;
+        w.classList.remove('hidden');
+      }
+    }
 
     fetch('https://api.github.com/repos/semos-labs/attyx/releases/latest')
       .then(r => r.ok ? r.json() : null)
       .then(data => {
         if (data?.tag_name) {
-          caption.textContent = `${meta.label} · ${data.tag_name}`;
+          for (const ids of downloadSections) {
+            const c = document.getElementById(ids.caption);
+            if (c) c.textContent = `${meta.label} · ${data.tag_name}`;
+          }
         }
       })
       .catch(() => {});

@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import PostHog from "../components/posthog.astro";
 
 interface Props {
   title: string;
@@ -68,6 +69,7 @@ const pageUrl = canonical || `${siteUrl}${Astro.url.pathname}`;
         href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
       />
     </noscript>
+    <PostHog />
     <title>{title}</title>
     {jsonLd && (
       <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
@@ -82,9 +84,9 @@ const pageUrl = canonical || `${siteUrl}${Astro.url.pathname}`;
           <span class="font-hand text-xl md:text-2xl tracking-[0.01em]">Attyx</span>
         </a>
         <div class="flex items-center gap-4 md:gap-8 text-label md:text-body-sm text-gray-300 shrink-0">
-          <a href="/docs/" class="hover:text-white transition-colors">Docs</a>
-          <a href="https://semos.sh/blog" target="_blank" rel="noopener" class="hover:text-white transition-colors">Blog</a>
-          <a href="https://github.com/semos-labs/attyx" target="_blank" rel="noopener" class="hover:text-white transition-colors">
+          <a href="/docs/" class="hover:text-white transition-colors" data-ph-cta="nav_docs">Docs</a>
+          <a href="https://semos.sh/blog" target="_blank" rel="noopener" class="hover:text-white transition-colors" data-ph-cta="nav_blog">Blog</a>
+          <a href="https://github.com/semos-labs/attyx" target="_blank" rel="noopener" class="hover:text-white transition-colors" data-ph-cta="nav_github">
             GitHub
           </a>
         </div>
@@ -108,5 +110,18 @@ const pageUrl = canonical || `${siteUrl}${Astro.url.pathname}`;
         </p>
       </div>
     </footer>
+    <script is:inline>
+      document.querySelectorAll('[data-ph-cta]').forEach(function(el) {
+        el.addEventListener('click', function() {
+          if (window.posthog) {
+            window.posthog.capture('cta_click', {
+              cta: el.getAttribute('data-ph-cta'),
+              url: el.getAttribute('href'),
+              page: window.location.pathname,
+            });
+          }
+        });
+      });
+    </script>
   </body>
 </html>

@@ -93,6 +93,7 @@ const jsonLd = {
             <span class="text-[0.65rem] text-gray-500 tracking-wider uppercase">Install</span>
             <button
               class="copy-btn group ml-auto flex items-center bg-transparent border border-gray-700/60 rounded px-2 py-0.5 cursor-pointer text-gray-500 text-[0.7rem] transition-all hover:text-white hover:border-gray-500"
+              data-ph-cta="hero_copy_install"
               aria-label="Copy to clipboard"
             >
               <span class="group-[.copied]:hidden">copy</span>
@@ -108,8 +109,8 @@ const jsonLd = {
         <!-- CTAs -->
         <div class="flex flex-col gap-3">
           <div class="flex gap-3 flex-wrap">
-            <a href="/docs/" class="btn-primary">Documentation</a>
-            <a href="https://github.com/semos-labs/attyx" target="_blank" rel="noopener" class="btn-secondary">GitHub</a>
+            <a href="/docs/" class="btn-primary" data-ph-cta="hero_docs">Documentation</a>
+            <a href="https://github.com/semos-labs/attyx" target="_blank" rel="noopener" class="btn-secondary" data-ph-cta="hero_github">GitHub</a>
           </div>
           <span class="text-[0.7rem] text-gray-500">macOS (Apple Silicon & Intel) &middot; Linux (x64 & ARM64)</span>
         </div>
@@ -117,7 +118,7 @@ const jsonLd = {
 
       <!-- Download (platform-detected, hidden by default) -->
       <div id="hero-download-wrap" class="hidden hero-stagger mt-5 flex items-center gap-4 flex-wrap" style="--delay: 0.75s">
-        <a id="hero-download-btn" href="#" class="inline-flex items-center gap-2 py-2.5 px-6 bg-white text-black font-mono text-body-sm font-medium rounded-md hover:bg-gray-200 transition-colors">
+        <a id="hero-download-btn" href="#" class="inline-flex items-center gap-2 py-2.5 px-6 bg-white text-black font-mono text-body-sm font-medium rounded-md hover:bg-gray-200 transition-colors" data-ph-cta="hero_download">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           Download
         </a>
@@ -302,8 +303,8 @@ const jsonLd = {
         Install via Homebrew and you're up and running in seconds.
       </p>
       <div class="flex gap-4 justify-center flex-wrap">
-        <a href="/docs/" class="btn-primary">Read the Docs</a>
-        <a href="https://github.com/semos-labs/attyx" target="_blank" rel="noopener" class="btn-secondary">View Source</a>
+        <a href="/docs/" class="btn-primary" data-ph-cta="footer_docs">Read the Docs</a>
+        <a href="https://github.com/semos-labs/attyx" target="_blank" rel="noopener" class="btn-secondary" data-ph-cta="footer_github">View Source</a>
       </div>
     </div>
   </section>

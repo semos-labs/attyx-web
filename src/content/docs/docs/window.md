@@ -18,7 +18,7 @@ decorations = true
 |--------|------|---------|-------------|
 | `decorations` | boolean | `true` | Show the window title bar |
 
-On macOS, hiding decorations removes the title bar but preserves resize handles. On Linux, it removes all window decorations (title bar and borders) — resizing from edges depends on the compositor or window manager.
+On macOS, hiding decorations removes the title bar but preserves resize handles. On Linux, it removes all window decorations (title bar and borders) — resizing from edges depends on the compositor or window manager. On Windows, it removes the title bar and borders.
 
 ## Padding
 
@@ -64,6 +64,7 @@ blur = 30
 Setting `opacity` below `1.0` enables composited transparency. The `blur` setting activates the system compositor's blur effect behind the window:
 
 - **macOS:** Uses `NSVisualEffectView` for native blur.
+- **Windows:** Uses acrylic transparency with DPI-aware rendering.
 - **Linux:** Blur depends on the compositor (e.g. KDE Plasma supports it).
 
 ```toml

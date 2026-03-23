@@ -7,7 +7,7 @@ const jsonLd = {
   name: "Attyx",
   description: "GPU-accelerated, scriptable terminal environment. Built-in sessions, splits, IPC, and a CLI for agentic workflows. Written in Zig, under 5MB.",
   url: "https://attyx.sh",
-  operatingSystem: ["macOS", "Linux"],
+  operatingSystem: ["macOS", "Linux", "Windows"],
   applicationCategory: "DeveloperApplication",
   screenshot: "https://attyx.sh/images/attyx.webp",
   author: {
@@ -112,7 +112,7 @@ const jsonLd = {
             <a href="/docs/" class="btn-primary" data-ph-cta="hero_docs">Documentation</a>
             <a href="https://github.com/semos-labs/attyx" target="_blank" rel="noopener" class="btn-secondary" data-ph-cta="hero_github">GitHub</a>
           </div>
-          <span class="text-[0.7rem] text-gray-500">macOS (Apple Silicon & Intel) &middot; Linux (x64 & ARM64)</span>
+          <span class="text-[0.7rem] text-gray-500">macOS (Apple Silicon & Intel) &middot; Linux (x64 & ARM64) &middot; Windows 10+</span>
         </div>
       </div>
 
@@ -158,13 +158,13 @@ const jsonLd = {
     <div class="max-w-content mx-auto flex flex-wrap justify-center gap-x-10 gap-y-4 text-[0.75rem] text-gray-500 font-mono tracking-wider uppercase">
       <span>Zig</span>
       <span class="text-gray-700">/</span>
-      <span>Metal &middot; OpenGL</span>
+      <span>Metal &middot; Direct3D 11 &middot; OpenGL</span>
       <span class="text-gray-700">/</span>
       <span>&lt; 5 MB</span>
       <span class="text-gray-700">/</span>
       <span>IPC + CLI</span>
       <span class="text-gray-700">/</span>
-      <span>macOS &middot; Linux</span>
+      <span>macOS &middot; Linux &middot; Windows</span>
       <span class="text-gray-700">/</span>
       <span>MIT License</span>
     </div>
@@ -203,7 +203,7 @@ const jsonLd = {
             <span class="text-[0.65rem] text-gray-600 font-mono tabular-nums">03</span>
             <h3 class="text-[0.95rem] font-bold group-hover:text-white transition-colors">GPU Rendering</h3>
           </div>
-          <p class="text-small text-gray-500 leading-relaxed pl-7">Metal on macOS, OpenGL on Linux. Smooth scrolling, no tearing — stays fast even when you <code class="text-gray-400">cat</code> a huge file.</p>
+          <p class="text-small text-gray-500 leading-relaxed pl-7">Metal on macOS, Direct3D 11 on Windows, OpenGL on Linux. Smooth scrolling, no tearing — stays fast even when you <code class="text-gray-400">cat</code> a huge file.</p>
         </div>
 
         <div class="feature-card bg-black p-7 md:p-8 group">
@@ -275,7 +275,7 @@ const jsonLd = {
             <span class="text-[0.65rem] text-gray-600 font-mono tabular-nums">12</span>
             <h3 class="text-[0.95rem] font-bold group-hover:text-white transition-colors">Cross-Platform</h3>
           </div>
-          <p class="text-small text-gray-500 leading-relaxed pl-7">Native on macOS and Linux. Metal + Core Text or OpenGL + FreeType. Same app, different backends.</p>
+          <p class="text-small text-gray-500 leading-relaxed pl-7">Native on macOS, Windows, and Linux. Metal, Direct3D 11, or OpenGL — same app, platform-native backends.</p>
         </div>
       </div>
     </div>
@@ -300,7 +300,7 @@ const jsonLd = {
       <p class="text-[0.65rem] text-gray-600 font-mono tracking-[0.3em] uppercase mb-6">Get started</p>
       <h2 class="heading-section mb-4">Try Attyx</h2>
       <p class="text-body-lg text-gray-400 leading-copy mb-10">
-        Install via Homebrew and you're up and running in seconds.
+        Install via Homebrew, download the installer, and you're up and running in seconds.
       </p>
       <!-- Install block -->
       <div class="install-block bg-gray-900/80 border border-gray-700/60 rounded-xl overflow-hidden max-w-[420px] w-full mx-auto backdrop-blur-sm mb-6">
@@ -433,6 +433,7 @@ const jsonLd = {
     'darwin-arm64': { label: 'macOS (Apple Silicon)', file: 'attyx-darwin-arm64.dmg' },
     'darwin-x64':   { label: 'macOS (Intel)',         file: 'attyx-darwin-x64.dmg' },
     'linux-x64':    { label: 'Linux (x64)',           file: 'attyx-linux-x64.tar.zst' },
+    'win-x64':      { label: 'Windows (x64)',         file: 'attyx-setup.exe' },
   };
 
   function isAppleSilicon(): boolean {
@@ -457,6 +458,9 @@ const jsonLd = {
     }
     if (ua.includes('linux') && !ua.includes('android')) {
       return 'linux-x64';
+    }
+    if (ua.includes('win') && !ua.includes('darwin')) {
+      return 'win-x64';
     }
     return null;
   }

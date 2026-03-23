@@ -5,15 +5,16 @@ sidebar:
   order: 18
 ---
 
-Attyx exposes a full IPC interface over Unix sockets. Scripts, AI agents, and external tools can create tabs, split panes, send keystrokes, read screen content, and more — all from the command line.
+Attyx exposes a full IPC interface over sockets. Scripts, AI agents, and external tools can create tabs, split panes, send keystrokes, read screen content, and more — all from the command line.
 
 ## How it works
 
-Every running Attyx instance listens on a Unix domain socket at:
+Every running Attyx instance listens on a socket:
 
-```
-~/.local/state/attyx/ctl-<pid>.sock
-```
+| Platform | Path |
+|----------|------|
+| macOS / Linux | `~/.local/state/attyx/ctl-<pid>.sock` (Unix domain socket) |
+| Windows | Named pipe `\\.\pipe\attyx-ctl-<pid>` |
 
 The `attyx` binary doubles as both the terminal and the IPC client. When you run a subcommand like `attyx tab create`, it connects to the socket of the most recently active instance and sends the command.
 
@@ -150,6 +151,13 @@ attyx send-keys "q"                     # press q (e.g. quit less)
 attyx send-keys "y\n"                   # confirm a prompt
 ```
 
+#### Options for `send-keys`
+
+| Option | Description |
+|--------|-------------|
+| `-p`, `--pane <id>` | Target a specific pane by ID |
+| `--wait-stable [ms]` | Wait for pane output to stabilize before returning. Optional timeout in milliseconds. |
+
 #### Escape sequences
 
 | Sequence | Key |
@@ -165,6 +173,27 @@ attyx send-keys "y\n"                   # confirm a prompt
 | `\x1b[C` | Arrow right |
 | `\x1b[D` | Arrow left |
 | `\x7f` | Backspace |
+
+#### Named keys
+
+You can also use named key tokens in curly braces:
+
+```bash
+attyx send-keys "{Up}{Enter}"             # arrow up then Enter
+attyx send-keys "{Ctrl-c}"                # Ctrl-C
+attyx send-keys "{Shift-Tab}"             # Shift-Tab
+attyx send-keys "{Ctrl-Shift-Up}"         # combined modifiers
+attyx send-keys "{F1}"                    # function key
+```
+
+| Token | Key |
+|-------|-----|
+| `{Up}`, `{Down}`, `{Left}`, `{Right}` | Arrow keys |
+| `{Home}`, `{End}`, `{PgUp}`, `{PgDn}` | Navigation |
+| `{Enter}`, `{Tab}`, `{Escape}` | Common keys |
+| `{Backspace}`, `{Delete}`, `{Insert}` | Editing keys |
+| `{F1}`–`{F12}` | Function keys |
+| `{Ctrl-c}`, `{Alt-a}`, `{Shift-Tab}` | Modifier combos |
 
 ### send-text
 
@@ -346,7 +375,7 @@ For quick commands (`ls`, `cat`, etc.) a simple `sleep 1` is fine. Use polling f
 | `split rotate [-p <id>]` | Rotate layout |
 | `split zoom [-p <id>]` | Toggle pane zoom |
 | `focus up\|down\|left\|right` | Move focus |
-| `send-keys [-p <id>] <keys>` | Send keystrokes (with escapes) |
+| `send-keys [-p <id>] [--wait-stable] <keys>` | Send keystrokes (with escapes) |
 | `send-text [-p <id>] <text>` | Send raw text |
 | `get-text [-p <id>]` | Read screen content |
 | `list [tabs\|splits\|sessions]` | Query state |

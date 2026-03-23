@@ -11,9 +11,10 @@ Attyx is configured via a TOML file at `~/.config/attyx/attyx.toml`. Every setti
 
 The config file is read from `$XDG_CONFIG_HOME/attyx/attyx.toml`. On most systems this resolves to:
 
-```
-~/.config/attyx/attyx.toml
-```
+| Platform | Path |
+|----------|------|
+| macOS / Linux | `~/.config/attyx/attyx.toml` |
+| Windows | `%APPDATA%\attyx\attyx.toml` |
 
 Override the path with `--config <path>`, or skip the config file entirely with `--no-config`.
 
@@ -42,7 +43,7 @@ Or start from scratch — only add the settings you want to change. Anything you
 
 Send `SIGUSR1` or press **Ctrl+Shift+R** to reload the config at runtime.
 
-**Reloads immediately:** cursor shape, cursor blink, cursor trail, scrollback lines, font family, font size, cell width, cell height, status bar settings, tab appearance, theme, keybindings, splits, popups
+**Reloads immediately:** cursor shape, cursor blink, cursor trail, scrollback lines, font family, font size, cell width, cell height, status bar settings, tab appearance, dim unfocused, theme, keybindings, splits, popups
 
 **Requires restart:** background opacity, background blur, logging level, logging file, program settings, updates
 

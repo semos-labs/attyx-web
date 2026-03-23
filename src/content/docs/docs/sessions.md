@@ -87,8 +87,8 @@ attyx daemon
 
 ## Keybindings
 
-| Action | macOS | Linux |
-|--------|-------|-------|
+| Action | macOS | Linux / Windows |
+|--------|-------|-----------------|
 | New session | `Cmd+Shift+N` | `Ctrl+Shift+N` |
 | Session picker | `Cmd+Shift+S` | `Ctrl+Shift+S` |
 

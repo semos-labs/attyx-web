@@ -24,6 +24,16 @@ brew install semos-labs/tap/attyx
 
 On Linux, Attyx installs as a desktop application. It should appear in your app launcher automatically. If it doesn't, log out and back in to refresh the desktop entry cache.
 
+### Windows
+
+Download and run the installer from the [latest release](https://github.com/semos-labs/attyx/releases/latest):
+
+```
+attyx-setup.exe
+```
+
+Requires Windows 10 or later. The installer is self-extracting and sets up Attyx with auto-update support.
+
 ### Build from source
 
 Requires **Zig 0.15.2+**.
@@ -39,7 +49,7 @@ Attyx is configured via `~/.config/attyx/attyx.toml`. See the [configuration doc
 ## Features
 
 - **IPC + `attyx` CLI** — scriptable control over splits, input, and screen content for agentic workflows
-- **GPU-accelerated rendering** — Metal on macOS, OpenGL on Linux
+- **GPU-accelerated rendering** — Metal on macOS, Direct3D 11 on Windows, OpenGL on Linux
 - **Sessions** — tmux-style workspace management with a background daemon
 - **Deterministic VT-compatible engine** — predictable, reproducible terminal behavior
 - **Status bar** — configurable widgets for cwd, git branch, time, and custom scripts
@@ -51,7 +61,7 @@ Attyx is configured via `~/.config/attyx/attyx.toml`. See the [configuration doc
 - **Mouse support** — X10 and SGR mouse encoding, text selection
 - **In-terminal search** — incremental search with smart-case matching
 - **TOML + CLI configuration** — human-readable config with hot reload
-- **Cross-platform** — macOS and Linux
+- **Cross-platform** — macOS, Windows, and Linux
 - **Unicode support** — proper wide-character handling
 - **Alternate screen buffer** — full support for TUI applications
 - **Hyperlinks** — OSC 8 clickable URLs in terminal output

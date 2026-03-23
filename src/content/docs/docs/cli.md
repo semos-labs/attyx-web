@@ -19,6 +19,7 @@ attyx [command | flags]
 | `kill-daemon` | Kill the session daemon and remove its socket |
 | `login` | Authenticate with Attyx AI services |
 | `device` | Show device and account info |
+| `skill` | Manage Claude Code skills |
 | `uninstall` | Remove config, auth tokens, and desktop entry |
 
 Commands are used without `--`. For example: `attyx kill-daemon`.

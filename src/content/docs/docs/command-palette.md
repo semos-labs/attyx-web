@@ -12,7 +12,7 @@ The command palette is a searchable overlay that lists every available action in
 | Platform | Shortcut |
 |----------|----------|
 | macOS | `Cmd+Shift+P` |
-| Linux | `Ctrl+Shift+P` |
+| Linux / Windows | `Ctrl+Shift+P` |
 
 ## Usage
 

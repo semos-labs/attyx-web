@@ -433,7 +433,8 @@ const jsonLd = {
     'darwin-arm64': { label: 'macOS (Apple Silicon)', file: 'attyx-darwin-arm64.dmg' },
     'darwin-x64':   { label: 'macOS (Intel)',         file: 'attyx-darwin-x64.dmg' },
     'linux-x64':    { label: 'Linux (x64)',           file: 'attyx-linux-x64.tar.zst' },
-    'win-x64':      { label: 'Windows (x64)',         file: 'attyx-setup.exe' },
+    'win-arm64':    { label: 'Windows (ARM64)',        file: 'attyx-windows-arm64-setup.exe' },
+    'win-x64':      { label: 'Windows (x64)',         file: 'attyx-windows-x64-setup.exe' },
   };
 
   function isAppleSilicon(): boolean {
@@ -450,7 +451,16 @@ const jsonLd = {
     }
   }
 
-  function detectPlatform(): string | null {
+  function isWindowsArm(): boolean {
+    const ua = navigator.userAgent;
+    // Explicit ARM indicators in the UA string
+    if (/ARM|Aarch64/i.test(ua)) return true;
+    // Windows on ARM runs x86 Edge/Chrome — but WoW64 flag without x64 hints at emulation
+    if (/Windows.*WOW64/i.test(ua) && !/x64|Win64/i.test(ua)) return true;
+    return false;
+  }
+
+  async function detectPlatform(): Promise<string | null> {
     const ua = navigator.userAgent.toLowerCase();
     const platform = navigator.platform?.toLowerCase() || '';
     if (ua.includes('mac') || platform.includes('mac')) {
@@ -460,12 +470,21 @@ const jsonLd = {
       return 'linux-x64';
     }
     if (ua.includes('win') && !ua.includes('darwin')) {
-      return 'win-x64';
+      // Try User-Agent Client Hints (Chromium-based browsers)
+      try {
+        const uaData = (navigator as any).userAgentData;
+        if (uaData?.getHighEntropyValues) {
+          const hints = await uaData.getHighEntropyValues(['architecture']);
+          if (hints.architecture === 'arm') return 'win-arm64';
+        }
+      } catch {}
+      // Fall back to UA string sniffing
+      return isWindowsArm() ? 'win-arm64' : 'win-x64';
     }
     return null;
   }
 
-  const detected = detectPlatform();
+  const detected = await detectPlatform();
   const wrap = document.getElementById('hero-download-wrap');
   const btn = document.getElementById('hero-download-btn') as HTMLAnchorElement | null;
   const caption = document.getElementById('hero-download-caption');

@@ -24,7 +24,7 @@ Attyx implements a comprehensive set of VT/ANSI escape sequences.
 
 | Sequence | Description |
 |----------|-------------|
-| CSI J | Erase display (to end, to start, or all) |
+| CSI J | Erase display (to end, to start, all, or scrollback) |
 | CSI K | Erase line (to end, to start, or all) |
 | CSI X | Erase characters |
 
@@ -58,8 +58,15 @@ Attyx implements a comprehensive set of VT/ANSI escape sequences.
 | 4 | Underline |
 | 7 | Reverse video |
 | 9 | Strikethrough |
+| 22 | Reset bold and dim |
+| 23 | Reset italic |
+| 24 | Reset underline |
+| 27 | Reset reverse video |
+| 29 | Reset strikethrough |
 | 30–37, 90–97 | Foreground colors (standard + bright) |
+| 39 | Default foreground color |
 | 40–47, 100–107 | Background colors (standard + bright) |
+| 49 | Default background color |
 | 38;5;N | 256-color foreground |
 | 48;5;N | 256-color background |
 | 38;2;R;G;B | 24-bit truecolor foreground |
@@ -82,6 +89,13 @@ Attyx implements a comprehensive set of VT/ANSI escape sequences.
 | ESC[?2004h/l | Bracketed paste mode |
 | ESC[?2026h/l | Synchronized output |
 
+## Keypad
+
+| Sequence | Description |
+|----------|-------------|
+| ESC = | DECKPAM — application keypad mode |
+| ESC > | DECKPNM — normal (numeric) keypad mode |
+
 ## OSC Sequences
 
 | Sequence | Description |
@@ -91,16 +105,17 @@ Attyx implements a comprehensive set of VT/ANSI escape sequences.
 | OSC 7 | Set working directory |
 | OSC 8 | Hyperlinks (clickable URLs) |
 | OSC 9 | Desktop notification (iTerm2 style) |
-| OSC 10 | Query/set foreground color |
-| OSC 11 | Query/set background color |
-| OSC 12 | Query/set cursor color |
+| OSC 10 | Query foreground color |
+| OSC 11 | Query background color |
+| OSC 12 | Query cursor color |
+| OSC 52 | Set system clipboard (base64 payload) |
 | OSC 777 | Desktop notification (rxvt/Kitty style) |
 
 ## DCS Sequences
 
 | Sequence | Description |
 |----------|-------------|
-| DCS ... ST | DCS passthrough |
+| DCS tmux; ... ST | tmux passthrough (un-wraps the inner sequence) |
 
 ## Kitty Protocols
 

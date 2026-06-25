@@ -18,7 +18,18 @@ decorations = true
 |--------|------|---------|-------------|
 | `decorations` | boolean | `true` | Show the window title bar |
 
-On macOS, hiding decorations removes the title bar but preserves resize handles. On Linux, it removes all window decorations (title bar and borders) — resizing from edges depends on the compositor or window manager. On Windows, it removes the title bar and borders.
+On macOS, hiding decorations removes the title bar but preserves resize handles. On Linux, it removes all window decorations (title bar and borders) — resizing from edges depends on the compositor or window manager.
+
+## Scrollbar
+
+```toml
+[window]
+scrollbar = true
+```
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `scrollbar` | boolean | `true` | Show the scrollbar when scrolling through terminal history |
 
 ## Padding
 
@@ -64,7 +75,6 @@ blur = 30
 Setting `opacity` below `1.0` enables composited transparency. The `blur` setting activates the system compositor's blur effect behind the window:
 
 - **macOS:** Uses `NSVisualEffectView` for native blur.
-- **Windows:** Uses acrylic transparency with DPI-aware rendering.
 - **Linux:** Blur depends on the compositor (e.g. KDE Plasma supports it).
 
 ```toml
@@ -87,7 +97,8 @@ blur = 20
 | `--padding-bottom <int>` | Bottom padding |
 | `--background-opacity <float>` | Background opacity |
 | `--background-blur <int>` | Blur radius |
+| `--scrollbar` / `--no-scrollbar` | Show/hide the scrollbar |
 
 ## Runtime changes
 
-Background opacity and blur require a restart — they are not [hot-reloadable](/docs/configuration/#hot-reload).
+Window decorations, padding, scrollbar, background opacity, and blur are all [hot-reloadable](/docs/configuration/#hot-reload) — they take effect immediately on config reload.

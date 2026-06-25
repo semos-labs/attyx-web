@@ -13,9 +13,9 @@ Attyx uses a monospace font for rendering the terminal grid. Font settings contr
 [font]
 family = "JetBrains Mono"
 size = 14
-cell_width = "100%"
-cell_height = "100%"
-fallback = ["Symbols Nerd Font Mono", "Noto Color Emoji"]
+cell_width = 0
+cell_height = 0
+fallback = ["Noto Color Emoji", "Noto Sans CJK"]
 ligatures = true
 ```
 
@@ -25,9 +25,9 @@ ligatures = true
 |--------|------|---------|-------------|
 | `family` | string | `"JetBrains Mono"` | Font family name |
 | `size` | integer | `14` | Font size in points |
-| `cell_width` | string or int | `"100%"` | Grid cell width |
-| `cell_height` | string or int | `"100%"` | Grid cell height |
-| `fallback` | string[] | `[]` | Fallback font families, tried in order |
+| `cell_width` | int or string | `0` (auto) | Grid cell width |
+| `cell_height` | int or string | `0` (auto) | Grid cell height |
+| `fallback` | string[] | none | Fallback font families, tried in order |
 | `ligatures` | boolean | `true` | Enable programming ligatures (OpenType `calt` feature) |
 
 ## Cell dimensions
@@ -36,15 +36,15 @@ Cell width and height control the size of each character cell in the terminal gr
 
 | Format | Example | Description |
 |--------|---------|-------------|
-| `"N%"` | `"110%"` | Percentage of the font-derived default |
-| `N` | `10` | Fixed pixel value |
-| `0` | `0` | Auto — use the font-derived default |
+| `0` or `"auto"` | `0` | Auto — derive from the font's metrics (default) |
+| `N` | `10` | Fixed value in points |
+| `"N%"` | `"110%"` | Percentage of the font-derived dimension |
 
-The default is `"100%"` (equivalent to auto). Increasing `cell_height` adds line spacing. Increasing `cell_width` adds character spacing.
+The default is `0` (auto). Increasing `cell_height` adds line spacing. Increasing `cell_width` adds character spacing.
 
 ```toml
 [font]
-cell_width = "100%"    # default character spacing
+cell_width = 0         # auto: derive from font metrics
 cell_height = "120%"   # 20% extra line spacing
 ```
 

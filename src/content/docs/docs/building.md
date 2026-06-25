@@ -5,6 +5,14 @@ sidebar:
   order: 10
 ---
 
+Requires **Zig 0.15.2+**.
+
+On Linux, install the build dependencies first:
+
+```bash
+sudo apt install libglfw3-dev libfreetype-dev libfontconfig-dev libgl-dev
+```
+
 ## Build
 
 ```bash

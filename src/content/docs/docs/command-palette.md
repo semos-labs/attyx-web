@@ -12,7 +12,7 @@ The command palette is a searchable overlay that lists every available action in
 | Platform | Shortcut |
 |----------|----------|
 | macOS | `Cmd+Shift+P` |
-| Linux / Windows | `Ctrl+Shift+P` |
+| Linux | `Ctrl+Shift+P` |
 
 ## Usage
 
@@ -33,5 +33,5 @@ The shortcut to open the command palette can be rebound:
 
 ```toml
 [keybindings]
-command_palette = "ctrl+shift+p"
+command_palette_toggle = "ctrl+shift+p"
 ```

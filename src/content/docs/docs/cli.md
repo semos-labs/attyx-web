@@ -17,9 +17,9 @@ attyx [command | flags]
 |---------|-------------|
 | `daemon` | Run the session daemon in the foreground |
 | `kill-daemon` | Kill the session daemon and remove its socket |
-| `login` | Authenticate with Attyx AI services |
 | `device` | Show device and account info |
-| `skill` | Manage Claude Code skills |
+| `skill <install\|uninstall>` | Install or remove the Claude Code skill |
+| `mcp` | Run the MCP stdio bridge (for MCP clients like Claude) |
 | `uninstall` | Remove config, auth tokens, and desktop entry |
 
 Commands are used without `--`. For example: `attyx kill-daemon`.
@@ -30,7 +30,7 @@ Commands are used without `--`. For example: `attyx kill-daemon`.
 |------|-------------|
 | `--rows <N>` | Terminal rows (default: 24) |
 | `--cols <N>` | Terminal columns (default: 80) |
-| `--cmd <command...>` | Override shell command |
+| `-e`, `-c`, `--cmd <command...>` | Override shell command |
 | `-d`, `--working-directory <path>` | Set initial working directory |
 
 ## Config
@@ -40,6 +40,7 @@ Commands are used without `--`. For example: `attyx kill-daemon`.
 | `--config <path>` | Load config from a specific file |
 | `--no-config` | Skip reading config file from disk |
 | `--print-config` | Print merged config and exit |
+| `--headless` | Run without a UI, controlled via IPC only |
 
 ## Font
 
@@ -49,6 +50,7 @@ Commands are used without `--`. For example: `attyx kill-daemon`.
 | `--font-size <int>` | Font size in points |
 | `--cell-width <value>` | Cell width: pixels (e.g. `10`) or percent (e.g. `"110%"`) |
 | `--cell-height <value>` | Cell height: pixels (e.g. `20`) or percent (e.g. `"115%"`) |
+| `--font-ligatures` / `--no-font-ligatures` | Enable/disable ligatures (default: on) |
 
 ## Appearance
 
@@ -58,6 +60,7 @@ Commands are used without `--`. For example: `attyx kill-daemon`.
 | `--background-opacity <float>` | Background opacity 0.0–1.0 |
 | `--background-blur <int>` | Blur radius when opacity < 1 |
 | `--decorations` / `--no-decorations` | Show/hide window title bar |
+| `--scrollbar` / `--no-scrollbar` | Show/hide scrollbar (default: on) |
 | `--padding <int>` | Window padding on all sides |
 | `--padding-x <int>` | Left + right padding |
 | `--padding-y <int>` | Top + bottom padding |
@@ -101,7 +104,7 @@ Commands are used without `--`. For example: `attyx kill-daemon`.
 | **Ctrl+Shift+Space** | Visual mode (copy mode) |
 | **Cmd+K** / **Ctrl+Shift+K** | Clear screen and scrollback |
 | **Ctrl+Shift+N** | New session |
-| **Ctrl+Shift+S** | Session picker |
+| **Cmd+Shift+S** / **Ctrl+Shift+S** | Session picker |
 | **Cmd+T** / **Ctrl+Shift+T** | New tab |
 | **Cmd+W** / **Ctrl+Shift+W** | Close tab |
 | **Ctrl+Tab** | Next tab |

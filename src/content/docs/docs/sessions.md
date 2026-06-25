@@ -75,7 +75,7 @@ If you need to stop the daemon manually â€” for example to reset all sessions â€
 attyx kill-daemon
 ```
 
-This sends `SIGTERM` to the daemon process and removes its socket file (`~/.config/attyx/sessions.sock`). The next time you create a session, a new daemon starts automatically.
+This sends `SIGTERM` to the daemon process and removes its socket file (`~/.local/state/attyx/sessions.sock`, or `$XDG_STATE_HOME/attyx/sessions.sock` if set). The next time you create a session, a new daemon starts automatically.
 
 ### Running the daemon manually
 
@@ -85,10 +85,42 @@ You normally don't need to do this, but for debugging you can start the daemon i
 attyx daemon
 ```
 
+## Managing sessions from the CLI
+
+Sessions can also be created and controlled from the command line, which is how scripts and AI agents drive multi-session workflows. These commands talk to the daemon, so they work whether or not a window is attached.
+
+```bash
+attyx session create                       # create and switch to a new session
+attyx session create ~/Projects/api        # name derived from the path ("api")
+attyx session create ~/Projects/api "dev"  # explicit name
+attyx session create ~/Projects/api -b     # create in the background (don't switch)
+attyx session list                         # list all sessions
+attyx session switch 2                     # switch to session 2 by id
+attyx session rename "new name"            # rename the current session
+attyx session rename 1 "new name"          # rename session 1
+attyx session kill 3                       # kill session 3
+```
+
+When you create a background session, the command prints the new session's id, so you can capture it and target the session later:
+
+```bash
+sid=$(attyx session create ~/Projects/api -b)
+```
+
+Any IPC command can be routed to a specific session with `-s` / `--session <id>`, regardless of which session a window is currently showing:
+
+```bash
+attyx -s 2 tab create                      # create a tab in session 2
+attyx -s 2 list                            # list session 2's tabs and panes
+attyx -s 2 send-keys -p 5 "ls{Enter}"      # send to pane 5 in session 2
+```
+
+See [Agent Workflows](/docs/agent-workflows/) for how agents use background sessions and per-session targeting.
+
 ## Keybindings
 
-| Action | macOS | Linux / Windows |
-|--------|-------|-----------------|
+| Action | macOS | Linux |
+|--------|-------|-------|
 | New session | `Cmd+Shift+N` | `Ctrl+Shift+N` |
 | Session picker | `Cmd+Shift+S` | `Ctrl+Shift+S` |
 

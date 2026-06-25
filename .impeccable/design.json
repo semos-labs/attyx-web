@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-06-25T00:00:00Z",
+  "title": "Design System: Attyx",
+  "extensions": {
+    "colorMeta": {
+      "ink": { "role": "primary", "displayName": "Phosphor White", "canonical": "#f0f0f0", "tonalRamp": ["#0a0a0a", "#1a1a1a", "#2a2a2a", "#404040", "#606060", "#808080", "#c0c0c0", "#f0f0f0"] },
+      "black": { "role": "neutral", "displayName": "True Black", "canonical": "#0a0a0a", "tonalRamp": ["#000000", "#0a0a0a", "#111111", "#1a1a1a", "#2a2a2a", "#404040", "#606060", "#808080"] },
+      "gray-900": { "role": "neutral", "displayName": "Carbon", "canonical": "#111111", "tonalRamp": ["#0a0a0a", "#111111", "#1a1a1a", "#2a2a2a", "#404040", "#606060", "#808080", "#a0a0a0"] },
+      "gray-700": { "role": "neutral", "displayName": "Slate", "canonical": "#2a2a2a", "tonalRamp": ["#111111", "#1a1a1a", "#2a2a2a", "#404040", "#606060", "#808080", "#a0a0a0", "#c0c0c0"] },
+      "gray-500": { "role": "neutral", "displayName": "Ash", "canonical": "#606060", "tonalRamp": ["#1a1a1a", "#2a2a2a", "#404040", "#606060", "#808080", "#a0a0a0", "#c0c0c0", "#e0e0e0"] },
+      "signal-amber": { "role": "tertiary", "displayName": "Signal Amber", "canonical": "#fbbf24", "tonalRamp": ["#3a2a00", "#5c4200", "#7e5a00", "#a07300", "#c28d00", "#e0a800", "#fbbf24", "#fcd34d"] },
+      "status-green": { "role": "tertiary", "displayName": "Traffic Green", "canonical": "#28c840", "tonalRamp": ["#0a3010", "#0f4a18", "#157020", "#1c9630", "#22b038", "#28c840", "#4fd862", "#7ee68f"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero headline only. Two lines, second line dimmed to Smoke." },
+      "heading": { "displayName": "Heading", "purpose": "Section titles." },
+      "title": { "displayName": "Title", "purpose": "Feature names, nav + footer wordmark." },
+      "body": { "displayName": "Body", "purpose": "Descriptive copy. Measure capped 65-75ch." },
+      "label": { "displayName": "Readout Label", "purpose": "Section kickers, coordinates, status readouts. 0.2em tracking, usually uppercase." }
+    },
+    "shadows": [
+      { "name": "hero-lift", "value": "0 30px 80px -20px rgba(0,0,0,0.8)", "purpose": "The single structural shadow. Product screenshot frame only — nothing else." },
+      { "name": "functional-blur", "value": "backdrop-filter: blur(12px)", "purpose": "Legibility under the fixed nav and install panels. Functional, not decorative." }
+    ],
+    "motion": [
+      { "name": "ease-out-standard", "value": "ease-out", "purpose": "Default for hover/state transitions (~200ms): button invert, link brighten, border shifts." },
+      { "name": "hero-enter", "value": "translateY(12px) -> 0, opacity 0 -> 1, 0.6s ease-out, staggered via --delay", "purpose": "Hero content reveal on load. Needs a reduced-motion fallback (currently missing)." },
+      { "name": "boot-sequence", "value": "SVG stroke-dashoffset draw + scale-in, 0.2-0.9s, then fade-out overlay", "purpose": "First-visit boot animation; suppressed for 30min via localStorage. Needs reduced-motion fallback." },
+      { "name": "feature-hairline", "value": "1px hairline draws in on cell hover, background 0.2s, border 0.3s", "purpose": "Schematic 'you are here' mark on feature cells." }
+    ],
+    "breakpoints": [
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "content-max", "value": "1100px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Hero/CTA action. Transparent with a hairline border at rest; inverts to a solid phosphor fill on hover.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">Documentation</a>",
+      "css": ".ds-btn-primary { display: inline-block; font-family: 'Space Mono', monospace; font-size: 0.9rem; letter-spacing: 0.025em; color: #f0f0f0; background: transparent; border: 1px solid #606060; border-radius: 0.375rem; padding: 0.8rem 2rem; text-decoration: none; transition: background 0.2s ease-out, color 0.2s ease-out, border-color 0.2s ease-out; } .ds-btn-primary:hover { background: #f0f0f0; color: #0a0a0a; border-color: #f0f0f0; } .ds-btn-primary:focus-visible { outline: 2px solid #f0f0f0; outline-offset: 2px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Subordinate action. Dimmer border, no fill on hover — brightens only.",
+      "html": "<a class=\"ds-btn-secondary\" href=\"#\">GitHub</a>",
+      "css": ".ds-btn-secondary { display: inline-block; font-family: 'Space Mono', monospace; font-size: 0.9rem; letter-spacing: 0.025em; color: #a0a0a0; background: transparent; border: 1px solid #2a2a2a; border-radius: 0.375rem; padding: 0.8rem 2rem; text-decoration: none; transition: color 0.2s ease-out, border-color 0.2s ease-out; } .ds-btn-secondary:hover { color: #f0f0f0; border-color: #606060; } .ds-btn-secondary:focus-visible { outline: 2px solid #f0f0f0; outline-offset: 2px; }"
+    },
+    {
+      "name": "Stats Badge",
+      "kind": "chip",
+      "refersTo": "badge-pill",
+      "description": "Pill carrying live GitHub data (stars/downloads). The star glyph holds the one Signal Amber.",
+      "html": "<a class=\"ds-badge\" href=\"#\"><svg class=\"ds-badge-star\" viewBox=\"0 0 16 16\" width=\"12\" height=\"12\"><path d=\"M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z\"/></svg><span class=\"ds-badge-count\">1,284</span></a>",
+      "css": ".ds-badge { display: inline-flex; align-items: center; gap: 0.375rem; font-family: 'Space Mono', monospace; font-size: 0.8rem; color: #808080; background: #111111; border: 1px solid #2a2a2a; border-radius: 9999px; padding: 0.125rem 0.625rem; text-decoration: none; transition: color 0.2s ease-out, border-color 0.2s ease-out; } .ds-badge:hover { color: #f0f0f0; border-color: #606060; } .ds-badge-star { fill: #fbbf24; } .ds-badge-count { font-weight: 500; }"
+    },
+    {
+      "name": "Install Block",
+      "kind": "custom",
+      "refersTo": "install-block",
+      "description": "Signature faux-terminal window with copy-to-clipboard. The brand's primary affordance.",
+      "html": "<div class=\"ds-install\"><div class=\"ds-install-bar\"><span class=\"ds-dot\"></span><span class=\"ds-dot\"></span><span class=\"ds-dot\"></span><span class=\"ds-install-label\">Install</span><button class=\"ds-install-copy\">copy</button></div><div class=\"ds-install-body\"><p><span class=\"ds-prompt\">$</span> <span class=\"ds-cmd\">brew tap semos-labs/tap</span></p><p><span class=\"ds-prompt\">$</span> <span class=\"ds-cmd\">brew install attyx</span></p></div></div>",
+      "css": ".ds-install { font-family: 'Space Mono', monospace; max-width: 420px; background: rgba(17,17,17,0.8); border: 1px solid rgba(42,42,42,0.6); border-radius: 0.75rem; overflow: hidden; backdrop-filter: blur(8px); } .ds-install-bar { display: flex; align-items: center; gap: 0.75rem; padding: 0.625rem 1rem; background: rgba(26,26,26,0.6); border-bottom: 1px solid rgba(42,42,42,0.4); } .ds-dot { width: 0.5rem; height: 0.5rem; border-radius: 9999px; background: #404040; } .ds-install-label { font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: #606060; } .ds-install-copy { margin-left: auto; font-family: inherit; font-size: 0.7rem; color: #606060; background: transparent; border: 1px solid rgba(42,42,42,0.6); border-radius: 0.25rem; padding: 0.125rem 0.5rem; cursor: pointer; transition: color 0.2s, border-color 0.2s; } .ds-install-copy:hover { color: #f0f0f0; border-color: #606060; } .ds-install-body { padding: 1rem 1.25rem; font-size: 0.82rem; line-height: 1.6; } .ds-prompt { color: #606060; } .ds-cmd { color: #f0f0f0; }"
+    },
+    {
+      "name": "Feature Cell",
+      "kind": "card",
+      "refersTo": "feature-cell",
+      "description": "Square, edge-to-edge tile in a hairline grid. Numbered; a schematic hairline draws in on hover.",
+      "html": "<div class=\"ds-cell\"><div class=\"ds-cell-head\"><span class=\"ds-cell-num\">01</span><h3 class=\"ds-cell-title\">Scriptable IPC</h3></div><p class=\"ds-cell-body\">Control splits, send input, read output — all over a Unix socket. Let agents orchestrate your terminal.</p></div>",
+      "css": ".ds-cell { position: relative; font-family: 'Space Mono', monospace; background: #0a0a0a; padding: 1.75rem 2rem; transition: background 0.2s; } .ds-cell:hover { background: #0e0e0e; } .ds-cell::before { content: ''; position: absolute; left: 0; top: 20%; bottom: 20%; width: 1px; background: transparent; transition: background 0.3s; } .ds-cell:hover::before { background: #2a2a2a; } .ds-cell-head { display: flex; align-items: baseline; gap: 0.75rem; margin-bottom: 0.75rem; } .ds-cell-num { font-size: 0.65rem; color: #404040; font-variant-numeric: tabular-nums; } .ds-cell-title { font-size: 0.95rem; font-weight: 700; color: #c0c0c0; transition: color 0.2s; } .ds-cell:hover .ds-cell-title { color: #f0f0f0; } .ds-cell-body { font-size: 0.8rem; color: #606060; line-height: 1.6; padding-left: 1.75rem; }"
+    },
+    {
+      "name": "Section Label",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "Recurring schematic header: tracked uppercase kicker + hairline rule + count readout.",
+      "html": "<div class=\"ds-seclabel\"><span class=\"ds-seclabel-kicker\">Features</span><span class=\"ds-seclabel-rule\"></span><span class=\"ds-seclabel-count\">12</span></div>",
+      "css": ".ds-seclabel { display: flex; align-items: center; gap: 1rem; font-family: 'Space Mono', monospace; } .ds-seclabel-kicker { font-size: 0.65rem; color: #606060; letter-spacing: 0.3em; text-transform: uppercase; } .ds-seclabel-rule { flex: 1; height: 1px; background: #1a1a1a; } .ds-seclabel-count { font-size: 0.65rem; color: #404040; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Operator Console",
+    "overview": "Attyx's surface is a dark control panel for someone driving machines — and increasingly, driving agents. The whole system is built on schematic discipline: a near-black ground, an ambient engineering grid, corner coordinates, numbered parts, hairline dividers, and a single typeface that never breaks character. It reads like the precise technical drawing of an instrument, not a marketing page about one. The product tracks AI agent lifecycle, drives panes over IPC, and exposes a CLI for orchestration — so the site should feel like the console an operator watches those agents from: exact, legible, alive only where state changes. The palette is Phosphor & Graphite — white-as-phosphor signal glowing against a graphite-to-carbon ramp. White is the only color; everything else is a degree of grey falling toward true black.",
+    "keyCharacteristics": [
+      "True-black ground (#0a0a0a) with a single phosphor ink (#f0f0f0).",
+      "One typeface — Space Mono — across display, body, and code. No pairing.",
+      "Schematic motifs: ambient grid, corner coordinates, numbered features, hairline rules.",
+      "Flat by default; one dramatic shadow lifts the product screenshot off the page.",
+      "Quiet at rest, tactile on interaction — hover inverts, reveals a line, fills white.",
+      "Agent-aware framing: the console watches and drives; restraint is the operator's calm."
+    ],
+    "rules": [
+      { "name": "The One Signal Rule", "body": "Phosphor White is the only color that carries meaning. Emphasis comes from weight, size, or contrast against graphite — never from introducing a hue.", "section": "colors" },
+      { "name": "The Quotation Rule", "body": "Chromatic color (amber, traffic lights) is permitted only when it quotes a real interface element the user already recognizes. Decorative color is forbidden.", "section": "colors" },
+      { "name": "The One Voice Rule", "body": "Space Mono everywhere, no exceptions. The monospace is the brand; a sans body would make Attyx look like everything else.", "section": "typography" },
+      { "name": "The Readout Rule", "body": "Anything functioning as a label, coordinate, or status readout takes 0.2em tracking and usually uppercase. Body copy stays at normal tracking so it never reads as chrome.", "section": "typography" },
+      { "name": "The Flat-By-Default Rule", "body": "Surfaces are coplanar and separated by hairlines. A drop shadow anywhere except the hero screenshot is a bug. If a card needs a shadow to read, fix the border or tonal step.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep True Black (#0a0a0a) as the ground and Phosphor White (#f0f0f0) as the only accent.",
+      "Do set everything in Space Mono — display, body, code, labels. One voice.",
+      "Do give labels, coordinates, and status readouts 0.2em tracking, usually uppercase.",
+      "Do keep surfaces flat and separated by hairline borders; reserve the one deep shadow for the product screenshot.",
+      "Do make the payoff the state change — invert the primary button, draw the feature-cell hairline, fill on hover.",
+      "Do earn every motif; if it's purely decorative, cut it.",
+      "Do lean the positioning into agent workflows — agent-status tracking, IPC orchestration, the attyx CLI.",
+      "Do verify body text hits WCAG AA (>=4.5:1); Ash (#606060) and Smoke (#808080) on #0a0a0a are close — bump toward the ink end for small or long text."
+    ],
+    "donts": [
+      "Don't introduce a second brand hue. Chromatic color is allowed only as a quotation (amber star, traffic lights).",
+      "Don't use gradient text or background-clip: text.",
+      "Don't drift toward warm cream / parchment / editorial near-white palettes — the 2026 AI default.",
+      "Don't tip into neon-green-on-black hacker cosplay, matrix rain, or heavy CRT scanlines.",
+      "Don't add SaaS gradient heroes, hero-metric templates, identical floating card grids, or enterprise chrome.",
+      "Don't pair Space Mono with a clean sans for readability. The monospace is the brand.",
+      "Don't add drop shadows to cards or panels; fix the border or tonal step instead.",
+      "Don't ship animations without a prefers-reduced-motion: reduce alternative (boot sequence, hero stagger, feature hovers currently lack one)."
+    ]
+  }
+}

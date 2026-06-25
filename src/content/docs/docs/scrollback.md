@@ -11,7 +11,7 @@ Attyx maintains a scrollback buffer that preserves terminal output after it scro
 
 ```toml
 [scrollback]
-lines = 20000
+lines = 5000
 
 [reflow]
 enabled = true
@@ -21,7 +21,7 @@ enabled = true
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `lines` | integer | `20000` | Scrollback buffer size in lines. Set to `0` to disable. |
+| `lines` | integer | `5000` | Scrollback buffer size in lines. Set to `0` to disable. |
 
 The scrollback buffer is implemented as a bounded ring buffer — when it fills up, the oldest lines are discarded to make room for new ones.
 

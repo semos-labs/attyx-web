@@ -21,8 +21,9 @@ The parser never modifies state directly. The renderer never influences parsing.
 |-------|-------------|
 | **Terminal engine** (`src/term/`) | Pure, deterministic core — parser, state, grid |
 | **Config** (`src/config/`) | TOML config loading and CLI parsing |
-| **App** (`src/app/`) | PTY bridge and OS integration |
-| **Renderer** (`src/render/`) | GPU + font rendering (Metal / OpenGL) |
+| **App** (`src/app/`) | PTY bridge, OS integration, and the GPU + font renderers (Metal on macOS, OpenGL on Linux) |
+| **Platform** (`src/platform/`) | Per-OS abstractions — config paths, PTY/process queries |
+| **IPC** (`src/ipc/`) | Scriptable control surface — socket protocol, CLI handlers, MCP server |
 | **Headless** (`src/headless/`) | Test harness and golden snapshot tests |
 
 ## Determinism
@@ -33,12 +34,14 @@ This means the entire engine is testable without a GPU or a window. Feed it byte
 
 ## Threading
 
-Two-thread architecture with no locks:
+The rendering pipeline runs on two lock-free threads:
 
 - **PTY thread** (Zig) — polls the PTY fd, reads bytes, feeds them through the engine, fills a shared cell buffer.
 - **Main thread** (platform) — event loop, keyboard/mouse input, draws frames at vsync.
 
 The cell buffer uses a seqlock for synchronization. Cursor position, mode flags, and viewport offset are volatile globals. No mutexes.
+
+When IPC is enabled, a separate **IPC thread** services socket connections from the `attyx` CLI and the daemon, communicating with the PTY thread through the same volatile-global convention.
 
 ## Platform Renderers
 

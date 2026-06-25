@@ -33,7 +33,7 @@ Every message — request and response — uses the same 5-byte header:
 │◄─── header (5 bytes) ──►│
 ```
 
-Followed by `payload_len` bytes of payload. Maximum payload size is 4096 bytes for requests, 65536 bytes for responses.
+Followed by `payload_len` bytes of payload. A request payload may be up to 8192 bytes; larger requests are rejected with an `err` response. Response payloads are read into a 64 KiB buffer by the bundled CLI, but the instance can stream more than that (a `get-text --lines` capture can be several MB), so a custom client should grow its buffer to `payload_len` rather than assume a fixed cap.
 
 A message with no payload has `payload_len = 0` and consists of the 5-byte header only.
 
@@ -61,8 +61,8 @@ A message with no payload has `payload_len = 0` and consists of the 5-byte heade
 | `focus_left` | `0x2F` | (none) |
 | `focus_right` | `0x30` | (none) |
 | `send_keys` | `0x31` | Raw key bytes (after escape processing) |
-| `send_text` | `0x32` | Raw text bytes |
-| `get_text` | `0x33` | (none) |
+| `send_text` | `0x32` | Deprecated alias for `send_keys` (kept for wire compat) |
+| `get_text` | `0x33` | Optional `u32` LE line count (omit for the visible screen) |
 | `config_reload` | `0x34` | (none) |
 | `theme_set` | `0x35` | Theme name string |
 | `scroll_to_top` | `0x36` | (none) |
@@ -70,6 +70,8 @@ A message with no payload has `payload_len = 0` and consists of the 5-byte heade
 | `scroll_page_up` | `0x38` | (none) |
 | `scroll_page_down` | `0x39` | (none) |
 | `list` | `0x3A` | (none) |
+| `list_agents` | `0x4E` | `u8` format (1 = JSON, else TSV) + `u32` LE pane filter (0 = all) |
+| `watch_agents` | `0x4F` | Optional `u32` LE pane filter (0 = all). Long-lived: fd is parked and streamed |
 | `session_list` | `0x3B` | (none) |
 | `session_create` | `0x3C` | (none) |
 | `session_kill` | `0x3D` | `u32` LE session ID |
@@ -82,21 +84,22 @@ A message with no payload has `payload_len = 0` and consists of the 5-byte heade
 | `split_vertical_wait` | `0x44` | Command string (required) |
 | `split_horizontal_wait` | `0x45` | Command string (required) |
 | `send_keys_pane` | `0x46` | `u32` LE pane ID + key bytes |
-| `send_text_pane` | `0x47` | `u32` LE pane ID + text bytes |
-| `get_text_pane` | `0x48` | `u32` LE pane ID |
+| `send_text_pane` | `0x47` | Deprecated alias for `send_keys_pane` |
+| `get_text_pane` | `0x48` | `u32` LE pane ID + optional `u32` LE line count |
 | `pane_close_targeted` | `0x49` | `u32` LE pane ID |
 | `pane_zoom_targeted` | `0x4A` | `u32` LE pane ID |
 | `pane_rotate_targeted` | `0x4B` | `u32` LE pane ID |
 | `tab_close_targeted` | `0x4C` | `u8` tab index (0-based) |
 | `tab_rename_targeted` | `0x4D` | `u8` tab index (0-based) + name string |
 | `session_envelope` | `0x50` | `u32` LE session ID + `u8` inner msg type + inner payload |
+| `send_image` | `0x51` | `u32` LE pane ID (0 = active) + UTF-8 file path |
 
 **Responses** (instance → client):
 
 | Type | Hex | Payload |
 |------|-----|---------|
 | `success` | `0xA0` | Response data (may be empty) |
-| `err` | `0xA1` | JSON error: `{"error":"message"}` |
+| `err` | `0xA1` | Plain-text error message (no framing/JSON; the CLI wraps it for display) |
 | `exit_code` | `0xA2` | `u8` exit code + captured stdout bytes |
 
 ## Response formats
@@ -104,38 +107,58 @@ A message with no payload has `payload_len = 0` and consists of the 5-byte heade
 **`list` response** — tab/pane tree, tab-separated:
 
 ```
-1	bash	*
-  1	bash	*	80x24
+1	bash	*	pane:1
+2	vim		pane:2	2 panes
+  2	vim	*	80x24
   3	python		40x24
-2	vim
-  2	vim		80x24
 ```
 
-Active tab/pane marked with `*`. Panes indented with two spaces, format: `<pane_id>\t<title>[\t*]\t<cols>x<rows>`. Pane IDs are stable integers that never change.
+Each tab line is `<tab_number>\t<title>[\t*]\tpane:<focused_pane_id>[\t<N> panes][\tzoomed]`. The `*` marks the active tab, `pane:N` is the focused pane's stable IPC ID (also used as the tab's stable handle), `N panes` appears only when the tab holds more than one pane, and `zoomed` appears when a pane is zoomed. When a tab has multiple panes they are listed below it, indented two spaces, as `<pane_id>\t<title>[\t*]\t<cols>x<rows>`. Pane IDs are stable integers that never change.
 
-**`list_tabs` response** — tabs only:
+**`list_tabs` response** — tabs only, `<tab_number>\t<title>[\t*][\t<N> panes][\tzoomed]`:
 
 ```
 1	bash	*
-2	vim
+2	vim		2 panes
 ```
 
-**`list_splits` response** — panes in the active tab:
+**`list_splits` response** — panes in the active tab, `<pane_id>\t<title>[\t*]\t<cols>x<rows>`:
 
 ```
-1	bash	*	80x24
+2	vim	*	80x24
 3	python		40x24
 ```
 
-**`get_text` response** — visible screen content, one line per row. Trailing whitespace trimmed. Empty trailing rows omitted.
+**`get_text` / `get_text_pane` response** — screen content, one line per row. Trailing whitespace is trimmed per row. With a line-count argument, the last N rows of scrollback + screen are returned (capped at the pane's scrollback depth); otherwise just the visible screen.
 
-**`session_list` response:**
+**`list_agents` response** — panes running an agent (status `idle`, `working`, or `input`). With format byte `1` it is a JSON array; otherwise tab-separated rows. Both carry the same fields: `pane_id`, `tab_id`, `session`, `pid`, `state`, `message`.
+
+TSV (`pane_id\ttab_id\tsession\tpid\tstate\tmessage`, message newlines folded to spaces):
+
+```
+3	1	2	4242	working	building project
+7	7	2	0	input	needs confirmation
+```
+
+JSON:
+
+```json
+[{"pane_id":3,"tab_id":1,"session":2,"pid":4242,"state":"working","message":"building project"}]
+```
+
+`tab_id` is the tab's stable handle (its focused pane's IPC ID; equals `pane_id` for a single-pane tab). `pid` is the agent's foreground PID (`0` = unknown, e.g. daemon-backed panes). `state` is one of `idle`, `working`, `input` (plus `none` in `watch_agents` frames when an agent ends).
+
+**`watch_agents` response** — a long-lived stream rather than a single reply. The connection stays open; the instance writes one framed `success` (`0xA0`) message per agent transition, each carrying a single JSON object (the same shape as one `list_agents` element) — newline-delimited JSON (NDJSON). On connect, the current set of active agents is sent up front as a snapshot, then live changes follow (including transitions to `"state":"none"` when an agent ends). Read framed messages in a loop until the socket closes.
+
+**`session_list` response** — `<id>\t<name>[\t*][\tdead]\t<N> panes`:
 
 ```
 1	dev	*	3 panes
 2	server		1 panes
 3	old		dead	2 panes
 ```
+
+`*` marks the attached session; `dead` marks a session whose process has exited.
 
 **`session_create` response** — the new session ID as plain text (e.g. `3`).
 
@@ -417,7 +440,10 @@ func main() {
 3. **Receive** — read the 5-byte response header, then read `payload_len` bytes
 4. **Close** — close the socket
 
-Each connection handles exactly one request-response pair. Open a new connection for each command. The `_wait` variants (`0x43`–`0x45`) hold the connection open until the spawned process exits, then respond with an `exit_code` (`0xA2`) message.
+Most connections handle exactly one request-response pair — open a new connection for each command. Two message types break that pattern:
+
+- The `_wait` variants (`0x43`–`0x45`) hold the connection open until the spawned process exits, then respond with an `exit_code` (`0xA2`) message.
+- `watch_agents` (`0x4F`) keeps the connection open indefinitely and streams framed `success` messages (NDJSON) until the client disconnects or the instance exits.
 
 ## Pane-targeted messages
 
@@ -438,3 +464,15 @@ The `session_envelope` message (`0x50`) wraps any other command and routes it to
 ```
 
 This is how the `-s`/`--session` CLI flag works under the hood. When the flag is omitted, commands target the currently attached session.
+
+Session targeting is validated against the attached window: if the requested session isn't the one the window currently has attached, the instance replies with an `err`. (The bundled CLI can also route session-targeted commands directly through the daemon, which bypasses this restriction; the per-instance socket itself requires the session to be attached.)
+
+## Image attach
+
+The `send_image` message (`0x51`) injects a file path into a pane exactly as a native file drag-and-drop would, so TUIs that accept image attachments (e.g. Claude Code) pick it up. The payload is:
+
+```
+[u32 LE: pane_id (0 = active)] [utf8 file path]
+```
+
+The path is sent verbatim; the instance quotes it and wraps it in a bracketed paste based on the target pane's current paste mode.

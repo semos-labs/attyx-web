@@ -54,91 +54,86 @@ alt+enter
 
 ### General
 
-| Action | macOS | Linux | Windows |
-|---|---|---|---|
-| `config_reload` | `ctrl+shift+r` | `ctrl+shift+r` | `ctrl+shift+r` |
-| `command_palette_toggle` | `cmd+shift+p` | `ctrl+shift+p` | `ctrl+shift+p` |
-| `open_config` | `cmd+,` | `ctrl+,` | `ctrl+,` |
-| `clear_screen` | `cmd+k` | `ctrl+shift+k` | `ctrl+shift+k` |
-| `close_window` | `ctrl+shift+w` | `ctrl+shift+w` | `ctrl+shift+w` |
+| Action | macOS | Linux |
+|---|---|---|
+| `config_reload` | `ctrl+shift+r` | `ctrl+shift+r` |
+| `command_palette_toggle` | `cmd+shift+p` | `ctrl+shift+p` |
+| `open_config` | `cmd+,` | `ctrl+,` |
+| `clear_screen` | `cmd+k` | `ctrl+shift+k` |
+| `close_window` | `ctrl+shift+w` | unbound |
 
 ### Search
 
-| Action | macOS | Linux | Windows |
-|---|---|---|---|
-| `search_toggle` | `cmd+f` | `ctrl+f` | `ctrl+f` |
-| `search_next` | `cmd+g` | `ctrl+g` | `ctrl+g` |
-| `search_prev` | `cmd+shift+g` | `ctrl+shift+g` | `ctrl+shift+g` |
+| Action | macOS | Linux |
+|---|---|---|
+| `search_toggle` | `cmd+f` | `ctrl+f` |
+| `search_next` | `cmd+g` | `ctrl+g` |
+| `search_prev` | `cmd+shift+g` | `ctrl+shift+g` |
 
 ### Copy / Paste
 
-| Action | macOS | Linux | Windows |
-|---|---|---|---|
-| `copy` | `cmd+c` | `ctrl+shift+c` | `ctrl+c` / `ctrl+shift+c` |
-| `paste` | `cmd+v` | `ctrl+shift+v` | `ctrl+v` / `ctrl+shift+v` |
-| `copy_mode` | `ctrl+shift+space` | `ctrl+shift+space` | `ctrl+shift+space` |
+| Action | macOS | Linux |
+|---|---|---|
+| `copy` | `cmd+c` | `ctrl+shift+c` |
+| `paste` | `cmd+v` | `ctrl+shift+v` |
+| `copy_mode` | `ctrl+shift+space` | `ctrl+shift+space` |
 
 ### Scrolling
 
-| Action | macOS | Linux | Windows |
-|---|---|---|---|
-| `scroll_page_up` | `shift+page_up` | `shift+page_up` | `shift+page_up` |
-| `scroll_page_down` | `shift+page_down` | `shift+page_down` | `shift+page_down` |
-| `scroll_to_top` | `shift+home` | `shift+home` | `shift+home` |
-| `scroll_to_bottom` | `shift+end` | `shift+end` | `shift+end` |
+| Action | macOS | Linux |
+|---|---|---|
+| `scroll_page_up` | `shift+page_up` | `shift+page_up` |
+| `scroll_page_down` | `shift+page_down` | `shift+page_down` |
+| `scroll_to_top` | `shift+home` | `shift+home` |
+| `scroll_to_bottom` | `shift+end` | `shift+end` |
 
 ### Tabs
 
-| Action | macOS | Linux | Windows |
-|---|---|---|---|
-| `tab_new` | `cmd+t` | `ctrl+shift+t` | `ctrl+shift+t` |
-| `tab_close` | `cmd+w` | `ctrl+shift+w` | `ctrl+shift+w` |
-| `tab_next` | `ctrl+tab` | `ctrl+tab` | `ctrl+tab` |
-| `tab_prev` | `ctrl+shift+tab` | `ctrl+shift+tab` | `ctrl+shift+tab` |
-| `tab_select_1`–`tab_select_9` | `cmd+1`–`cmd+9` | `alt+1`–`alt+9` | `alt+1`–`alt+9` |
-| `tab_next_arrows` | `cmd+shift+right` | `ctrl+alt+right` | `ctrl+alt+right` |
-| `tab_prev_arrows` | `cmd+shift+left` | `ctrl+alt+left` | `ctrl+alt+left` |
-| `tab_move_left` | `cmd+ctrl+shift+left` | `ctrl+alt+shift+left` | `ctrl+alt+shift+left` |
-| `tab_move_right` | `cmd+ctrl+shift+right` | `ctrl+alt+shift+right` | `ctrl+alt+shift+right` |
+| Action | macOS | Linux |
+|---|---|---|
+| `tab_new` | `cmd+t` | `ctrl+shift+t` |
+| `tab_close` | `cmd+w` | `ctrl+shift+w` |
+| `tab_next` | `ctrl+tab` | `ctrl+tab` |
+| `tab_prev` | `ctrl+shift+tab` | `ctrl+shift+tab` |
+| `tab_picker` | `cmd+shift+t` | `ctrl+alt+t` |
+| `tab_select_1`–`tab_select_9` | `cmd+1`–`cmd+9` | `alt+1`–`alt+9` |
+| `tab_next_arrows` | `cmd+shift+right` | `ctrl+alt+right` |
+| `tab_prev_arrows` | `cmd+shift+left` | `ctrl+alt+left` |
+| `tab_move_left` | `cmd+ctrl+shift+left` | `ctrl+alt+shift+left` |
+| `tab_move_right` | `cmd+ctrl+shift+right` | `ctrl+alt+shift+right` |
 
 ### Splits / Panes
 
-| Action | macOS | Linux | Windows |
-|---|---|---|---|
-| `split_vertical` | `cmd+d` | `ctrl+shift+d` | `ctrl+shift+d` |
-| `split_horizontal` | `cmd+shift+d` | `ctrl+shift+e` | `ctrl+shift+e` |
-| `pane_close` | `cmd+shift+w` | `ctrl+shift+q` | `ctrl+shift+q` |
-| `pane_focus_up` | `ctrl+k` | `ctrl+k` | `ctrl+k` |
-| `pane_focus_down` | `ctrl+j` | `ctrl+j` | `ctrl+j` |
-| `pane_focus_left` | `ctrl+h` | `ctrl+h` | `ctrl+h` |
-| `pane_focus_right` | `ctrl+l` | `ctrl+l` | `ctrl+l` |
-| `pane_resize_up` | `cmd+ctrl+k` | `ctrl+alt+k` | `ctrl+alt+k` |
-| `pane_resize_down` | `cmd+ctrl+j` | `ctrl+alt+j` | `ctrl+alt+j` |
-| `pane_resize_left` | `cmd+ctrl+h` | `ctrl+alt+h` | `ctrl+alt+h` |
-| `pane_resize_right` | `cmd+ctrl+l` | `ctrl+alt+l` | `ctrl+alt+l` |
-| `pane_resize_grow` | `cmd+ctrl+=` | `ctrl+alt+=` | `ctrl+alt+=` |
-| `pane_resize_shrink` | `cmd+ctrl+-` | `ctrl+alt+-` | `ctrl+alt+-` |
-| `pane_rotate` | `ctrl+shift+o` | `ctrl+shift+o` | `ctrl+shift+o` |
-| `pane_zoom_toggle` | `cmd+shift+z` | `ctrl+shift+z` | `ctrl+shift+z` |
+| Action | macOS | Linux |
+|---|---|---|
+| `split_vertical` | `cmd+d` | `ctrl+shift+d` |
+| `split_horizontal` | `cmd+shift+d` | `ctrl+shift+e` |
+| `pane_close` | `cmd+shift+w` | `ctrl+shift+q` |
+| `pane_focus_up` | `ctrl+k` | `ctrl+k` |
+| `pane_focus_down` | `ctrl+j` | `ctrl+j` |
+| `pane_focus_left` | `ctrl+h` | `ctrl+h` |
+| `pane_focus_right` | `ctrl+l` | `ctrl+l` |
+| `pane_resize_up` | `cmd+ctrl+k` | `ctrl+alt+k` |
+| `pane_resize_down` | `cmd+ctrl+j` | `ctrl+alt+j` |
+| `pane_resize_left` | `cmd+ctrl+h` | `ctrl+alt+h` |
+| `pane_resize_right` | `cmd+ctrl+l` | `ctrl+alt+l` |
+| `pane_resize_grow` | `cmd+ctrl+=` | `ctrl+alt+=` |
+| `pane_resize_shrink` | `cmd+ctrl+-` | `ctrl+alt+-` |
+| `pane_rotate` | `ctrl+shift+o` | `ctrl+shift+o` |
+| `pane_zoom_toggle` | `cmd+shift+z` | `ctrl+shift+z` |
 
 ### Sessions
 
-| Action | macOS | Linux | Windows |
-|---|---|---|---|
-| `session_create` | `ctrl+shift+n` | `ctrl+shift+n` | `ctrl+shift+n` |
-| `session_switcher_toggle` | `ctrl+shift+s` | `ctrl+shift+s` | `ctrl+shift+s` |
-| `session_kill` | `ctrl+d` | `ctrl+d` | `ctrl+d` |
+| Action | macOS | Linux |
+|---|---|---|
+| `session_create` | `ctrl+shift+n` | `ctrl+shift+n` |
+| `session_switcher_toggle` | `cmd+shift+s` | `ctrl+shift+s` |
+| `session_kill` | `ctrl+d` | `ctrl+d` |
 
 ### Font Size
 
-| Action | macOS | Linux | Windows |
-|---|---|---|---|
-| `font_size_increase` | `cmd+=` | `ctrl+=` | `ctrl+=` |
-| `font_size_decrease` | `cmd+-` | `ctrl+-` | `ctrl+-` |
-| `font_size_reset` | `cmd+0` | `ctrl+0` | `ctrl+0` |
-
-### Windows-specific
-
-| Action | Windows |
-|---|---|
-| `shell_picker_toggle` | `alt+shift+t` |
+| Action | macOS | Linux |
+|---|---|---|
+| `font_size_increase` | `cmd+=` | `ctrl+=` |
+| `font_size_decrease` | `cmd+-` | `ctrl+-` |
+| `font_size_reset` | `cmd+0` | `ctrl+0` |

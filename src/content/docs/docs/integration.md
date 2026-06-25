@@ -14,7 +14,6 @@ Every running Attyx instance listens on a socket:
 | Platform | Path |
 |----------|------|
 | macOS / Linux | `~/.local/state/attyx/ctl-<pid>.sock` (Unix domain socket) |
-| Windows | Named pipe `\\.\pipe\attyx-ctl-<pid>` |
 
 The `attyx` binary doubles as both the terminal and the IPC client. When you run a subcommand like `attyx tab create`, it connects to the socket of the most recently active instance and sends the command.
 
@@ -79,7 +78,7 @@ attyx -s 2 get-text -p 5            # read from pane 5 in session 2
 attyx -s 2 list                     # list tabs/panes in session 2
 ```
 
-When `-s` is omitted, commands target the currently attached session.
+When `-s` is omitted, commands target the currently attached session. With `-s`, most commands (creating/closing tabs and splits, sending keys, reading text, listing, scrolling, watching agents) route directly through the daemon, so they work even when no window is attached to that session — useful for driving background agents in their own session.
 
 ## Tabs
 
@@ -156,7 +155,7 @@ attyx send-keys "y\n"                   # confirm a prompt
 | Option | Description |
 |--------|-------------|
 | `-p`, `--pane <id>` | Target a specific pane by ID |
-| `--wait-stable [ms]` | Wait for pane output to stabilize before returning. Optional timeout in milliseconds. |
+| `--wait-stable [ms]` | After sending, poll the pane until its output stabilizes, then print the final screen text to stdout. Optional stable window in milliseconds (default `300`, max timeout 30s). |
 
 #### Escape sequences
 
@@ -218,6 +217,18 @@ attyx get-text -p 5 --json             # pane 5 as JSON
 
 Trailing whitespace is trimmed per row. Empty trailing rows are omitted.
 
+#### Options for `get-text`
+
+| Option | Description |
+|--------|-------------|
+| `-p`, `--pane <id>` | Read from a specific pane by ID |
+| `--lines`, `-n <N>` | Return the last `N` rows from scrollback + visible screen, like `tail -N`, instead of just the visible screen. Capped at the pane's scrollback depth. |
+
+```bash
+attyx get-text -n 100                    # last 100 rows (scrollback + screen)
+attyx get-text -p 5 -n 500              # last 500 rows from pane 5
+```
+
 ## Querying state
 
 ```bash
@@ -225,10 +236,58 @@ attyx list                               # full tab/pane tree
 attyx list tabs                          # tab names and indices
 attyx list splits                        # panes in active tab
 attyx list sessions                      # daemon sessions
+attyx list agents                        # panes running an AI agent
 attyx list --json                        # any of the above as JSON
 ```
 
 `panes` is an alias for `splits`.
+
+Plain-text list output is tab-separated, one entry per line. Active items are marked with `*` in the third column. Use `--json` for output that's easier to parse.
+
+## Tracking agents
+
+Attyx detects when a pane is running an AI agent (Claude Code, etc.) and tracks its status — `idle`, `working`, or `input` (waiting on a prompt). This lets a supervisor script know which panes are busy, which are blocked on input, and which have gone quiet.
+
+```bash
+attyx list agents                        # all panes running an agent
+attyx list agents -p 3                   # just pane 3's agent
+attyx list agents --json                 # as a JSON array
+attyx list agents -s 2                   # agents in session 2
+```
+
+Each agent row carries these fields:
+
+| Field | Description |
+|-------|-------------|
+| `pane_id` | Stable pane ID of the agent's pane |
+| `tab_id` | The tab's stable handle (its focused pane's ID, the same `pane:N` shown by `attyx list`). Equals `pane_id` for a single-pane tab. |
+| `session` | Session ID the pane belongs to |
+| `pid` | The agent's foreground process ID (`0` = unknown, e.g. daemon-backed panes) |
+| `state` | `idle`, `working`, or `input` |
+| `message` | The agent's latest status preview (may be empty) |
+
+The JSON form returns an array of objects with these fields; the plain-text form returns tab-separated rows.
+
+By default `list agents` scopes to the attached/local session. Add `-s`/`--session <id>` to list any session's agents directly from the daemon — no window needs to be attached to that session.
+
+## Watching agents
+
+`attyx watch agents` opens a long-lived connection and streams agent status changes as newline-delimited JSON (NDJSON) — one object per line, emitted every time a pane's agent status changes. On connect, the current set of active agents is sent first as a snapshot, then live changes follow. It blocks until interrupted (Ctrl-C) or the instance exits.
+
+```bash
+attyx watch agents                       # stream changes for every agent
+attyx watch agents -p 3                  # stream only pane 3's agent
+attyx watch agents -s 2                  # stream session 2's agents (via daemon)
+attyx watch agents | while read l; do notify-send "$l"; done
+```
+
+Each line looks like:
+
+```json
+{"pane_id":3,"tab_id":3,"session":1,"pid":4821,"state":"working","message":"Editing client.zig"}
+```
+
+The `state` field is one of `idle`, `working`, `input`, or `none` — where `none` means the agent ended. As with `list agents`, `-s`/`--session <id>` streams a specific session's agents directly from the daemon regardless of which session a window is showing (or whether any window is attached). Frames for a slow reader are dropped rather than stalling the terminal.
 
 ## Configuration
 
@@ -358,7 +417,9 @@ done
 echo "$curr"
 ```
 
-For quick commands (`ls`, `cat`, etc.) a simple `sleep 1` is fine. Use polling for anything interactive or slow (builds, installs, AI responses).
+For quick commands (`ls`, `cat`, etc.) a simple `sleep 1` is fine. Use polling for anything interactive or slow (builds, installs, AI responses). `send-keys --wait-stable` does this stabilize-then-read loop for you in one call.
+
+When the pane is running an AI agent, prefer `attyx watch agents -p "$id"` (or `attyx list agents -p "$id"`) over polling screen text — it reports the agent's `idle`/`working`/`input` state directly instead of guessing from output churn.
 
 ## All commands
 
@@ -377,8 +438,9 @@ For quick commands (`ls`, `cat`, etc.) a simple `sleep 1` is fine. Use polling f
 | `focus up\|down\|left\|right` | Move focus |
 | `send-keys [-p <id>] [--wait-stable] <keys>` | Send keystrokes (with escapes) |
 | `send-text [-p <id>] <text>` | Send raw text |
-| `get-text [-p <id>]` | Read screen content |
-| `list [tabs\|splits\|sessions]` | Query state |
+| `get-text [-p <id>] [-n <N>]` | Read screen content (or last N scrollback rows) |
+| `list [tabs\|splits\|sessions\|agents]` | Query state |
+| `watch agents [-p <id>]` | Stream agent status changes (NDJSON) |
 | `reload` | Hot-reload config |
 | `theme <name>` | Switch theme |
 | `scroll-to top\|bottom\|page-up\|page-down` | Scroll viewport |

@@ -81,6 +81,7 @@ export default defineConfig({
             { label: "Overview", link: "/docs/integration/" },
             { label: "IPC Recipes", link: "/docs/recipes/" },
             { label: "Agent Workflows", link: "/docs/agent-workflows/" },
+            { label: "MCP Server", link: "/docs/mcp/" },
             { label: "Raw IPC Protocol", link: "/docs/raw-ipc/" },
           ],
         },

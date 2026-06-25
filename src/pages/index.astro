@@ -5,9 +5,9 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   name: "Attyx",
-  description: "GPU-accelerated, scriptable terminal environment. Built-in sessions, splits, IPC, and a CLI for agentic workflows. Written in Zig, under 5MB.",
+  description: "Terminal for agentic workflows. Attyx tracks agent lifecycle, drives panes over an IPC layer and the attyx CLI, and ships sessions, splits, tabs, and a command palette. GPU-accelerated, written in Zig, under 5MB.",
   url: "https://attyx.sh",
-  operatingSystem: ["macOS", "Linux", "Windows"],
+  operatingSystem: ["macOS", "Linux"],
   applicationCategory: "DeveloperApplication",
   screenshot: "https://attyx.sh/images/attyx.webp",
   author: {
@@ -23,7 +23,7 @@ const jsonLd = {
 };
 ---
 
-<Layout title="Attyx — GPU-Accelerated Terminal" description="GPU-accelerated, scriptable terminal environment. Built-in sessions, splits, IPC, and the attyx CLI for agentic workflows. Written in Zig, under 5MB." jsonLd={jsonLd}>
+<Layout title="Attyx — Terminal for Agentic Workflows" description="Terminal for agentic workflows. Attyx tracks agent state in the tab bar and drives panes over an IPC layer and the attyx CLI. GPU-accelerated, written in Zig, under 5MB." jsonLd={jsonLd}>
 
   <!-- Boot sequence overlay -->
   <div id="boot-overlay" class="fixed inset-0 z-[200] bg-black flex items-center justify-center pointer-events-none">
@@ -45,15 +45,15 @@ const jsonLd = {
     <div class="max-w-content mx-auto w-full relative">
       <!-- Main heading -->
       <h1 class="hero-stagger" style="--delay: 0.5s">
-        <span class="block text-[2rem] md:text-[3.6rem] lg:text-[4.2rem] leading-[1.1] tracking-[-0.03em] font-bold">
-          Your terminal,<br />
-          <span class="text-gray-400">without the duct tape.</span>
+        <span class="block text-[2rem] md:text-[3.6rem] lg:text-[4.2rem] leading-[1.1] tracking-[-0.03em] font-bold text-balance">
+          <span class="text-gray-400">Terminal for</span><br />
+          agentic workflows.
         </span>
       </h1>
 
       <!-- Description -->
-      <p class="hero-stagger mt-6 md:mt-8 text-body-lg md:text-[1.05rem] text-gray-400 leading-copy max-w-[560px]" style="--delay: 0.6s">
-        Sessions, splits, tabs, command palette — plus a scriptable IPC layer and the <code class="text-gray-300">attyx</code> CLI, so AI agents and scripts can drive your terminal programmatically. GPU-accelerated, written in Zig, under 5&thinsp;MB.
+      <p class="hero-stagger mt-6 md:mt-8 text-body-lg md:text-[1.05rem] text-gray-300 leading-copy max-w-[580px]" style="--delay: 0.6s">
+        Attyx shows a colored dot on every pane — working, waiting on you, idle — and exposes an IPC layer and the <code class="text-gray-100">attyx</code> CLI so agents and scripts drive panes directly. GPU-accelerated, written in Zig, under 5&thinsp;MB.
       </p>
 
       <!-- Badges -->
@@ -112,7 +112,7 @@ const jsonLd = {
             <a href="/docs/" class="btn-primary" data-ph-cta="hero_docs">Documentation</a>
             <a href="https://github.com/semos-labs/attyx" target="_blank" rel="noopener" class="btn-secondary" data-ph-cta="hero_github">GitHub</a>
           </div>
-          <span class="text-[0.7rem] text-gray-500">macOS (Apple Silicon & Intel) &middot; Linux (x64 & ARM64) &middot; Windows 10+</span>
+          <span class="text-[0.7rem] text-gray-500">macOS (Apple Silicon & Intel) &middot; Linux (x64 & ARM64)</span>
         </div>
       </div>
 
@@ -127,159 +127,392 @@ const jsonLd = {
     </div>
   </section>
 
-  <!-- Screenshot -->
-  <section class="px-4 md:px-8 pb-16 md:pb-32 -mt-8 md:-mt-16 relative">
-    <div class="max-w-[1000px] mx-auto">
-      <!-- Floating labels -->
-      <div class="hidden lg:block absolute -left-2 top-1/4 text-[0.6rem] text-gray-600 font-mono tracking-wider -rotate-90 origin-left translate-y-12">SPLITS</div>
-      <div class="hidden lg:block absolute -right-2 top-1/3 text-[0.6rem] text-gray-600 font-mono tracking-wider rotate-90 origin-right translate-y-12">PALETTE</div>
-
-      <div class="relative">
-        <!-- Glow -->
-        <div class="absolute -inset-12 bg-gradient-to-b from-white/[0.02] via-white/[0.04] to-transparent rounded-3xl blur-3xl pointer-events-none"></div>
-
-        <!-- Window frame -->
-        <div class="relative bg-gray-900 border border-gray-700/50 rounded-xl overflow-hidden shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)]">
-          <!-- Title bar -->
-          <div class="flex items-center gap-2 px-4 py-3 bg-gray-800/70 border-b border-gray-700/50">
-            <span class="w-3 h-3 rounded-full bg-[#ff5f57]"></span>
-            <span class="w-3 h-3 rounded-full bg-[#febc2e]"></span>
-            <span class="w-3 h-3 rounded-full bg-[#28c840]"></span>
-            <span class="ml-3 text-[0.65rem] text-gray-500 font-mono tracking-wider">attyx</span>
-          </div>
-          <img src="/images/attyx.webp" alt="Attyx — GPU-accelerated terminal with splits, command palette, and status bar" class="w-full block" fetchpriority="high" />
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- Specs strip -->
   <section class="py-10 px-6 md:px-8 border-y border-gray-800/60">
-    <div class="max-w-content mx-auto flex flex-wrap justify-center gap-x-10 gap-y-4 text-[0.75rem] text-gray-500 font-mono tracking-wider uppercase">
+    <div class="max-w-content mx-auto flex flex-wrap justify-center gap-x-4 md:gap-x-5 gap-y-2.5 text-[0.75rem] text-gray-500 font-mono tracking-wider uppercase">
       <span>Zig</span>
       <span class="text-gray-700">/</span>
-      <span>Metal &middot; Direct3D 11 &middot; OpenGL</span>
+      <span>Metal &middot; OpenGL</span>
       <span class="text-gray-700">/</span>
       <span>&lt; 5 MB</span>
       <span class="text-gray-700">/</span>
-      <span>IPC + CLI</span>
+      <span>IPC &middot; CLI &middot; MCP</span>
       <span class="text-gray-700">/</span>
-      <span>macOS &middot; Linux &middot; Windows</span>
+      <span>macOS &middot; Linux</span>
       <span class="text-gray-700">/</span>
       <span>MIT License</span>
     </div>
   </section>
 
-  <!-- Features -->
-  <section class="py-20 md:py-32 px-6 md:px-8">
+  <!-- Agent status -->
+  <section class="py-20 md:py-32 px-6 md:px-8 border-t border-gray-800/60">
     <div class="max-w-content mx-auto">
-      <!-- Section label -->
-      <div class="flex items-center gap-4 mb-12 md:mb-16">
-        <span class="text-[0.65rem] text-gray-500 font-mono tracking-[0.3em] uppercase">Features</span>
-        <div class="flex-1 h-px bg-gray-800"></div>
-        <span class="text-[0.65rem] text-gray-600 font-mono">12</span>
-      </div>
-
-      <!-- Feature grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-gray-800/50 rounded-xl overflow-hidden border border-gray-800/50">
-        <div class="feature-card bg-black p-7 md:p-8 group">
-          <div class="flex items-baseline gap-3 mb-3">
-            <span class="text-[0.65rem] text-gray-600 font-mono tabular-nums">01</span>
-            <h3 class="text-[0.95rem] font-bold group-hover:text-white transition-colors">Scriptable IPC</h3>
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <!-- Copy -->
+        <div class="lg:col-span-5">
+          <div class="flex items-center gap-4 mb-6">
+            <span class="text-[0.65rem] text-gray-500 font-mono tracking-[0.3em] uppercase">Agent status</span>
+            <div class="flex-1 h-px bg-gray-800"></div>
           </div>
-          <p class="text-small text-gray-500 leading-relaxed pl-7">Control splits, send input, read output — all over a Unix socket. Build workflows, dashboards, or let AI agents orchestrate your terminal.</p>
+          <h2 class="heading-section mb-5">See every agent at a glance.</h2>
+          <p class="text-body-lg md:text-[1.02rem] text-gray-300 leading-copy">
+            Attyx reads each agent's lifecycle — from Claude, Codex, and opencode — and paints a colored dot on its pane: <span class="text-white">working</span>, <span class="text-white">waiting on you</span>, or <span class="text-white">idle</span>. Run a swarm and tell at a glance which one needs you.
+          </p>
+          <a href="/docs/agent-workflows/" class="group inline-flex items-center gap-2 mt-7 text-body-sm font-mono text-gray-400 hover:text-white transition-colors" data-ph-cta="docs_agent_status">
+            <span class="border-b border-gray-700 pb-0.5 group-hover:border-gray-400 transition-colors">Agent workflows</span>
+            <span aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">→</span>
+          </a>
         </div>
-
-        <div class="feature-card bg-black p-7 md:p-8 group">
-          <div class="flex items-baseline gap-3 mb-3">
-            <span class="text-[0.65rem] text-gray-600 font-mono tabular-nums">02</span>
-            <h3 class="text-[0.95rem] font-bold group-hover:text-white transition-colors">attyx CLI</h3>
+        <!-- Status board -->
+        <div class="lg:col-span-7">
+          <div role="img" aria-label="The Attyx window as a full-screen TUI. A left rail lists four agent panes — lint idle, test working, build idle, deploy waiting on input — with the working test pane focused and running 142 tests. A top bar shows the working directory and git branch." class="agent-board bg-gray-900 border border-gray-700/50 rounded-xl overflow-hidden shadow-[0_24px_60px_-24px_rgba(0,0,0,0.8)] text-[0.75rem] font-mono">
+            <!-- Top status bar -->
+            <div class="flex items-center justify-between gap-3 px-4 py-2 border-b border-gray-800 text-gray-500">
+              <div class="flex items-center gap-3 min-w-0">
+                <span class="text-gray-300 truncate">~/agents</span>
+                <span class="flex items-center gap-1.5 shrink-0">
+                  <svg width="11" height="11" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M11.75 2.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm-2.25.75a2.25 2.25 0 1 1 3 2.122V6A2.5 2.5 0 0 1 10 8.5H6a1 1 0 0 0-1 1v1.128a2.251 2.251 0 1 1-1.5 0V5.372a2.25 2.25 0 1 1 1.5 0v1.836A2.508 2.508 0 0 1 6 7h4a1 1 0 0 0 1-1v-.628A2.25 2.25 0 0 1 9.5 3.25ZM4.25 12a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5ZM3.5 3.25a.75.75 0 1 1 1.5 0 .75.75 0 0 1-1.5 0Z"/></svg>
+                  main
+                </span>
+              </div>
+              <span class="tabular-nums shrink-0 text-gray-500">9:16</span>
+            </div>
+            <!-- Body: pane rail + focused pane output -->
+            <div class="flex min-h-[208px]">
+              <!-- Left pane rail -->
+              <div class="w-[112px] sm:w-[146px] shrink-0 border-r border-gray-800 py-2">
+                <div data-state="idle" class="pane-row flex items-center gap-2 mx-2 px-2.5 py-1.5 rounded-md">
+                  <span class="status-dot"></span>
+                  <span class="flex-1 truncate text-gray-400">lint</span>
+                  <span class="text-gray-600 text-[0.65rem] tabular-nums">1</span>
+                </div>
+                <div data-state="working" class="pane-row flex items-center gap-2 mx-2 px-2.5 py-1.5 rounded-md bg-gray-700/40">
+                  <span class="status-dot"></span>
+                  <span class="flex-1 truncate text-gray-100">test</span>
+                  <span class="text-gray-400 text-[0.65rem] tabular-nums">2</span>
+                </div>
+                <div data-state="idle" class="pane-row flex items-center gap-2 mx-2 px-2.5 py-1.5 rounded-md">
+                  <span class="status-dot"></span>
+                  <span class="flex-1 truncate text-gray-400">build</span>
+                  <span class="text-gray-600 text-[0.65rem] tabular-nums">3</span>
+                </div>
+                <div data-state="input" class="pane-row flex items-center gap-2 mx-2 px-2.5 py-1.5 rounded-md">
+                  <span class="status-dot"></span>
+                  <span class="flex-1 truncate text-gray-400">deploy</span>
+                  <span class="text-gray-600 text-[0.65rem] tabular-nums">4</span>
+                </div>
+              </div>
+              <!-- Focused pane output -->
+              <div class="flex-1 min-w-0 px-4 py-3 leading-relaxed text-gray-400 text-[0.78rem]">
+                <p><span class="text-gray-600">$</span> <span class="text-gray-200">claude -p "fix the failing tests"</span></p>
+                <p class="mt-2"><span class="text-gray-300">PASS</span> <span class="text-gray-600">src/ipc/socket.test.ts</span></p>
+                <p><span class="text-gray-300">PASS</span> <span class="text-gray-600">src/term/parser.test.ts</span></p>
+                <p><span class="text-gray-400">RUNS</span> <span class="text-gray-600">src/render/atlas.test.ts</span></p>
+                <p class="mt-2 text-gray-300">running 142 tests<span class="cursor-blink text-white" aria-hidden="true"> ▋</span></p>
+              </div>
+            </div>
+            <!-- Bottom status line -->
+            <div class="flex items-center justify-between gap-3 px-4 py-1.5 border-t border-gray-800 text-gray-600 text-[0.66rem]">
+              <span><span class="text-gray-500">attyx</span> · 4 panes</span>
+              <span class="hidden sm:inline tracking-wide">⌘⇧P palette</span>
+            </div>
           </div>
-          <p class="text-small text-gray-500 leading-relaxed pl-7">A companion CLI that talks to the running terminal. Create panes, send keystrokes, read screen content — perfect for agentic workflows.</p>
-        </div>
-
-        <div class="feature-card bg-black p-7 md:p-8 group">
-          <div class="flex items-baseline gap-3 mb-3">
-            <span class="text-[0.65rem] text-gray-600 font-mono tabular-nums">03</span>
-            <h3 class="text-[0.95rem] font-bold group-hover:text-white transition-colors">GPU Rendering</h3>
+          <!-- Legend -->
+          <div class="flex flex-wrap items-center gap-x-5 gap-y-2 mt-4 text-[0.68rem] font-mono text-gray-400 tracking-wide">
+            <span class="flex items-center gap-1.5"><span class="status-dot" data-state="working"></span>working</span>
+            <span class="flex items-center gap-1.5"><span class="status-dot" data-state="input"></span>waiting on you</span>
+            <span class="flex items-center gap-1.5"><span class="status-dot" data-state="idle"></span>idle</span>
           </div>
-          <p class="text-small text-gray-500 leading-relaxed pl-7">Metal on macOS, Direct3D 11 on Windows, OpenGL on Linux. Smooth scrolling, no tearing — stays fast even when you <code class="text-gray-400">cat</code> a huge file.</p>
-        </div>
-
-        <div class="feature-card bg-black p-7 md:p-8 group">
-          <div class="flex items-baseline gap-3 mb-3">
-            <span class="text-[0.65rem] text-gray-600 font-mono tabular-nums">04</span>
-            <h3 class="text-[0.95rem] font-bold group-hover:text-white transition-colors">Sessions</h3>
-          </div>
-          <p class="text-small text-gray-500 leading-relaxed pl-7">Persistent workspaces backed by a daemon. Close the window, open it later — everything's still there.</p>
-        </div>
-
-        <div class="feature-card bg-black p-7 md:p-8 group">
-          <div class="flex items-baseline gap-3 mb-3">
-            <span class="text-[0.65rem] text-gray-600 font-mono tabular-nums">05</span>
-            <h3 class="text-[0.95rem] font-bold group-hover:text-white transition-colors">Splits & Tabs</h3>
-          </div>
-          <p class="text-small text-gray-500 leading-relaxed pl-7">Horizontal and vertical splits, tabs, and floating popups. All built in, no plugin needed.</p>
-        </div>
-
-        <div class="feature-card bg-black p-7 md:p-8 group">
-          <div class="flex items-baseline gap-3 mb-3">
-            <span class="text-[0.65rem] text-gray-600 font-mono tabular-nums">06</span>
-            <h3 class="text-[0.95rem] font-bold group-hover:text-white transition-colors">Themes & Config</h3>
-          </div>
-          <p class="text-small text-gray-500 leading-relaxed pl-7">22 built-in themes and TOML config with hot reload. Edit, save, done.</p>
-        </div>
-
-        <div class="feature-card bg-black p-7 md:p-8 group">
-          <div class="flex items-baseline gap-3 mb-3">
-            <span class="text-[0.65rem] text-gray-600 font-mono tabular-nums">07</span>
-            <h3 class="text-[0.95rem] font-bold group-hover:text-white transition-colors">Command Palette</h3>
-          </div>
-          <p class="text-small text-gray-500 leading-relaxed pl-7">Cmd+Shift+P — searchable list of every action. Forgot a shortcut? Just look it up.</p>
-        </div>
-
-        <div class="feature-card bg-black p-7 md:p-8 group">
-          <div class="flex items-baseline gap-3 mb-3">
-            <span class="text-[0.65rem] text-gray-600 font-mono tabular-nums">08</span>
-            <h3 class="text-[0.95rem] font-bold group-hover:text-white transition-colors">Search</h3>
-          </div>
-          <p class="text-small text-gray-500 leading-relaxed pl-7">Search through output and scrollback. Regex, smart-case, incremental — finds stuff as you type.</p>
-        </div>
-
-        <div class="feature-card bg-black p-7 md:p-8 group">
-          <div class="flex items-baseline gap-3 mb-3">
-            <span class="text-[0.65rem] text-gray-600 font-mono tabular-nums">09</span>
-            <h3 class="text-[0.95rem] font-bold group-hover:text-white transition-colors">Visual Mode</h3>
-          </div>
-          <p class="text-small text-gray-500 leading-relaxed pl-7">Select text with the keyboard, vim-style. Character, line, and block modes. Yank to clipboard.</p>
-        </div>
-
-        <div class="feature-card bg-black p-7 md:p-8 group">
-          <div class="flex items-baseline gap-3 mb-3">
-            <span class="text-[0.65rem] text-gray-600 font-mono tabular-nums">10</span>
-            <h3 class="text-[0.95rem] font-bold group-hover:text-white transition-colors">Status Bar</h3>
-          </div>
-          <p class="text-small text-gray-500 leading-relaxed pl-7">Git branch, working directory, clock, or your own scripts. Shows what you need, stays out of the way.</p>
-        </div>
-
-        <div class="feature-card bg-black p-7 md:p-8 group">
-          <div class="flex items-baseline gap-3 mb-3">
-            <span class="text-[0.65rem] text-gray-600 font-mono tabular-nums">11</span>
-            <h3 class="text-[0.95rem] font-bold group-hover:text-white transition-colors">Inline Images</h3>
-          </div>
-          <p class="text-small text-gray-500 leading-relaxed pl-7">Kitty graphics protocol. Show images, plots, whatever — right in the terminal.</p>
-        </div>
-
-        <div class="feature-card bg-black p-7 md:p-8 group">
-          <div class="flex items-baseline gap-3 mb-3">
-            <span class="text-[0.65rem] text-gray-600 font-mono tabular-nums">12</span>
-            <h3 class="text-[0.95rem] font-bold group-hover:text-white transition-colors">Cross-Platform</h3>
-          </div>
-          <p class="text-small text-gray-500 leading-relaxed pl-7">Native on macOS, Windows, and Linux. Metal, Direct3D 11, or OpenGL — same app, platform-native backends.</p>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- CLI control -->
+  <section class="py-20 md:py-32 px-6 md:px-8 border-t border-gray-800/60">
+    <div class="max-w-content mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <!-- Copy -->
+        <div class="lg:col-span-5 lg:order-2">
+          <div class="flex items-center gap-4 mb-6">
+            <span class="text-[0.65rem] text-gray-500 font-mono tracking-[0.3em] uppercase">CLI control</span>
+            <div class="flex-1 h-px bg-gray-800"></div>
+          </div>
+          <h2 class="heading-section mb-5">Drive it from anywhere.</h2>
+          <p class="text-body-lg md:text-[1.02rem] text-gray-300 leading-copy">
+            Every pane has a stable ID. Over a Unix socket, one agent spawns panes, sends keystrokes, and reads output from any other — no focus change, no guesswork. It speaks <span class="text-gray-100">MCP</span>, too: <code class="text-gray-100">attyx mcp</code> hands the same tools to Claude Desktop and any MCP client, and the <a href="/docs/claude-code/" class="text-gray-100 hover:text-white transition-colors underline underline-offset-2 decoration-gray-700 hover:decoration-gray-400">Claude Code skill</a> drops in with <code class="text-gray-100">attyx skill install</code>.
+          </p>
+          <a href="/docs/integration/" class="group inline-flex items-center gap-2 mt-7 text-body-sm font-mono text-gray-400 hover:text-white transition-colors" data-ph-cta="docs_cli">
+            <span class="border-b border-gray-700 pb-0.5 group-hover:border-gray-400 transition-colors">IPC &amp; CLI</span>
+            <span aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">→</span>
+          </a>
+        </div>
+        <!-- Orchestration transcript -->
+        <div class="lg:col-span-7 lg:order-1">
+          <div class="bg-gray-900/80 border border-gray-700/60 rounded-xl overflow-hidden backdrop-blur-sm">
+            <div class="flex items-center px-4 py-2.5 bg-gray-800/60 border-b border-gray-700/40 gap-3">
+              <div class="flex gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-gray-600"></span>
+                <span class="w-2 h-2 rounded-full bg-gray-600"></span>
+                <span class="w-2 h-2 rounded-full bg-gray-600"></span>
+              </div>
+              <span class="text-[0.65rem] text-gray-500 tracking-wider uppercase">Orchestrate</span>
+            </div>
+            <pre class="px-5 py-4 text-[0.76rem] md:text-[0.8rem] leading-[1.85] font-mono overflow-x-auto"><code><span class="text-gray-400"># spawn an agent in a new pane, capture its id</span>
+<span class="text-gray-600">$</span> <span class="text-gray-100">id=$(attyx split v --cmd </span><span class="text-gray-300">"claude -p 'run tests'"</span><span class="text-gray-100">)</span>
+<span class="text-gray-400"># read what it's doing — anytime, no focus change</span>
+<span class="text-gray-600">$</span> <span class="text-gray-100">attyx get-text -p </span><span class="text-gray-300">$id</span>
+<span class="text-gray-400"># nudge it when it pauses for input</span>
+<span class="text-gray-600">$</span> <span class="text-gray-100">attyx send-keys -p </span><span class="text-gray-300">$id</span><span class="text-gray-100"> </span><span class="text-gray-300">"yes&#123;Enter&#125;"</span>
+<span class="text-gray-400"># clean up when it's done</span>
+<span class="text-gray-600">$</span> <span class="text-gray-100">attyx split close -p </span><span class="text-gray-300">$id</span></code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Splits & sessions -->
+  <section class="py-20 md:py-32 px-6 md:px-8 border-t border-gray-800/60">
+    <div class="max-w-content mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <!-- Copy -->
+        <div class="lg:col-span-5">
+          <div class="flex items-center gap-4 mb-6">
+            <span class="text-[0.65rem] text-gray-500 font-mono tracking-[0.3em] uppercase">Splits &amp; sessions</span>
+            <div class="flex-1 h-px bg-gray-800"></div>
+          </div>
+          <h2 class="heading-section mb-5">Lay it out. Leave it running.</h2>
+          <p class="text-body-lg md:text-[1.02rem] text-gray-300 leading-copy">
+            Vertical and horizontal splits, tabs, and floating popups — all built in, no plugin needed. Sessions are backed by a daemon: close the window, reopen it tomorrow, and every pane is exactly where you left it.
+          </p>
+          <a href="/docs/tabs-and-splits/" class="group inline-flex items-center gap-2 mt-7 text-body-sm font-mono text-gray-400 hover:text-white transition-colors" data-ph-cta="docs_splits">
+            <span class="border-b border-gray-700 pb-0.5 group-hover:border-gray-400 transition-colors">Tabs &amp; splits</span>
+            <span aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">→</span>
+          </a>
+        </div>
+        <!-- Split window -->
+        <div class="lg:col-span-7">
+          <div role="img" aria-label="An Attyx window split into three panes: an editor on the left, a running dev server top-right, and git status bottom-right." class="agent-board bg-gray-900 border border-gray-700/50 rounded-xl overflow-hidden shadow-[0_24px_60px_-24px_rgba(0,0,0,0.8)] text-[0.75rem] font-mono">
+            <div class="flex items-center justify-between gap-3 px-4 py-2 border-b border-gray-800 text-gray-500">
+              <div class="flex items-center gap-3 min-w-0">
+                <span class="text-gray-300 truncate">~/attyx-web</span>
+                <span class="flex items-center gap-1.5 shrink-0">
+                  <svg width="11" height="11" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M11.75 2.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm-2.25.75a2.25 2.25 0 1 1 3 2.122V6A2.5 2.5 0 0 1 10 8.5H6a1 1 0 0 0-1 1v1.128a2.251 2.251 0 1 1-1.5 0V5.372a2.25 2.25 0 1 1 1.5 0v1.836A2.508 2.508 0 0 1 6 7h4a1 1 0 0 0 1-1v-.628A2.25 2.25 0 0 1 9.5 3.25ZM4.25 12a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5ZM3.5 3.25a.75.75 0 1 1 1.5 0 .75.75 0 0 1-1.5 0Z"/></svg>
+                  main
+                </span>
+              </div>
+              <span class="tabular-nums shrink-0 text-gray-500">3 panes</span>
+            </div>
+            <div class="flex min-h-[200px] text-[0.72rem] leading-relaxed">
+              <div class="flex-1 min-w-0 border-r border-gray-800 px-3.5 py-2.5">
+                <p class="text-gray-600 mb-1.5">nvim · main.zig</p>
+                <p class="text-gray-400"><span class="text-gray-600 mr-2">12</span>pub fn main() void &#123;</p>
+                <p class="text-gray-400"><span class="text-gray-600 mr-2">13</span>  try term.init();</p>
+                <p class="text-gray-400"><span class="text-gray-600 mr-2">14</span>  loop.run();</p>
+                <p class="text-gray-400"><span class="text-gray-600 mr-2">15</span>&#125;</p>
+              </div>
+              <div class="w-[44%] shrink-0 flex flex-col">
+                <div class="flex-1 border-b border-gray-800 px-3.5 py-2.5">
+                  <p class="text-gray-600 mb-1.5">npm run dev</p>
+                  <p class="text-gray-400">VITE ready in <span class="text-gray-200">421 ms</span></p>
+                  <p class="text-gray-400">➜ localhost:4322</p>
+                </div>
+                <div class="flex-1 px-3.5 py-2.5">
+                  <p class="text-gray-600 mb-1.5">git status</p>
+                  <p class="text-gray-400">On branch <span class="text-gray-200">main</span></p>
+                  <p class="text-gray-400">nothing to commit<span class="cursor-blink text-white" aria-hidden="true"> ▋</span></p>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center justify-between gap-3 px-4 py-1.5 border-t border-gray-800 text-gray-600 text-[0.66rem]">
+              <span><span class="text-gray-500">session</span> · dev</span>
+              <span class="hidden sm:inline tracking-wide">⌘D split · ⌘T tab</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Command palette -->
+  <section class="py-20 md:py-32 px-6 md:px-8 border-t border-gray-800/60">
+    <div class="max-w-content mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <!-- Copy -->
+        <div class="lg:col-span-5 lg:order-2">
+          <div class="flex items-center gap-4 mb-6">
+            <span class="text-[0.65rem] text-gray-500 font-mono tracking-[0.3em] uppercase">Command palette</span>
+            <div class="flex-1 h-px bg-gray-800"></div>
+          </div>
+          <h2 class="heading-section mb-5">Every command, a keystroke away.</h2>
+          <p class="text-body-lg md:text-[1.02rem] text-gray-300 leading-copy">
+            <kbd class="inline-flex items-center px-1.5 py-0.5 rounded border border-gray-600/50 bg-gray-900/60 text-[0.72rem] text-gray-200 align-middle">⌘⇧P</kbd> opens a fuzzy-searchable list of every action — split, theme, session, search. Forgot a shortcut? Type a few letters and run it.
+          </p>
+          <a href="/docs/command-palette/" class="group inline-flex items-center gap-2 mt-7 text-body-sm font-mono text-gray-400 hover:text-white transition-colors" data-ph-cta="docs_palette">
+            <span class="border-b border-gray-700 pb-0.5 group-hover:border-gray-400 transition-colors">Command palette</span>
+            <span aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">→</span>
+          </a>
+        </div>
+        <!-- Palette overlay -->
+        <div class="lg:col-span-7 lg:order-1">
+          <div role="img" aria-label="The Attyx command palette open over a terminal, the query 'split' filtering to split-related actions with their keyboard shortcuts." class="relative rounded-xl overflow-hidden border border-gray-700/50 bg-gray-900 min-h-[300px] shadow-[0_24px_60px_-24px_rgba(0,0,0,0.8)] font-mono">
+            <div class="absolute inset-0 px-4 py-3 text-[0.72rem] text-gray-700 leading-relaxed select-none pointer-events-none" aria-hidden="true">
+              <p>$ attyx --version</p>
+              <p>attyx 0.4.12</p>
+              <p>$ </p>
+            </div>
+            <div class="absolute inset-x-4 sm:inset-x-10 top-6 rounded-lg border border-gray-700/70 bg-gray-800/95 backdrop-blur-md shadow-[0_20px_50px_-20px_rgba(0,0,0,0.9)] overflow-hidden">
+              <div class="flex items-center gap-2.5 px-4 py-2.5 border-b border-gray-700/60 text-[0.82rem]">
+                <span class="text-gray-500">›</span>
+                <span class="text-gray-100">split</span>
+                <span class="cursor-blink text-white" aria-hidden="true">▋</span>
+              </div>
+              <ul class="py-1.5 text-[0.78rem]">
+                <li class="flex items-center justify-between gap-3 px-4 py-1.5 bg-gray-700/50 text-gray-100"><span><span class="text-white">Split</span> Vertically</span><kbd class="inline-flex items-center px-1.5 py-0.5 rounded border border-gray-600/50 bg-gray-900/50 text-[0.64rem] text-gray-400">⌘D</kbd></li>
+                <li class="flex items-center justify-between gap-3 px-4 py-1.5 text-gray-400"><span><span class="text-gray-100">Split</span> Horizontally</span><kbd class="inline-flex items-center px-1.5 py-0.5 rounded border border-gray-700/50 bg-gray-900/40 text-[0.64rem] text-gray-500">⌘⇧D</kbd></li>
+                <li class="flex items-center justify-between gap-3 px-4 py-1.5 text-gray-400"><span><span class="text-gray-100">Split</span> Rotate</span></li>
+                <li class="flex items-center justify-between gap-3 px-4 py-1.5 text-gray-400"><span>Zoom <span class="text-gray-100">Split</span></span></li>
+                <li class="flex items-center justify-between gap-3 px-4 py-1.5 text-gray-400"><span>Close <span class="text-gray-100">Split</span></span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Themes -->
+  <section class="py-20 md:py-32 px-6 md:px-8 border-t border-gray-800/60">
+    <div class="max-w-content mx-auto">
+      <div class="max-w-[640px] mb-12 md:mb-16">
+        <h2 class="heading-section mb-5">Twenty-two themes, ready to wear.</h2>
+        <p class="text-body-lg md:text-[1.02rem] text-gray-300 leading-copy">
+          Catppuccin, Dracula, Gruvbox, Nord, Tokyo Night and more — preview them live in the palette, or drop a TOML file in your config to ship your own.
+        </p>
+        <a href="/docs/themes/" class="group inline-flex items-center gap-2 mt-7 text-body-sm font-mono text-gray-400 hover:text-white transition-colors" data-ph-cta="docs_themes">
+          <span class="border-b border-gray-700 pb-0.5 group-hover:border-gray-400 transition-colors">Themes</span>
+          <span aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">→</span>
+        </a>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
+        <div>
+          <div class="rounded-lg overflow-hidden border border-gray-700/50 p-3.5 space-y-2" style="background:#282a36">
+            <div class="h-2 rounded-full" style="width:54%;background:#bd93f9"></div>
+            <div class="h-2 rounded-full" style="width:80%;background:#50fa7b"></div>
+            <div class="h-2 rounded-full" style="width:40%;background:#8be9fd"></div>
+            <div class="h-2 rounded-full" style="width:66%;background:#ff79c6"></div>
+          </div>
+          <span class="block mt-2.5 text-[0.72rem] text-gray-400 font-mono">dracula</span>
+        </div>
+        <div>
+          <div class="rounded-lg overflow-hidden border border-gray-700/50 p-3.5 space-y-2" style="background:#2e3440">
+            <div class="h-2 rounded-full" style="width:60%;background:#88c0d0"></div>
+            <div class="h-2 rounded-full" style="width:78%;background:#a3be8c"></div>
+            <div class="h-2 rounded-full" style="width:44%;background:#ebcb8b"></div>
+            <div class="h-2 rounded-full" style="width:68%;background:#b48ead"></div>
+          </div>
+          <span class="block mt-2.5 text-[0.72rem] text-gray-400 font-mono">nord</span>
+        </div>
+        <div>
+          <div class="rounded-lg overflow-hidden border border-gray-700/50 p-3.5 space-y-2" style="background:#1e1e2e">
+            <div class="h-2 rounded-full" style="width:58%;background:#89b4fa"></div>
+            <div class="h-2 rounded-full" style="width:82%;background:#a6e3a1"></div>
+            <div class="h-2 rounded-full" style="width:42%;background:#f9e2af"></div>
+            <div class="h-2 rounded-full" style="width:64%;background:#f5c2e7"></div>
+          </div>
+          <span class="block mt-2.5 text-[0.72rem] text-gray-400 font-mono">catppuccin-mocha</span>
+        </div>
+        <div>
+          <div class="rounded-lg overflow-hidden border border-gray-700/50 p-3.5 space-y-2" style="background:#282828">
+            <div class="h-2 rounded-full" style="width:56%;background:#d79921"></div>
+            <div class="h-2 rounded-full" style="width:76%;background:#98971a"></div>
+            <div class="h-2 rounded-full" style="width:46%;background:#cc241d"></div>
+            <div class="h-2 rounded-full" style="width:70%;background:#689d6a"></div>
+          </div>
+          <span class="block mt-2.5 text-[0.72rem] text-gray-400 font-mono">gruvbox-dark</span>
+        </div>
+        <div>
+          <div class="rounded-lg overflow-hidden border border-gray-700/50 p-3.5 space-y-2" style="background:#1a1b26">
+            <div class="h-2 rounded-full" style="width:52%;background:#7aa2f7"></div>
+            <div class="h-2 rounded-full" style="width:80%;background:#9ece6a"></div>
+            <div class="h-2 rounded-full" style="width:44%;background:#e0af68"></div>
+            <div class="h-2 rounded-full" style="width:66%;background:#bb9af7"></div>
+          </div>
+          <span class="block mt-2.5 text-[0.72rem] text-gray-400 font-mono">tokyo-night</span>
+        </div>
+        <div>
+          <div class="rounded-lg overflow-hidden border border-gray-700/50 p-3.5 space-y-2" style="background:#002b36">
+            <div class="h-2 rounded-full" style="width:58%;background:#268bd2"></div>
+            <div class="h-2 rounded-full" style="width:74%;background:#859900"></div>
+            <div class="h-2 rounded-full" style="width:48%;background:#b58900"></div>
+            <div class="h-2 rounded-full" style="width:64%;background:#2aa198"></div>
+          </div>
+          <span class="block mt-2.5 text-[0.72rem] text-gray-400 font-mono">solarized-dark</span>
+        </div>
+        <div>
+          <div class="rounded-lg overflow-hidden border border-gray-700/50 p-3.5 space-y-2" style="background:#0d1117">
+            <div class="h-2 rounded-full" style="width:55%;background:#58a6ff"></div>
+            <div class="h-2 rounded-full" style="width:78%;background:#3fb950"></div>
+            <div class="h-2 rounded-full" style="width:43%;background:#d29922"></div>
+            <div class="h-2 rounded-full" style="width:68%;background:#bc8cff"></div>
+          </div>
+          <span class="block mt-2.5 text-[0.72rem] text-gray-400 font-mono">github-dark</span>
+        </div>
+        <div>
+          <div class="rounded-lg overflow-hidden border border-gray-700/50 p-3.5 space-y-2" style="background:#191724">
+            <div class="h-2 rounded-full" style="width:57%;background:#9ccfd8"></div>
+            <div class="h-2 rounded-full" style="width:79%;background:#ebbcba"></div>
+            <div class="h-2 rounded-full" style="width:45%;background:#f6c177"></div>
+            <div class="h-2 rounded-full" style="width:65%;background:#c4a7e7"></div>
+          </div>
+          <span class="block mt-2.5 text-[0.72rem] text-gray-400 font-mono">rose-pine</span>
+        </div>
+        <div>
+          <div class="rounded-lg border border-dashed border-gray-700/60 px-3.5 flex items-center justify-center text-gray-500 text-[0.78rem] font-mono min-h-[76px]">+ 14 more</div>
+          <span class="block mt-2.5 text-[0.72rem] text-gray-600 font-mono">live preview</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Speed & footprint -->
+  <section class="py-20 md:py-32 px-6 md:px-8 border-t border-gray-800/60">
+    <div class="max-w-content mx-auto">
+      <div class="max-w-[800px]">
+        <h2 class="heading-section-lg mb-6">Small binary.<br /><span class="text-gray-400">Big throughput.</span></h2>
+        <p class="text-body-lg md:text-[1.05rem] text-gray-300 leading-copy max-w-[640px] mb-10">
+          Attyx is a single native binary under 5&thinsp;MB — no Electron, no Chromium, no bundled browser. Written in Zig and GPU-rendered on Metal and OpenGL, it scrolls hundreds of thousands of lines without dropping a frame.
+        </p>
+        <div class="flex flex-wrap items-center gap-x-4 md:gap-x-5 gap-y-2.5 text-[0.75rem] text-gray-500 font-mono tracking-wider uppercase">
+          <span>Single binary</span>
+          <span class="text-gray-700">/</span>
+          <span>No Electron</span>
+          <span class="text-gray-700">/</span>
+          <span>Zig 0.15</span>
+          <span class="text-gray-700">/</span>
+          <span>GPU-rendered</span>
+          <span class="text-gray-700">/</span>
+          <span>No tearing</span>
+        </div>
+        <a href="/docs/architecture/" class="group inline-flex items-center gap-2 mt-8 text-body-sm font-mono text-gray-400 hover:text-white transition-colors" data-ph-cta="docs_speed">
+          <span class="border-b border-gray-700 pb-0.5 group-hover:border-gray-400 transition-colors">Architecture</span>
+          <span aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- And more -->
+  <section class="py-16 md:py-20 px-6 md:px-8 border-t border-gray-800/60">
+    <div class="max-w-content mx-auto flex flex-col sm:flex-row sm:items-baseline gap-4 sm:gap-10">
+      <span class="text-[0.65rem] text-gray-500 font-mono tracking-[0.3em] uppercase shrink-0">And more</span>
+      <p class="text-small md:text-body-sm text-gray-400 leading-relaxed font-mono max-w-[760px]">
+        Regex search across scrollback &middot; vim-style visual mode &middot; inline images via the Kitty protocol &middot; a scriptable status bar &middot; floating popups &middot; TOML config with hot reload &middot; native on macOS &amp; Linux.
+      </p>
+    </div>
+  </section>
+
 
   <!-- Semos -->
   <section class="py-16 px-6 md:px-8 border-t border-gray-800/60">
@@ -392,26 +625,72 @@ const jsonLd = {
     }
   }
 
-  /* Feature cards hover line */
-  .feature-card {
+  /* Agent console — status dots quote Attyx's real per-pane indicators.
+     idle=green #60d078, working=orange #ffaa40, needs-input=purple #b070ff
+     (matches src/app/tab_bar.zig agent_*_fg). See DESIGN.md Quotation Rule. */
+  .status-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 9999px;
+    background: #404040;
+    flex-shrink: 0;
     position: relative;
-    transition: background-color 0.2s;
   }
-  .feature-card:hover {
-    background-color: #0e0e0e;
+  .pane-row[data-state="idle"] .status-dot,
+  .status-dot[data-state="idle"] {
+    background: #60d078;
   }
-  .feature-card::before {
+  .pane-row[data-state="working"] .status-dot,
+  .status-dot[data-state="working"] {
+    background: #ffaa40;
+  }
+  .pane-row[data-state="input"] .status-dot,
+  .status-dot[data-state="input"] {
+    background: #b070ff;
+  }
+
+  /* Pulse ring on working + needs-input dots */
+  .pane-row[data-state="working"] .status-dot::after,
+  .status-dot[data-state="working"]::after,
+  .pane-row[data-state="input"] .status-dot::after,
+  .status-dot[data-state="input"]::after {
     content: "";
     position: absolute;
-    left: 0;
-    top: 20%;
-    bottom: 20%;
-    width: 1px;
-    background: transparent;
-    transition: background 0.3s;
+    inset: -3px;
+    border-radius: 9999px;
+    border: 1px solid currentColor;
+    color: #ffaa40;
+    opacity: 0;
+    animation: dot-pulse 1.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
   }
-  .feature-card:hover::before {
-    background: #2a2a2a;
+  .pane-row[data-state="input"] .status-dot::after,
+  .status-dot[data-state="input"]::after {
+    color: #b070ff;
+  }
+  @keyframes dot-pulse {
+    0% { transform: scale(0.7); opacity: 0.6; }
+    100% { transform: scale(1.9); opacity: 0; }
+  }
+
+  /* Reduced motion: freeze all autoplay, keep content visible */
+  @media (prefers-reduced-motion: reduce) {
+    #boot-overlay { display: none !important; }
+    .hero-stagger {
+      opacity: 1 !important;
+      transform: none !important;
+      animation: none !important;
+    }
+    .cursor-blink,
+    .status-dot::after {
+      animation: none !important;
+    }
+    .cursor-blink { opacity: 1; }
+    #boot-logo,
+    .boot-circle,
+    .boot-x1,
+    .boot-x2 {
+      animation: none !important;
+    }
   }
 </style>
 
@@ -433,8 +712,6 @@ const jsonLd = {
     'darwin-arm64': { label: 'macOS (Apple Silicon)', file: 'attyx-darwin-arm64.dmg' },
     'darwin-x64':   { label: 'macOS (Intel)',         file: 'attyx-darwin-x64.dmg' },
     'linux-x64':    { label: 'Linux (x64)',           file: 'attyx-linux-x64.tar.zst' },
-    'win-arm64':    { label: 'Windows (ARM64)',        file: 'attyx-windows-arm64-setup.exe' },
-    'win-x64':      { label: 'Windows (x64)',         file: 'attyx-windows-x64-setup.exe' },
   };
 
   function isAppleSilicon(): boolean {
@@ -451,16 +728,7 @@ const jsonLd = {
     }
   }
 
-  function isWindowsArm(): boolean {
-    const ua = navigator.userAgent;
-    // Explicit ARM indicators in the UA string
-    if (/ARM|Aarch64/i.test(ua)) return true;
-    // Windows on ARM runs x86 Edge/Chrome — but WoW64 flag without x64 hints at emulation
-    if (/Windows.*WOW64/i.test(ua) && !/x64|Win64/i.test(ua)) return true;
-    return false;
-  }
-
-  async function detectPlatform(): Promise<string | null> {
+  function detectPlatform(): string | null {
     const ua = navigator.userAgent.toLowerCase();
     const platform = navigator.platform?.toLowerCase() || '';
     if (ua.includes('mac') || platform.includes('mac')) {
@@ -468,18 +736,6 @@ const jsonLd = {
     }
     if (ua.includes('linux') && !ua.includes('android')) {
       return 'linux-x64';
-    }
-    if (ua.includes('win') && !ua.includes('darwin')) {
-      // Try User-Agent Client Hints (Chromium-based browsers)
-      try {
-        const uaData = (navigator as any).userAgentData;
-        if (uaData?.getHighEntropyValues) {
-          const hints = await uaData.getHighEntropyValues(['architecture']);
-          if (hints.architecture === 'arm') return 'win-arm64';
-        }
-      } catch {}
-      // Fall back to UA string sniffing
-      return isWindowsArm() ? 'win-arm64' : 'win-x64';
     }
     return null;
   }

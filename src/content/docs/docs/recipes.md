@@ -78,8 +78,8 @@ Spin up an entire project layout — sessions, tabs, splits, running processes �
 
 # Backend session
 backend=$(attyx session create ~/Projects/api -b "backend")
-api_server=$(attyx -s "$backend" split v --cmd "npm run dev")
-attyx -s "$backend" split h --cmd "tail -f logs/api.log" -p "$api_server"
+attyx -s "$backend" split v --cmd "npm run dev"
+attyx -s "$backend" split h --cmd "tail -f logs/api.log"
 attyx -s "$backend" tab create --cmd "psql -d myapp"
 attyx -s "$backend" tab rename 2 "db"
 
@@ -127,7 +127,6 @@ while true; do
     else
       output+="[FAIL] $name ($url) — HTTP $status\\n"
       # Send a visible alert to the main pane
-      attyx send-keys -p 1 ""
       attyx send-text -p 1 "# ALERT: $name is down (HTTP $status)"
       attyx send-keys -p 1 "{Enter}"
     fi
@@ -282,6 +281,8 @@ attyx split close -p "$db" 2>/dev/null
 
 Periodically capture the state of all sessions and panes to a log file — useful for auditing or debugging long-running processes.
 
+`attyx list` and `attyx session list` emit tab-separated text (one entry per line), so we parse columns with `cut`. Session IDs are in column 1 of `session list`; pane IDs are in column 1 of `list splits`.
+
 ```bash
 #!/bin/bash
 # snapshot.sh — capture terminal state to a log (run via cron)
@@ -290,11 +291,12 @@ LOG_DIR="$HOME/.local/share/attyx/snapshots"
 mkdir -p "$LOG_DIR"
 TIMESTAMP=$(date +%Y%m%d-%H%M%S)
 
-sessions=$(attyx session list --json 2>/dev/null) || exit 0
-
-echo "$sessions" | jq -r '.[].id' | while read -r sid; do
-  panes=$(attyx -s "$sid" list --json 2>/dev/null)
-  echo "$panes" | jq -r '.[].panes[].id' | while read -r pid; do
+# Session list rows: <id>\t<name>[\t*][\tdead]\t<N> panes
+attyx session list 2>/dev/null | cut -f1 | while read -r sid; do
+  [ -n "$sid" ] || continue
+  # Split-list rows: <pane_id>\t<title>[\t*]\t<cols>x<rows>
+  attyx -s "$sid" list splits 2>/dev/null | cut -f1 | while read -r pid; do
+    [ -n "$pid" ] || continue
     text=$(attyx -s "$sid" get-text -p "$pid" 2>/dev/null)
     file="$LOG_DIR/${TIMESTAMP}_s${sid}_p${pid}.log"
     echo "$text" > "$file"
@@ -303,6 +305,31 @@ done
 ```
 
 Add to crontab: `*/15 * * * * ~/scripts/snapshot.sh`
+
+Note: `--json` only changes the output of `attyx list agents`; `list`, `list tabs`, `list splits`, `session list`, and `get-text` always return tab-separated/plain text. Parse those with `cut`/`awk`, and reserve `jq` for `list agents --json` / `watch agents`.
+
+## Notify on agent state changes
+
+`attyx watch agents` opens a long-lived connection and prints one JSON object per line (NDJSON) every time a pane's agent changes state — including the transition to `none` when an agent finishes. On connect it first emits the current set of active agents as a snapshot. This is the clean way to react to background AI agents without polling.
+
+```bash
+#!/bin/bash
+# agent-notify.sh — desktop alert when an agent needs input or finishes
+
+attyx watch agents | jq -rc '"\(.state)\t\(.pane_id)\t\(.message)"' |
+while IFS=$'\t' read -r state pane message; do
+  case "$state" in
+    input)
+      notify-send "Agent waiting" "pane $pane: ${message:-needs input}"
+      ;;
+    none)
+      notify-send "Agent finished" "pane $pane"
+      ;;
+  esac
+done
+```
+
+Each frame is `{"pane_id":N,"tab_id":N,"session":N,"pid":N,"state":"...","message":"..."}` with `state` one of `idle`, `working`, `input`, or `none`. Add `-p <id>` to watch a single pane, or `-s <id>` to stream a specific session's agents directly from the daemon. See [Agent Workflows](/docs/agent-workflows/) for the full agent-monitoring surface.
 
 ## Tool integrations
 

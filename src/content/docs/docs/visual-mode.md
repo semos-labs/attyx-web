@@ -25,8 +25,12 @@ Press `Ctrl+Shift+Space` to enter copy mode. You'll see a cursor you can move ar
 | `0` | Jump to start of line |
 | `^` | Jump to first non-blank character |
 | `$` | Jump to end of line |
-| `g` | Jump to top of scrollback |
+| `gg` | Jump to top of scrollback |
 | `G` | Jump to bottom |
+| `Ctrl+U` | Half page up |
+| `Ctrl+D` | Half page down |
+| `Ctrl+B` | Full page up |
+| `Ctrl+F` | Full page down |
 
 Numeric prefixes work — `5j` moves down 5 lines, `3w` jumps 3 words forward.
 
@@ -44,12 +48,14 @@ Move the cursor to extend your selection, then press `y` to copy it to the clipb
 
 ## Text objects
 
-While in a selection mode, you can use text object modifiers:
+While in a selection mode, you can select the word under the cursor:
 
 | Key | Action |
 |-----|--------|
-| `i` + object | Select inner text object (e.g. `iw` for inner word, `i"` for inner quotes) |
-| `a` + object | Select around text object (e.g. `aw` for word + surrounding space) |
+| `iw` | Select inner word |
+| `aw` | Select the word plus surrounding whitespace |
+
+Only the word text object is supported.
 
 ## In-terminal search
 
@@ -62,7 +68,7 @@ While in copy mode, you can search the scrollback:
 | `n` | Next match |
 | `N` | Previous match |
 
-The search query appears in the status bar, and matches are highlighted as you type. Search is smart-case — lowercase queries are case-insensitive, queries with uppercase letters are case-sensitive.
+The search query appears in the status bar, and matches are highlighted as you type. Search is case-insensitive.
 
 ## Exiting
 

@@ -13,7 +13,7 @@ The program section controls which shell Attyx launches and how it starts.
 [program]
 shell = "/bin/zsh"
 args = ["-l"]
-working_directory = "~/Projects"
+working-directory = "/Users/you/Projects"
 ```
 
 ## Options
@@ -22,7 +22,7 @@ working_directory = "~/Projects"
 |--------|------|---------|-------------|
 | `shell` | string | `$SHELL` or `/bin/sh` | Shell program to run |
 | `args` | string[] | `[]` | Extra arguments passed to the shell |
-| `working_directory` | string | — | Initial working directory |
+| `working-directory` | string | home directory | Initial working directory |
 
 ## Shell detection
 
@@ -43,10 +43,10 @@ Set the initial directory for new terminal sessions:
 
 ```toml
 [program]
-working_directory = "~/Projects"
+working-directory = "/Users/you/Projects"
 ```
 
-When not set, Attyx inherits the working directory from its parent process (typically your home directory when launched from an app launcher).
+The path is used as-is — Attyx does not expand `~`, so use an absolute path. When not set, Attyx inherits the working directory from its parent process, falling back to your home directory.
 
 ## Running a command instead of a shell
 

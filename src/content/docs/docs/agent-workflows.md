@@ -5,9 +5,39 @@ sidebar:
   order: 21
 ---
 
-Attyx's IPC layer turns your terminal into a multi-agent workspace. An AI agent running in one pane can spawn others, delegate tasks, read their output, and coordinate results — all without human intervention.
+Attyx's IPC layer turns your terminal into a multi-agent workspace. An AI agent running in one pane can spawn others, delegate tasks, read their output, track their status, and coordinate results — all without human intervention.
 
-These examples use [Claude Code](https://docs.anthropic.com/en/docs/claude-code) with the [Attyx skill](/docs/claude-code/). Install it with `attyx skill install`.
+These examples use [Claude Code](https://docs.anthropic.com/en/docs/claude-code) with the [Attyx skill](/docs/claude-code/). Install it with `attyx skill install`. Agents can also drive Attyx through its [MCP server](/docs/claude-code/#mcp-server) instead of the CLI.
+
+## Knowing what each agent is doing
+
+The foundation of orchestration is knowing the state of every agent. Attyx automatically detects AI agents (Claude Code, Codex, opencode) running in panes and tracks each one's run state:
+
+| State | Meaning |
+|-------|---------|
+| `idle` | Parked, waiting for the next prompt |
+| `working` | Actively processing a request |
+| `input` | Blocked on you (a permission prompt or question) |
+| `none` | No agent running, or the agent's session ended |
+
+Two CLI commands expose this (the skill teaches Claude to use them):
+
+```bash
+attyx list agents            # one-shot snapshot of every pane running an agent
+attyx list agents --json     # same, as a JSON array
+attyx watch agents           # live stream: one JSON line per status change (NDJSON)
+```
+
+Each record carries `pane_id` (target the agent's pane with `-p`), `tab_id`, `session`, `pid`, `state`, and a short `message` preview of what the agent is doing. Restrict either command to one pane with `-p <id>`, or to a specific session with `-s <id>` (which reads straight from the daemon, even with no window attached).
+
+`watch agents` is push-based — it emits an initial snapshot, then a line on every transition (including agents leaving via `state:"none"`). Prefer it over polling `list agents` in a loop: it won't miss fast transitions, and it lets an orchestrating agent block until another agent goes `idle` or needs `input`.
+
+```bash
+# Block until the agent in pane 3 finishes its current turn
+attyx watch agents -p 3 | while read -r line; do
+  echo "$line" | grep -q '"state":"idle"' && break
+done
+```
 
 ## Parallel task delegation
 
@@ -47,7 +77,7 @@ You can scale this to a team of agents:
 monitor all three. when each finishes, read its output and give me a report.
 ```
 
-Each Claude instance runs independently in its own pane. Your primary instance sends prompts via `send-keys`, waits for output to settle with `get-text`, and coordinates the results.
+Each Claude instance runs independently in its own pane. Your primary instance sends prompts via `send-keys`, then uses `attyx watch agents` (or `list agents`) to know when each sub-agent goes `idle` or `input`, reads its output with `get-text`, and coordinates the results. Watching status is more reliable than guessing from screen output — Attyx reports each agent's state directly.
 
 ## Watch and react
 

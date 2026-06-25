@@ -13,8 +13,9 @@ When you invoke `/attyx` in Claude Code, Claude can:
 
 - Create and close tabs and split panes
 - Send keystrokes and text to any pane by ID
-- Read visible screen content from any pane
-- Manage sessions (create, switch, rename, kill)
+- Read visible screen content (and scrollback) from any pane
+- Manage sessions (create, switch, rename, kill) and route commands to a specific session with `-s`
+- Track and watch the status of AI agents running in other panes (`list agents`, `watch agents`)
 - Orchestrate multi-pane workflows (e.g. run a server in one pane, test it from another)
 
 The skill gives Claude the full `attyx` CLI vocabulary with awareness of pane targeting, stable IDs, and best practices for reading output reliably.
@@ -87,7 +88,7 @@ The `SKILL.md` frontmatter defines the skill metadata:
 ```yaml
 ---
 name: attyx
-description: Control the Attyx terminal via IPC — manage splits, send input, read output, orchestrate panes.
+description: Control the Attyx terminal via IPC — manage splits, send input, read output, track and watch agent status, orchestrate panes.
 allowed-tools: Bash
 argument-hint: [action] [args...]
 ---
@@ -98,3 +99,17 @@ argument-hint: [action] [args...]
 - **Always use pane targeting.** The skill teaches Claude to capture pane IDs on creation (`id=$(attyx split v)`) and target panes with `-p "$id"` instead of juggling focus.
 - **Long-running commands.** For builds, installs, or anything slow, Claude will poll with `get-text` until the output stabilizes rather than blindly sleeping.
 - **Don't close yourself.** The skill warns Claude not to run `attyx split close` without `-p`, which would close the pane Claude is running in.
+
+## Automatic status detection
+
+Separate from the skill, Attyx automatically detects when Claude Code is running in a pane and tracks its state — `idle`, `working`, or `input` (waiting on a permission prompt or question) — shown as a colored status dot on the tab. No setup is required.
+
+This works by merging a small set of lifecycle hooks into Claude Code's `settings.json` (in `~/.claude`, plus any sibling `~/.claude-*` config directories, and honoring `CLAUDE_CONFIG_DIR`). The merge runs once at startup and is non-destructive — your existing settings and hooks are preserved. The injected hooks only emit a status signal and only do so while running inside Attyx, so they're a no-op when you launch Claude Code elsewhere.
+
+The same mechanism covers [Codex](https://github.com/openai/codex) (via `~/.codex/hooks.json`) and [opencode](https://opencode.ai) (via a plugin in `~/.config/opencode`), but only patches them if they're already set up on your machine.
+
+Other panes — and the skill, or any MCP client — can read this status with `attyx list agents` and `attyx watch agents`. See [Agent Workflows](/docs/agent-workflows/) for how to use it.
+
+## MCP server
+
+The skill drives Attyx through the Bash CLI. If you'd rather give a client structured tool calls — Claude Desktop, Claude Code's MCP support, or any other MCP client — Attyx also ships a built-in MCP server over stdio and HTTP. See [MCP Server](/docs/mcp/) for transports, setup, and the full tool list.

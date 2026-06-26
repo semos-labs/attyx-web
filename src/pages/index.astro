@@ -5,11 +5,25 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   name: "Attyx",
-  description: "Terminal for agentic workflows. Attyx tracks agent lifecycle, drives panes over an IPC layer and the attyx CLI, and ships sessions, splits, tabs, and a command palette. GPU-accelerated, written in Zig, under 5MB.",
+  description:
+    "Attyx is a GPU-accelerated, agent-aware terminal built for the agentic era — the operator console for AI agents. It tracks agent lifecycle (Claude, Codex, opencode, pi.dev), drives panes over an IPC layer, the attyx CLI, and a native MCP server, and ships sessions, splits, tabs, and a command palette. Written in Zig, under 5MB.",
   url: "https://attyx.sh",
   operatingSystem: ["macOS", "Linux"],
   applicationCategory: "DeveloperApplication",
+  applicationSubCategory: "Terminal Emulator",
+  softwareRequirements: "macOS (Apple Silicon or Intel) or Linux (x64 or ARM64)",
+  license: "https://opensource.org/licenses/MIT",
+  programmingLanguage: "Zig",
   screenshot: "https://attyx.sh/images/attyx.webp",
+  featureList: [
+    "Agent lifecycle tracking for Claude, Codex, opencode, and pi.dev",
+    "Per-pane agent status: working, waiting on you, idle",
+    "IPC layer and attyx CLI to spawn, read, and drive panes",
+    "Native MCP server (stdio and loopback HTTP)",
+    "Claude Code skill",
+    "Sessions, splits, tabs, floating popups, and a command palette",
+    "GPU-accelerated rendering on Metal and OpenGL",
+  ],
   author: {
     "@type": "Organization",
     name: "Semos Labs",
@@ -32,7 +46,7 @@ const features = [
 ];
 ---
 
-<Layout title="Attyx — Terminal for Agentic Workflows" description="Terminal for agentic workflows. Attyx tracks agent state in the tab bar and drives panes over an IPC layer and the attyx CLI. GPU-accelerated, written in Zig, under 5MB." jsonLd={jsonLd}>
+<Layout title="Attyx — Terminal for agentic workflows" description="Attyx is the terminal for the agentic era — run, watch, and coordinate AI agents from one window. Agent-aware, scriptable over IPC, the attyx CLI, and MCP. Written in Zig, under 5MB." image="/og/main.png" jsonLd={jsonLd}>
 
   <!-- Boot sequence overlay -->
   <div id="boot-overlay" class="fixed inset-0 z-[200] bg-black flex items-center justify-center pointer-events-none">

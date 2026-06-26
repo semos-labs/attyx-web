@@ -41,6 +41,23 @@ export default defineConfig({
           tag: "script",
           content: `(function(){var l=document.createElement('link');l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap';document.head.appendChild(l)})()`,
         },
+        // Branded social card for docs pages (Starlight sets og:title/description per page).
+        {
+          tag: "meta",
+          attrs: { property: "og:image", content: "https://attyx.sh/og/docs.png" },
+        },
+        {
+          tag: "meta",
+          attrs: { property: "og:image:width", content: "1200" },
+        },
+        {
+          tag: "meta",
+          attrs: { property: "og:image:height", content: "630" },
+        },
+        {
+          tag: "meta",
+          attrs: { name: "twitter:image", content: "https://attyx.sh/og/docs.png" },
+        },
       ],
       logo: {
         src: "./public/logos/Attyx.png",

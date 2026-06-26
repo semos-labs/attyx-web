@@ -106,7 +106,7 @@ Separate from the skill, Attyx automatically detects when Claude Code is running
 
 This works by merging a small set of lifecycle hooks into Claude Code's `settings.json` (in `~/.claude`, plus any sibling `~/.claude-*` config directories, and honoring `CLAUDE_CONFIG_DIR`). The merge runs once at startup and is non-destructive — your existing settings and hooks are preserved. The injected hooks only emit a status signal and only do so while running inside Attyx, so they're a no-op when you launch Claude Code elsewhere.
 
-The same mechanism covers [Codex](https://github.com/openai/codex) (via `~/.codex/hooks.json`) and [opencode](https://opencode.ai) (via a plugin in `~/.config/opencode`), but only patches them if they're already set up on your machine.
+The same mechanism covers [Codex](https://github.com/openai/codex) (via `~/.codex/hooks.json`), [opencode](https://opencode.ai) (via a plugin in `~/.config/opencode`), and [pi.dev](https://pi.dev) (via an extension in `~/.pi/agent/extensions`), but only patches them if they're already set up on your machine.
 
 Other panes — and the skill, or any MCP client — can read this status with `attyx list agents` and `attyx watch agents`. See [Agent Workflows](/docs/agent-workflows/) for how to use it.
 

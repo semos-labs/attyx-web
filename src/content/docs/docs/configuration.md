@@ -92,7 +92,7 @@ status = true
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `status` | boolean | `true` | Detect AI coding agents (Claude Code, Codex, opencode) and show a colored status dot on the tab — green = idle, orange = working, purple = needs input. Set to `false` to disable detection entirely |
+| `status` | boolean | `true` | Detect AI coding agents (Claude Code, Codex, opencode, pi.dev) and show a colored status dot on the tab — green = idle, orange = working, purple = needs input. Set to `false` to disable detection entirely |
 
 See [Agent Workflows](/docs/agent-workflows/) for how status detection works.
 

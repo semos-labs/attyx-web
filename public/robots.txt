@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://attyx.sh/sitemap-index.xml

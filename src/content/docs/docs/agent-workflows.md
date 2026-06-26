@@ -11,7 +11,7 @@ These examples use [Claude Code](https://docs.anthropic.com/en/docs/claude-code)
 
 ## Knowing what each agent is doing
 
-The foundation of orchestration is knowing the state of every agent. Attyx automatically detects AI agents (Claude Code, Codex, opencode) running in panes and tracks each one's run state:
+The foundation of orchestration is knowing the state of every agent. Attyx automatically detects AI agents (Claude Code, Codex, opencode, pi.dev) running in panes and tracks each one's run state:
 
 | State | Meaning |
 |-------|---------|

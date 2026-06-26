@@ -1,12 +1,12 @@
 ---
 title: Attyx
-description: GPU-accelerated, scriptable terminal environment with built-in sessions, splits, IPC, and a CLI for agentic workflows.
+description: Attyx is the agent-aware terminal for the agentic era — it tracks AI agent lifecycle and drives panes over IPC, the attyx CLI, and a native MCP server. Written in Zig, under 5 MB.
 sidebar:
   label: Overview
   order: 1
 ---
 
-Attyx is a GPU-accelerated, scriptable terminal environment written in **Zig**. Persistent sessions, splits, tabs, popups, GPU rendering, and a full IPC layer with the `attyx` CLI — so scripts and AI agents can drive your terminal programmatically. Everything in a single binary, under 5 MB.
+Attyx is the terminal built for the agentic era — the operator console for AI agents. It's **agent-aware end to end**: it tracks the lifecycle of AI coding agents (Claude Code, Codex, opencode, pi.dev) and paints a status dot on every pane — idle, working, or waiting on you — and it exposes a full IPC layer, the `attyx` CLI, and a native **MCP server** so agents and scripts can spawn, read, and drive panes, and coordinate one another. Underneath it's a fast, GPU-accelerated terminal written in **Zig**: persistent sessions, splits, tabs, popups, and a command palette, all in a single binary under 5 MB.
 
 ## Install
 
@@ -38,7 +38,10 @@ Attyx is configured via `~/.config/attyx/attyx.toml`. See the [configuration doc
 
 ## Features
 
-- **IPC + `attyx` CLI** — scriptable control over splits, input, and screen content for agentic workflows
+- **Agent-aware** — detects AI agents (Claude Code, Codex, opencode, pi.dev) and shows a per-pane status dot: idle, working, or waiting on you
+- **IPC + `attyx` CLI** — scriptable control over splits, input, and screen content so agents and scripts can drive your terminal
+- **MCP server** — native Model Context Protocol over stdio and loopback HTTP, exposing the terminal as typed tools to Claude and any MCP client
+- **Claude Code skill** — give Claude Code native control of your terminal with `attyx skill install`
 - **GPU-accelerated rendering** — Metal on macOS, OpenGL on Linux
 - **Sessions** — tmux-style workspace management with a background daemon
 - **Deterministic VT-compatible engine** — predictable, reproducible terminal behavior

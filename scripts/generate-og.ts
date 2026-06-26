@@ -293,9 +293,9 @@ async function main() {
     {
       slug: "main",
       data: {
-        title: "Attyx",
+        title: "Terminal for agentic workflows",
         description:
-          "GPU-accelerated, scriptable terminal environment. Built-in sessions, splits, IPC, and the attyx CLI for agentic workflows. Written in Zig, under 5MB.",
+          "Run, watch, and coordinate AI agents from one window — agent-aware, scriptable over IPC, the attyx CLI, and MCP. Written in Zig, under 5MB.",
       },
     },
     {
@@ -303,7 +303,7 @@ async function main() {
       data: {
         title: "Attyx Documentation",
         description:
-          "Configuration, features, keybindings, IPC, and everything else you need to get started with Attyx.",
+          "Configuration, IPC, the attyx CLI, MCP, and agent workflows — everything you need to script and run AI agents in Attyx.",
       },
     },
   ];

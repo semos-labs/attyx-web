@@ -132,3 +132,18 @@
     @apply inline-block py-[0.8rem] px-8 border border-gray-700 rounded-md font-mono text-body-sm text-gray-300 tracking-wide transition-all hover:text-white hover:border-gray-500;
   }
 }
+
+@layer utilities {
+  .rounded-sm {
+    @apply rounded-[0.375rem];
+  }
+}
+
+/* Reduced motion: remove transitions, keep final state visible */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0ms !important;
+    animation-duration: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+}

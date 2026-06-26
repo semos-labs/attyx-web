@@ -100,42 +100,61 @@ const pageUrl = canonical || `${siteUrl}${Astro.url.pathname}`;
 
     <!-- Footer -->
     <footer class="py-16 px-6 md:px-8 border-t border-gray-800 bg-black">
-      <div class="max-w-content mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+      <div class="max-w-content mx-auto grid grid-cols-2 md:grid-cols-12 gap-8 md:gap-10">
         <!-- Brand -->
-        <div class="flex flex-col gap-4">
+        <div class="col-span-2 md:col-span-4 flex flex-col gap-4 md:pr-8">
           <a href="/" class="flex items-center gap-3">
             <img src="/logos/Attyx.png" alt="Attyx" class="w-8 h-8 rounded-sm shrink-0" />
             <span class="font-hand text-title-lg">Attyx</span>
           </a>
-          <p class="text-body-sm text-gray-400 leading-relaxed">
-            GPU-accelerated terminal for agent workflows. Fast, small, and built with Zig.
+          <p class="text-body-sm text-gray-400 leading-relaxed max-w-[280px]">
+            The GPU-accelerated terminal built for the agentic era — agent-aware end to end, scriptable over IPC, CLI, and MCP. Written in Zig, under 5&thinsp;MB.
           </p>
+          <div class="flex flex-wrap gap-x-3 gap-y-1.5 text-[0.7rem] text-gray-600 font-mono tracking-wider uppercase">
+            <span>macOS</span><span class="text-gray-800">·</span><span>Linux</span><span class="text-gray-800">·</span><span>MIT</span>
+          </div>
         </div>
 
-        <!-- Links -->
-        <div class="flex flex-col gap-3">
-          <span class="text-label text-gray-300 tracking-[0.2em] uppercase">Resources</span>
+        <!-- Documentation -->
+        <div class="md:col-span-3 flex flex-col gap-3">
+          <span class="text-label text-gray-300 tracking-[0.2em] uppercase">Docs</span>
           <ul class="space-y-2 text-body-sm text-gray-400 font-mono">
-            <li><a href="/docs/" class="hover:text-white transition-colors" data-ph-cta="footer_docs">Documentation</a></li>
-            <li><a href="/docs/agent-workflows/" class="hover:text-white transition-colors" data-ph-cta="footer_agent_workflows">Agent Workflows</a></li>
-            <li><a href="/docs/integration/" class="hover:text-white transition-colors" data-ph-cta="footer_integration">IPC & CLI</a></li>
-            <li><a href="/docs/command-palette/" class="hover:text-white transition-colors" data-ph-cta="footer_palette">Command Palette</a></li>
+            <li><a href="/docs/" class="hover:text-white transition-colors" data-ph-cta="footer_docs">Getting started</a></li>
+            <li><a href="/docs/agent-workflows/" class="hover:text-white transition-colors" data-ph-cta="footer_agent_workflows">Agent workflows</a></li>
+            <li><a href="/docs/integration/" class="hover:text-white transition-colors" data-ph-cta="footer_integration">IPC &amp; CLI</a></li>
+            <li><a href="/docs/mcp/" class="hover:text-white transition-colors" data-ph-cta="footer_mcp">MCP server</a></li>
+            <li><a href="/docs/command-palette/" class="hover:text-white transition-colors" data-ph-cta="footer_palette">Command palette</a></li>
+            <li><a href="/docs/themes/" class="hover:text-white transition-colors" data-ph-cta="footer_themes">Themes</a></li>
           </ul>
         </div>
 
-        <!-- Links -->
-        <div class="flex flex-col gap-3">
+        <!-- Project -->
+        <div class="md:col-span-2 flex flex-col gap-3">
           <span class="text-label text-gray-300 tracking-[0.2em] uppercase">Project</span>
           <ul class="space-y-2 text-body-sm text-gray-400 font-mono">
             <li><a href="https://github.com/semos-labs/attyx" target="_blank" rel="noopener" class="hover:text-white transition-colors" data-ph-cta="footer_github">GitHub</a></li>
             <li><a href="https://github.com/semos-labs/attyx/releases" target="_blank" rel="noopener" class="hover:text-white transition-colors" data-ph-cta="footer_releases">Releases</a></li>
             <li><a href="https://github.com/semos-labs/attyx/issues" target="_blank" rel="noopener" class="hover:text-white transition-colors" data-ph-cta="footer_issues">Issues</a></li>
             <li><a href="/docs/architecture/" class="hover:text-white transition-colors" data-ph-cta="footer_architecture">Architecture</a></li>
+            <li><a href="/docs/building/" class="hover:text-white transition-colors" data-ph-cta="footer_building">Build from source</a></li>
+          </ul>
+        </div>
+
+        <!-- Semos constellation -->
+        <div class="md:col-span-3 flex flex-col gap-3">
+          <span class="text-label text-gray-300 tracking-[0.2em] uppercase">Semos Labs</span>
+          <ul class="space-y-2 text-body-sm text-gray-400 font-mono">
+            <li><a href="https://semos.sh" target="_blank" rel="noopener" class="hover:text-white transition-colors" data-ph-cta="footer_semos">semos.sh</a></li>
+            <li><a href="https://semos.sh/glyph" target="_blank" rel="noopener" class="hover:text-white transition-colors" data-ph-cta="footer_glyph">Glyph</a></li>
+            <li><a href="https://semos.sh/aion" target="_blank" rel="noopener" class="hover:text-white transition-colors" data-ph-cta="footer_aion">Aion</a></li>
+            <li><a href="https://semos.sh/epist" target="_blank" rel="noopener" class="hover:text-white transition-colors" data-ph-cta="footer_epist">Epist</a></li>
+            <li><a href="https://semos.sh/blog" target="_blank" rel="noopener" class="hover:text-white transition-colors" data-ph-cta="footer_blog">Blog</a></li>
           </ul>
         </div>
       </div>
-      <div class="max-w-content mx-auto mt-12 pt-8 border-t border-gray-800 text-center text-small text-gray-500">
+      <div class="max-w-content mx-auto mt-12 pt-8 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-small text-gray-500">
         <p>&copy; <span id="footer-year"></span> Semos Labs. Attyx is MIT licensed.</p>
+        <p class="font-mono text-[0.72rem] text-gray-600">A constellation of terminal-native tools.</p>
       </div>
     </footer>
     <script>

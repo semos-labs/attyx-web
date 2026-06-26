@@ -77,6 +77,16 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* Snap points only exist on the feature showcase sentinels, so the rest of
+       the page scrolls normally; near the showcase it catches on each feature. */
+    scroll-snap-type: y proximity;
+  }
+
+  /* Each feature is a snap point; `always` forces the scroll to stop on it even
+     during a fast fling, so you can't blow past the first feature. */
+  .showcase-sentinels .step {
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
   }
 
   body {

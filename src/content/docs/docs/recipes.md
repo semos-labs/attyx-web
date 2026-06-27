@@ -306,17 +306,17 @@ done
 
 Add to crontab: `*/15 * * * * ~/scripts/snapshot.sh`
 
-Note: `--json` only changes the output of `attyx list agents`; `list`, `list tabs`, `list splits`, `session list`, and `get-text` always return tab-separated/plain text. Parse those with `cut`/`awk`, and reserve `jq` for `list agents --json` / `watch agents`.
+Note: `list agents` and `watch agents` print a human-readable table by default and switch to JSON with `--json`; `list`, `list tabs`, `list splits`, and `session list` are tab-separated, and `get-text` is plain text. Parse the tab-separated ones with `cut`/`awk`, and reserve `jq` for `list agents --json` / `watch agents --json`.
 
 ## Notify on agent state changes
 
-`attyx watch agents` opens a long-lived connection and prints one JSON object per line (NDJSON) every time a pane's agent changes state — including the transition to `none` when an agent finishes. On connect it first emits the current set of active agents as a snapshot. This is the clean way to react to background AI agents without polling.
+`attyx watch agents` opens a long-lived connection that updates every time a pane's agent changes state — including the transition to `none` when an agent finishes. On connect it first emits the current set of active agents as a snapshot. By default it prints a live table; add `--json` to stream one JSON object per line (NDJSON), which is what a script should parse. This is the clean way to react to background AI agents without polling.
 
 ```bash
 #!/bin/bash
 # agent-notify.sh — desktop alert when an agent needs input or finishes
 
-attyx watch agents | jq -rc '"\(.state)\t\(.pane_id)\t\(.message)"' |
+attyx watch agents --json | jq -rc '"\(.state)\t\(.pane_id)\t\(.message)"' |
 while IFS=$'\t' read -r state pane message; do
   case "$state" in
     input)
@@ -329,7 +329,7 @@ while IFS=$'\t' read -r state pane message; do
 done
 ```
 
-Each frame is `{"pane_id":N,"tab_id":N,"session":N,"pid":N,"state":"...","message":"..."}` with `state` one of `idle`, `working`, `input`, or `none`. Add `-p <id>` to watch a single pane, or `-s <id>` to stream a specific session's agents directly from the daemon. See [Agent Workflows](/docs/agent-workflows/) for the full agent-monitoring surface.
+Each `--json` frame is `{"pane_id":N,"tab_id":N,"session":N,"pid":N,"state":"...","message":"...","usage":{...}}` with `state` one of `idle`, `working`, `input`, or `none`, and a `usage` object carrying token/cost/context numbers. Add `-p <id>` to watch a single pane, or `-s <id>` to stream a specific session's agents directly from the daemon. See [Agent Workflows](/docs/agent-workflows/) and [Integration → Tracking agents](/docs/integration/#tracking-agents) for the full agent-monitoring surface.
 
 ## Tool integrations
 

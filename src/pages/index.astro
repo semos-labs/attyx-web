@@ -38,6 +38,7 @@ const jsonLd = {
 
 // Sidebar tabs for the terminal chrome — label + per-tab agent-status dot.
 const features = [
+  { id: "dashboard", tab: "dashboard", dot: "working" },
   { id: "agents",  tab: "agents",  dot: "working" },
   { id: "cli",     tab: "cli",     dot: "working" },
   { id: "splits",  tab: "splits",  dot: "idle" },
@@ -183,7 +184,7 @@ const features = [
 
   <!-- Feature showcase: one terminal that adapts to whatever you're reading -->
   <section id="showcase" class="relative border-t border-gray-800/60">
-    <div class="showcase-track relative min-h-[420vh] px-6 md:px-8">
+    <div class="showcase-track relative min-h-[800vh] px-6 md:px-8">
 
       <!-- Sticky stage: copy + terminal share one vertically-centered row, so they
            stay aligned; both cross-fade in lock-step as the active feature changes. -->
@@ -194,6 +195,21 @@ const features = [
                feature. Active screen is in-flow so the box sizes to its content. -->
           <div class="relative mb-8 lg:mb-12">
             <div class="copy-screen is-active" data-copy="0">
+              <div class="flex items-center gap-4 mb-5">
+                <span class="text-[0.65rem] text-gray-500 font-mono tracking-[0.3em] uppercase">Agent dashboard</span>
+                <div class="flex-1 h-px bg-gray-800"></div>
+              </div>
+              <h3 class="heading-section text-balance mb-4">Every agent on one screen.</h3>
+              <p class="text-body-lg md:text-[1rem] text-gray-300 leading-copy">
+                <code class="text-gray-100">attyx dashboard</code> — or <kbd class="inline-flex items-center px-1.5 py-0.5 rounded border border-gray-600/50 bg-gray-900/60 text-[0.72rem] text-gray-200 align-middle">⌘⇧A</kbd> — opens a full-screen, <span class="text-white">htop-style</span> view of every agent across all your sessions: state, tokens, cost, and context window, live. Jump to an agent's pane, zoom, or close it without leaving the table.
+              </p>
+              <a href="/docs/integration/#agent-dashboard" class="group inline-flex items-center gap-2 mt-5 text-body-sm font-mono text-gray-400 hover:text-white transition-colors" data-ph-cta="docs_dashboard">
+                <span class="border-b border-gray-700 pb-0.5 group-hover:border-gray-400 transition-colors">Agent dashboard</span>
+                <span aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">→</span>
+              </a>
+            </div>
+
+            <div class="copy-screen" data-copy="1">
               <div class="flex items-center gap-4 mb-5">
                 <span class="text-[0.65rem] text-gray-500 font-mono tracking-[0.3em] uppercase">Agent status</span>
                 <div class="flex-1 h-px bg-gray-800"></div>
@@ -208,7 +224,7 @@ const features = [
               </a>
             </div>
 
-            <div class="copy-screen" data-copy="1">
+            <div class="copy-screen" data-copy="2">
               <div class="flex items-center gap-4 mb-5">
                 <span class="text-[0.65rem] text-gray-500 font-mono tracking-[0.3em] uppercase">CLI control</span>
                 <div class="flex-1 h-px bg-gray-800"></div>
@@ -223,7 +239,7 @@ const features = [
               </a>
             </div>
 
-            <div class="copy-screen" data-copy="2">
+            <div class="copy-screen" data-copy="3">
               <div class="flex items-center gap-4 mb-5">
                 <span class="text-[0.65rem] text-gray-500 font-mono tracking-[0.3em] uppercase">Splits &amp; sessions</span>
                 <div class="flex-1 h-px bg-gray-800"></div>
@@ -238,7 +254,7 @@ const features = [
               </a>
             </div>
 
-            <div class="copy-screen" data-copy="3">
+            <div class="copy-screen" data-copy="4">
               <div class="flex items-center gap-4 mb-5">
                 <span class="text-[0.65rem] text-gray-500 font-mono tracking-[0.3em] uppercase">Command palette</span>
                 <div class="flex-1 h-px bg-gray-800"></div>
@@ -253,7 +269,7 @@ const features = [
               </a>
             </div>
 
-            <div class="copy-screen" data-copy="4">
+            <div class="copy-screen" data-copy="5">
               <div class="flex items-center gap-4 mb-5">
                 <span class="text-[0.65rem] text-gray-500 font-mono tracking-[0.3em] uppercase">Themes</span>
                 <div class="flex-1 h-px bg-gray-800"></div>
@@ -312,8 +328,96 @@ const features = [
               <!-- Content — feature screens cross-fade here -->
               <div class="showcase-body relative h-[280px] sm:h-[340px] lg:h-[clamp(340px,42vh,420px)] overflow-hidden text-[0.75rem]">
 
-                <!-- 0 · Agent status -->
-                <div class="screen is-active" data-screen="0" data-path="~/agents" role="tabpanel" aria-label="Agent status">
+                <!-- 0 · Agent dashboard (attyx dashboard) -->
+                <div class="screen is-active" data-screen="0" data-path="attyx dashboard" role="tabpanel" aria-label="Agent dashboard">
+                  <div class="h-full flex flex-col px-3 sm:px-4 py-3 text-[0.72rem] sm:text-[0.74rem] tabular-nums">
+                    <!-- header bar -->
+                    <div class="flex items-center justify-between gap-3 px-1 pb-2.5 mb-1 border-b border-gray-800">
+                      <span class="text-gray-200">Attyx — Agents</span>
+                      <span class="text-gray-500">4 running · <span style="color:#b070ff">1 needs input</span></span>
+                    </div>
+                    <!-- table -->
+                    <div class="flex-1 min-h-0 overflow-hidden">
+                      <table class="w-full text-left">
+                        <thead>
+                          <tr class="text-[0.6rem] text-gray-600 uppercase tracking-wider">
+                            <th class="font-normal py-1.5 pl-1 w-5"></th>
+                            <th class="font-normal py-1.5 pr-3">Session</th>
+                            <th class="font-normal py-1.5 pr-3 hidden sm:table-cell">Pane</th>
+                            <th class="font-normal py-1.5 pr-3 hidden md:table-cell">Model</th>
+                            <th class="font-normal py-1.5 pr-3">State</th>
+                            <th class="font-normal py-1.5 pr-3 hidden lg:table-cell">Elapsed</th>
+                            <th class="font-normal py-1.5 pr-3 hidden xl:table-cell text-right">In</th>
+                            <th class="font-normal py-1.5 pr-3 hidden xl:table-cell text-right">Out</th>
+                            <th class="font-normal py-1.5 pr-3 hidden sm:table-cell">Ctx</th>
+                            <th class="font-normal py-1.5 pr-1 text-right">Cost</th>
+                          </tr>
+                        </thead>
+                        <tbody class="text-gray-400">
+                          <tr>
+                            <td class="py-1.5 pl-1.5 pr-3"><span class="flex items-center gap-1.5"><span class="w-2"></span><span class="status-dot" data-state="working"></span></span></td>
+                            <td class="py-1.5 pr-3 text-gray-200">web</td>
+                            <td class="py-1.5 pr-3 hidden sm:table-cell text-gray-500">3</td>
+                            <td class="py-1.5 pr-3 hidden md:table-cell text-gray-400">opus-4.8</td>
+                            <td class="py-1.5 pr-3" style="color:#ffaa40">working</td>
+                            <td class="py-1.5 pr-3 hidden lg:table-cell text-gray-500">1m12s</td>
+                            <td class="py-1.5 pr-3 hidden xl:table-cell text-right text-gray-400">1.2M</td>
+                            <td class="py-1.5 pr-3 hidden xl:table-cell text-right text-gray-400">842K</td>
+                            <td class="py-1.5 pr-3 hidden sm:table-cell text-gray-400">82k/200k</td>
+                            <td class="py-1.5 pr-1 text-right text-gray-300">$0.42</td>
+                          </tr>
+                          <tr class="bg-gray-700/40 text-gray-100">
+                            <td class="py-1.5 pl-1.5 pr-3"><span class="flex items-center gap-1.5"><span class="w-2 leading-none text-gray-200">▶</span><span class="status-dot" data-state="input"></span></span></td>
+                            <td class="py-1.5 pr-3">web</td>
+                            <td class="py-1.5 pr-3 hidden sm:table-cell text-gray-400">8</td>
+                            <td class="py-1.5 pr-3 hidden md:table-cell text-gray-300">opus-4.8</td>
+                            <td class="py-1.5 pr-3" style="color:#b070ff">input</td>
+                            <td class="py-1.5 pr-3 hidden lg:table-cell text-gray-600">—</td>
+                            <td class="py-1.5 pr-3 hidden xl:table-cell text-right text-gray-600">—</td>
+                            <td class="py-1.5 pr-3 hidden xl:table-cell text-right text-gray-600">—</td>
+                            <td class="py-1.5 pr-3 hidden sm:table-cell text-gray-300">12k/200k</td>
+                            <td class="py-1.5 pr-1 text-right whitespace-nowrap" style="color:#b070ff">needs input</td>
+                          </tr>
+                          <tr>
+                            <td class="py-1.5 pl-1.5 pr-3"><span class="flex items-center gap-1.5"><span class="w-2"></span><span class="status-dot" data-state="working"></span></span></td>
+                            <td class="py-1.5 pr-3 text-gray-200">api</td>
+                            <td class="py-1.5 pr-3 hidden sm:table-cell text-gray-500">5</td>
+                            <td class="py-1.5 pr-3 hidden md:table-cell text-gray-400">gpt-5</td>
+                            <td class="py-1.5 pr-3" style="color:#ffaa40">working</td>
+                            <td class="py-1.5 pr-3 hidden lg:table-cell text-gray-500">18s</td>
+                            <td class="py-1.5 pr-3 hidden xl:table-cell text-right text-gray-400">430K</td>
+                            <td class="py-1.5 pr-3 hidden xl:table-cell text-right text-gray-400">210K</td>
+                            <td class="py-1.5 pr-3 hidden sm:table-cell text-gray-400">55k/256k</td>
+                            <td class="py-1.5 pr-1 text-right text-gray-300">~$0.31</td>
+                          </tr>
+                          <tr>
+                            <td class="py-1.5 pl-1.5 pr-3"><span class="flex items-center gap-1.5"><span class="w-2"></span><span class="status-dot" data-state="idle"></span></span></td>
+                            <td class="py-1.5 pr-3 text-gray-200">infra</td>
+                            <td class="py-1.5 pr-3 hidden sm:table-cell text-gray-500">7</td>
+                            <td class="py-1.5 pr-3 hidden md:table-cell text-gray-400">codex</td>
+                            <td class="py-1.5 pr-3" style="color:#60d078">idle</td>
+                            <td class="py-1.5 pr-3 hidden lg:table-cell text-gray-600">—</td>
+                            <td class="py-1.5 pr-3 hidden xl:table-cell text-right text-gray-600">—</td>
+                            <td class="py-1.5 pr-3 hidden xl:table-cell text-right text-gray-600">—</td>
+                            <td class="py-1.5 pr-3 hidden sm:table-cell text-gray-600">—</td>
+                            <td class="py-1.5 pr-1 text-right text-gray-600">—</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <!-- totals + key bar -->
+                    <div class="flex items-center justify-between gap-3 px-1 pt-2 mt-1 border-t border-gray-800 text-[0.66rem] text-gray-500">
+                      <span class="text-gray-400">TOTAL</span>
+                      <span class="flex items-center gap-4"><span class="hidden xl:inline">1.6M in · 1.0M out</span><span class="text-gray-300">$0.73 <span class="text-gray-600">(~est)</span></span></span>
+                    </div>
+                    <div class="px-1 pt-2.5 text-[0.62rem] text-gray-600 truncate">
+                      <span class="text-gray-500">↑↓</span> select  <span class="text-gray-500">⏎</span> focus  <span class="text-gray-500">z</span> zoom  <span class="text-gray-500">x</span> close  <span class="text-gray-500">s</span> sort  <span class="text-gray-500">/</span> search  <span class="text-gray-500">q</span> quit
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 1 · Agent status -->
+                <div class="screen" data-screen="1" data-path="~/agents" role="tabpanel" aria-label="Agent status">
                   <div class="px-4 sm:px-5 py-4 h-full flex flex-col leading-relaxed text-[0.78rem]">
                     <p class="text-gray-500 mb-4"><span class="text-gray-600">$</span> attyx watch</p>
                     <div class="space-y-2.5">
@@ -351,7 +455,7 @@ const features = [
                 </div>
 
                 <!-- 1 · CLI control -->
-                <div class="screen" data-screen="1" data-path="~/orchestrator" role="tabpanel" aria-label="CLI control">
+                <div class="screen" data-screen="2" data-path="~/orchestrator" role="tabpanel" aria-label="CLI control">
                   <pre class="px-4 sm:px-5 py-4 text-[0.72rem] sm:text-[0.78rem] leading-[1.9] overflow-x-auto h-full"><code><span class="text-gray-400"># spawn an agent in a new pane, capture its id</span>
 <span class="text-gray-600">$</span> <span class="text-gray-100">id=$(attyx split v --cmd </span><span class="text-gray-300">"claude -p 'run tests'"</span><span class="text-gray-100">)</span>
 <span class="text-gray-400"># read what it's doing — anytime, no focus change</span>
@@ -364,7 +468,7 @@ const features = [
                 </div>
 
                 <!-- 2 · Splits & sessions -->
-                <div class="screen" data-screen="2" data-path="~/attyx-web" role="tabpanel" aria-label="Splits and sessions">
+                <div class="screen" data-screen="3" data-path="~/attyx-web" role="tabpanel" aria-label="Splits and sessions">
                   <div class="flex h-full text-[0.72rem] sm:text-[0.76rem] leading-relaxed">
                     <div class="flex-1 min-w-0 border-r border-gray-800 px-3.5 py-2.5">
                       <p class="text-gray-600 mb-1.5">nvim · main.zig</p>
@@ -389,7 +493,7 @@ const features = [
                 </div>
 
                 <!-- 3 · Command palette -->
-                <div class="screen" data-screen="3" data-path="~/attyx" role="tabpanel" aria-label="Command palette">
+                <div class="screen" data-screen="4" data-path="~/attyx" role="tabpanel" aria-label="Command palette">
                   <div class="absolute inset-0 px-4 py-3 text-[0.72rem] text-gray-700 leading-relaxed select-none pointer-events-none" aria-hidden="true">
                     <p>$ attyx --version</p>
                     <p>attyx 0.4.12</p>
@@ -412,7 +516,7 @@ const features = [
                 </div>
 
                 <!-- 4 · Themes -->
-                <div class="screen" data-screen="4" data-path="~/.config/attyx" role="tabpanel" aria-label="Themes">
+                <div class="screen" data-screen="5" data-path="~/.config/attyx" role="tabpanel" aria-label="Themes">
                   <div class="absolute inset-0 px-4 py-3 text-[0.72rem] text-gray-700 leading-relaxed select-none pointer-events-none" aria-hidden="true">
                     <p>$ attyx theme</p>
                     <p>current: dracula</p>
@@ -489,6 +593,7 @@ const features = [
         <div class="step flex-1" data-step="2"></div>
         <div class="step flex-1" data-step="3"></div>
         <div class="step flex-1" data-step="4"></div>
+        <div class="step flex-1" data-step="5"></div>
       </div>
     </div>
   </section>

@@ -39,6 +39,7 @@ Attyx is configured via `~/.config/attyx/attyx.toml`. See the [configuration doc
 ## Features
 
 - **Agent-aware** — detects AI agents (Claude Code, Codex, opencode, pi.dev) and shows a per-pane status dot: idle, working, or waiting on you
+- **Agent dashboard + telemetry** — track each agent's tokens, cost, and context window via `list agents` / `watch agents`, or a full-screen cross-session [`attyx dashboard`](/docs/integration/#agent-dashboard)
 - **IPC + `attyx` CLI** — scriptable control over splits, input, and screen content so agents and scripts can drive your terminal
 - **MCP server** — native Model Context Protocol over stdio and loopback HTTP, exposing the terminal as typed tools to Claude and any MCP client
 - **Claude Code skill** — give Claude Code native control of your terminal with `attyx skill install`

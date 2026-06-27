@@ -87,7 +87,7 @@ All tools take an optional `session` id to target a specific session (omit for t
 | `list` | List the full session / tab / pane tree |
 | `list_tabs` | List tabs in the current (or targeted) session |
 | `list_panes` | List panes with their stable IPC ids |
-| `list_agents` | List AI agents running in panes and their status (returns JSON) |
+| `list_agents` | List AI agents running in panes with their status and a `usage` object (tokens, cost, context window, model). Returns JSON |
 | `get_text` | Capture a pane's visible screen text; with `lines`, capture that many trailing rows from scrollback |
 
 ### Input

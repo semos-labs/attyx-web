@@ -88,13 +88,15 @@ Arrow-key word navigation (Option+←/→) works regardless of this setting.
 ```toml
 [agent]
 status = true
+telemetry = true
 ```
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | `status` | boolean | `true` | Detect AI coding agents (Claude Code, Codex, opencode, pi.dev) and show a colored status dot on the tab — green = idle, orange = working, purple = needs input. Set to `false` to disable detection entirely |
+| `telemetry` | boolean | `true` | Track per-agent token, cost, and context-window usage, surfaced by `list agents`, `watch agents`, and the [agent dashboard](/docs/integration/#agent-dashboard). Set to `false` to skip the usage injectors. Applied when the agent integrations are installed (`attyx skill install`), so re-run that after changing it |
 
-See [Agent Workflows](/docs/agent-workflows/) for how status detection works.
+See [Agent Workflows](/docs/agent-workflows/) for how status detection works, and [Integration → Tracking agents](/docs/integration/#tracking-agents) for the usage fields.
 
 ## MCP server
 

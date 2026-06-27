@@ -25,7 +25,7 @@ Start typing to filter commands by name or description. Each entry shows its key
 | `Enter` | Execute the selected command |
 | `Escape` | Dismiss the palette |
 
-The palette includes every action that can be triggered by a keybinding — tab management, session controls, search, config reload, and more.
+The palette includes every action that can be triggered by a keybinding — tab management, session controls, search, config reload, the [agent dashboard](/docs/integration/#agent-dashboard), and more.
 
 ## Keybindings
 

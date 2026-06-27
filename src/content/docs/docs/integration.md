@@ -204,6 +204,17 @@ attyx send-text -p 3 "hello"            # write to pane 3
 attyx send-text "echo hello\n"           # write "echo hello" + Enter
 ```
 
+### send-image
+
+Attach an image file to a pane as if it were dragged or pasted in — handy for handing an agent a screenshot from a script. The file path is injected as a bracketed paste; Enter is **not** pressed, so the agent receives the reference without submitting.
+
+```bash
+attyx send-image ~/shot.png              # attach to the focused pane
+attyx send-image /tmp/diagram.png -p 3  # attach to pane 3
+```
+
+The path must already exist on disk. (Over MCP, the `send_image` tool also accepts base64 `data` for images not on disk.)
+
 ## Reading screen content
 
 Read the visible text from a pane (focused pane by default).
@@ -242,11 +253,11 @@ attyx list --json                        # any of the above as JSON
 
 `panes` is an alias for `splits`.
 
-Plain-text list output is tab-separated, one entry per line. Active items are marked with `*` in the third column. Use `--json` for output that's easier to parse.
+Plain-text output for `tabs`/`splits`/`sessions` is tab-separated, one entry per line, with active items marked `*` in the third column. `list agents` instead prints an aligned, human-readable table (see [Tracking agents](#tracking-agents)). Use `--json` for output that's easier to parse.
 
 ## Tracking agents
 
-Attyx detects when a pane is running an AI agent (Claude Code, etc.) and tracks its status — `idle`, `working`, or `input` (waiting on a prompt). This lets a supervisor script know which panes are busy, which are blocked on input, and which have gone quiet.
+Attyx detects when a pane is running an AI agent (Claude Code, Codex, opencode, pi.dev) and tracks its status — `idle`, `working`, or `input` (waiting on a prompt) — along with token, cost, and context-window **usage**. This lets a supervisor script know which panes are busy, which are blocked on input, which have gone quiet, and how much each is spending.
 
 ```bash
 attyx list agents                        # all panes running an agent
@@ -255,7 +266,23 @@ attyx list agents --json                 # as a JSON array
 attyx list agents -s 2                   # agents in session 2
 ```
 
-Each agent row carries these fields:
+Without `--json`, `list agents` prints an aligned, human-readable table — tokens humanized (`1.2M`), context as `used/max`, and `-` for unknown values:
+
+```
+PANE  SESSION  STATE    MODEL      IN     OUT    CTX        COST    MESSAGE
+3     1        working  opus-4.8   1.2M   320K   82K/200K   $0.42   Editing client.zig
+8     1        input    opus-4.8   -      -      -          -       Approve running tests?
+```
+
+The table is for humans and its layout may change — **parse `--json`**, which returns an array of records:
+
+```json
+[{"pane_id":3,"tab_id":3,"session":1,"pid":4821,"state":"working","message":"Editing client.zig",
+  "usage":{"input_tokens":1200000,"output_tokens":320000,"context_used":82000,"context_max":200000,
+           "cost_usd":0.42,"cost_is_estimate":false,"model":"opus-4.8"}}]
+```
+
+Each record carries these fields:
 
 | Field | Description |
 |-------|-------------|
@@ -265,29 +292,69 @@ Each agent row carries these fields:
 | `pid` | The agent's foreground process ID (`0` = unknown, e.g. daemon-backed panes) |
 | `state` | `idle`, `working`, or `input` |
 | `message` | The agent's latest status preview (may be empty) |
+| `usage` | Token / cost / context object (below). Possibly `{}` before the agent reports anything |
 
-The JSON form returns an array of objects with these fields; the plain-text form returns tab-separated rows.
+The `usage` object only includes **known** fields — an absent field means *unknown*, never zero (so don't treat a missing `cost_usd` as free):
+
+| `usage` field | Description |
+|---------------|-------------|
+| `input_tokens`, `output_tokens` | Tokens sent / generated (cumulative for the session) |
+| `cache_read_tokens`, `cache_write_tokens`, `reasoning_tokens` | Cache and reasoning tokens, when the agent reports them |
+| `context_used`, `context_max` | Current context-window usage and size |
+| `cost_usd` | Session cost in USD |
+| `cost_is_estimate` | `true` when Attyx computed the cost from a built-in price table because the agent didn't report one (Codex) |
+| `model` | Model identifier the agent reported |
+
+Coverage varies by agent: Claude, opencode, and pi.dev report cost directly; Codex is estimated; some builds report no usage at all. Usage tracking is on by default and can be turned off with `[agent] telemetry = false` — see [Configuration](/docs/configuration/).
 
 By default `list agents` scopes to the attached/local session. Add `-s`/`--session <id>` to list any session's agents directly from the daemon — no window needs to be attached to that session.
 
 ## Watching agents
 
-`attyx watch agents` opens a long-lived connection and streams agent status changes as newline-delimited JSON (NDJSON) — one object per line, emitted every time a pane's agent status changes. On connect, the current set of active agents is sent first as a snapshot, then live changes follow. It blocks until interrupted (Ctrl-C) or the instance exits.
+`attyx watch agents` is the live counterpart of `list agents` — it opens a long-lived connection, emits the current agents as a snapshot, then streams **the same data** on every change. It blocks until interrupted (Ctrl-C) or the instance exits.
+
+Default output is the same aligned table as `list agents` (a header, then a row per update). Use `--json` for one NDJSON record per change — the same shape as `list agents --json`, including the `usage` object — which is what scripts should parse:
 
 ```bash
-attyx watch agents                       # stream changes for every agent
-attyx watch agents -p 3                  # stream only pane 3's agent
-attyx watch agents -s 2                  # stream session 2's agents (via daemon)
-attyx watch agents | while read l; do notify-send "$l"; done
+attyx watch agents                       # live table of every agent
+attyx watch agents -p 3                  # watch only pane 3's agent
+attyx watch agents -s 2                  # watch session 2's agents (via daemon)
+attyx watch agents --json | while read -r l; do notify-send "$l"; done
 ```
 
-Each line looks like:
+Each `--json` line looks like:
 
 ```json
-{"pane_id":3,"tab_id":3,"session":1,"pid":4821,"state":"working","message":"Editing client.zig"}
+{"pane_id":3,"tab_id":3,"session":1,"pid":4821,"state":"working","message":"Editing client.zig","usage":{...}}
 ```
 
 The `state` field is one of `idle`, `working`, `input`, or `none` — where `none` means the agent ended. As with `list agents`, `-s`/`--session <id>` streams a specific session's agents directly from the daemon regardless of which session a window is showing (or whether any window is attached). Frames for a slow reader are dropped rather than stalling the terminal.
+
+For a full-screen, cross-session view of every agent with this telemetry — plus navigation, jump-to-pane, sort/filter/search, and zoom/close — use [`attyx dashboard`](#agent-dashboard).
+
+## Agent dashboard
+
+`attyx dashboard` opens a full-screen, live table of every agent across **all** sessions (it reads the daemon when one is running, otherwise the attached window), with the same token/cost/context columns plus an `age` column for time-in-state. It reconnects on its own if the stream drops.
+
+```bash
+attyx dashboard                          # interactive full-screen view
+attyx dashboard --once                   # print a one-shot snapshot and exit
+```
+
+| Key | Action |
+|-----|--------|
+| `↑` `↓` / `j` `k` | Move the selection |
+| `Enter` | Jump to the selected agent — switch to its session and focus its pane |
+| `z` | Zoom (maximize) the selected pane |
+| `x` | Close the selected pane (asks `y/N` first) |
+| `s` | Cycle sort: state · cost · tokens · ctx · session |
+| `f` | Cycle filter: all · needs-input · working · idle |
+| `/` | Search by model or message |
+| `Tab` | Toggle a detail panel for the selected agent |
+| `r` | Force a redraw |
+| `q` | Quit |
+
+The same view is available **inside** Attyx as an overlay — press **Cmd+Shift+A** (macOS) / **Ctrl+Shift+A** (Linux), or run the `Agent dashboard` [command-palette](/docs/command-palette/) entry.
 
 ## Configuration
 
@@ -438,9 +505,11 @@ When the pane is running an AI agent, prefer `attyx watch agents -p "$id"` (or `
 | `focus up\|down\|left\|right` | Move focus |
 | `send-keys [-p <id>] [--wait-stable] <keys>` | Send keystrokes (with escapes) |
 | `send-text [-p <id>] <text>` | Send raw text |
+| `send-image <path> [-p <id>]` | Attach an image file to a pane |
 | `get-text [-p <id>] [-n <N>]` | Read screen content (or last N scrollback rows) |
-| `list [tabs\|splits\|sessions\|agents]` | Query state |
-| `watch agents [-p <id>]` | Stream agent status changes (NDJSON) |
+| `list [tabs\|splits\|sessions\|agents]` | Query state (`agents` adds token/cost/context usage) |
+| `watch agents [-p <id>] [--json]` | Stream agent status + usage live (table; `--json` for NDJSON) |
+| `dashboard [--once]` | Full-screen cross-session agent dashboard |
 | `reload` | Hot-reload config |
 | `theme <name>` | Switch theme |
 | `scroll-to top\|bottom\|page-up\|page-down` | Scroll viewport |

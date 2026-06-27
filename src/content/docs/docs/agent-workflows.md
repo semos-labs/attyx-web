@@ -24,20 +24,23 @@ Two CLI commands expose this (the skill teaches Claude to use them):
 
 ```bash
 attyx list agents            # one-shot snapshot of every pane running an agent
-attyx list agents --json     # same, as a JSON array
-attyx watch agents           # live stream: one JSON line per status change (NDJSON)
+attyx list agents --json     # same, as a JSON array (parse this in scripts)
+attyx watch agents           # live table that updates on every status change
+attyx watch agents --json    # the live stream as NDJSON (one record per change)
 ```
 
-Each record carries `pane_id` (target the agent's pane with `-p`), `tab_id`, `session`, `pid`, `state`, and a short `message` preview of what the agent is doing. Restrict either command to one pane with `-p <id>`, or to a specific session with `-s <id>` (which reads straight from the daemon, even with no window attached).
+Both print an aligned, human-readable table by default; `--json` is the machine format. Each record carries `pane_id` (target the agent's pane with `-p`), `tab_id`, `session`, `pid`, `state`, a short `message` preview, and a `usage` object with token, cost, and context-window numbers (`input_tokens`, `output_tokens`, `context_used`/`context_max`, `cost_usd`, `model`, …). See [Integration → Tracking agents](/docs/integration/#tracking-agents) for the full field list. Restrict either command to one pane with `-p <id>`, or to a specific session with `-s <id>` (which reads straight from the daemon, even with no window attached).
 
-`watch agents` is push-based — it emits an initial snapshot, then a line on every transition (including agents leaving via `state:"none"`). Prefer it over polling `list agents` in a loop: it won't miss fast transitions, and it lets an orchestrating agent block until another agent goes `idle` or needs `input`.
+`watch agents` is push-based — it emits an initial snapshot, then an update on every transition (including agents leaving via `state:"none"`). Prefer it over polling `list agents` in a loop: it won't miss fast transitions, and it lets an orchestrating agent block until another agent goes `idle` or needs `input`.
 
 ```bash
 # Block until the agent in pane 3 finishes its current turn
-attyx watch agents -p 3 | while read -r line; do
+attyx watch agents -p 3 --json | while read -r line; do
   echo "$line" | grep -q '"state":"idle"' && break
 done
 ```
+
+For a live, full-screen view of every agent across all your sessions — with the same token/cost/context telemetry, plus jump-to-pane, sort/filter/search, and zoom/close — run [`attyx dashboard`](/docs/integration/#agent-dashboard) (or press **Cmd+Shift+A** / **Ctrl+Shift+A** inside Attyx).
 
 ## Parallel task delegation
 

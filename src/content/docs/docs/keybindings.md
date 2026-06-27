@@ -58,6 +58,7 @@ alt+enter
 |---|---|---|
 | `config_reload` | `ctrl+shift+r` | `ctrl+shift+r` |
 | `command_palette_toggle` | `cmd+shift+p` | `ctrl+shift+p` |
+| `agent_dashboard` | `cmd+shift+a` | `ctrl+shift+a` |
 | `open_config` | `cmd+,` | `ctrl+,` |
 | `clear_screen` | `cmd+k` | `ctrl+shift+k` |
 | `close_window` | `ctrl+shift+w` | unbound |

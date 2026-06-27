@@ -82,10 +82,16 @@
     scroll-snap-type: y proximity;
   }
 
-  /* Each feature is a snap point; `always` forces the scroll to stop on it even
-     during a fast fling, so you can't blow past the first feature. */
+  /* Each feature is a gentle (proximity) snap point — settles on a feature when
+     you stop near it, without trapping momentum mid-scroll. */
   .showcase-sentinels .step {
     scroll-snap-align: center;
+  }
+
+  /* Only the first feature forces a hard stop, so a fast fling from above can't
+     blow past the opener. Limiting `always` to the first sentinel avoids the
+     "scroll gets stuck until you move the cursor" trap on the rest. */
+  .showcase-sentinels .step:first-child {
     scroll-snap-stop: always;
   }
 

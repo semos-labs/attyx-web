@@ -20,6 +20,7 @@ attyx [command | flags]
 | `device` | Show device and account info |
 | `skill <install\|uninstall>` | Install or remove the Claude Code skill |
 | `mcp` | Run the MCP stdio bridge (for MCP clients like Claude) |
+| `dashboard [--once]` | Full-screen [agent dashboard](/docs/integration/#agent-dashboard) across all sessions |
 | `uninstall` | Remove config, auth tokens, and desktop entry |
 
 Commands are used without `--`. For example: `attyx kill-daemon`.
@@ -101,6 +102,7 @@ Commands are used without `--`. For example: `attyx kill-daemon`.
 | **Cmd+,** / **Ctrl+,** | Open config file |
 | **Cmd+F** / **Ctrl+F** | Open in-terminal search |
 | **Cmd+Shift+P** / **Ctrl+Shift+P** | Command palette |
+| **Cmd+Shift+A** / **Ctrl+Shift+A** | Agent dashboard overlay |
 | **Ctrl+Shift+Space** | Visual mode (copy mode) |
 | **Cmd+K** / **Ctrl+Shift+K** | Clear screen and scrollback |
 | **Ctrl+Shift+N** | New session |
